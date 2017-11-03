@@ -51,6 +51,6 @@ public class MecanumInput implements DTInput {
 
     @Override
     public double getTurn() {
-        return Math.atan(joystick1.getY()/joystick1.getX());
+        return joystick1.getX();
     }
 }
