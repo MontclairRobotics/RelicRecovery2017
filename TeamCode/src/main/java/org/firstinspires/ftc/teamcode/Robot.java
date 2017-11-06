@@ -40,43 +40,43 @@ import java.util.ArrayList;
 public class Robot extends FTCRobot{
 
     Orientation angles; // An angle object to store the gyro angles
-    BNO055IMU imu; // Gyroscope
+    BNO055IMU gyro; // Gyroscope
     AngularVelocity angleRates;
 
-    FTCMotor  frontRight, backRight, frontLeft, backLeft;
-
-
-
+    FTCMotor frontRight, backRight, frontLeft, backLeft;
+    
     @Override
     public void setup() {
+        // Set Motors
         frontRight = new FTCMotor("right_front");
         backRight  = new FTCMotor("right_back");
         backLeft   = new FTCMotor("left_back");
         frontLeft  = new FTCMotor("left_front");
-        imu = hardwareMap.get(BNO055IMU.class, "gyro");
-
-
+        
+        // Mechanum "Mapper"
+        DriveModule[] modules = new DriveModule[4];
+        modules[0] = new DriveModule(new XY(1,1),   new XY(1,-1),  frontRight);
+        modules[1] = new DriveModule(new XY(1,-1),  new XY(-1,-1), backRight);
+        modules[2] = new DriveModule(new XY(-1,-1), new XY(-1,1),  backLeft);
+        modules[3] = new DriveModule(new XY(-1,1),  new XY(1,1),   frontLeft);
+        
+        // Set Drive Train
+        DriveTrain driveTrain = new DriveTrain(modules);
+        // Configure Drive Train
+        FTCJoystick joystickL = new FTCJoystick(gamepad1, FTCJoystick.STICK.LEFT);
+        FTCJoystick joystickR = new FTCJoystick(gamepad1, FTCJoystick.STICK.RIGHT);
+        driveTrain.setDefaultInput(new BasicInput(joystickL, new JoystickXAxis(joystickR)));
+        
+        // Gyroscope
+        gyro = hardwareMap.get(BNO055IMU.class, "gyro");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
         parameters.calibrationDataFile = "gyroData.json"; // specify the gyro calibration file, see @GyroCalibration
         parameters.loggingEnabled      = true; // enable logging
         parameters.loggingTag          = "IMU"; // set the logging tag
-        imu.initialize(parameters);
-        DriveModule[] modules = new DriveModule[4];
+        gyro.initialize(parameters);
 
-        //Mecanum
-        modules[0] = new DriveModule(new XY(1,1),  new XY(1,-1),  frontRight);
-        modules[1] = new DriveModule(new XY(1,-1),  new XY(-1,-1), backRight );
-        modules[2] = new DriveModule(new XY(-1,-1),  new XY(-1,1), backLeft  );
-        modules[3] = new DriveModule(new XY(-1,1), new XY(1,1), frontLeft );
-
-
-        DriveTrain driveTrain = new DriveTrain(modules);
-        angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
-
-
-
-        driveTrain.setDefaultInput(new BasicInput(new FTCJoystick(gamepad1, FTCJoystick.STICK.LEFT), new JoystickXAxis(new FTCJoystick(gamepad1, FTCJoystick.STICK.RIGHT))));
+        angles = gyro.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 
         /*
         AutoBalance autoBalance = new AutoBalance(
@@ -106,7 +106,9 @@ public class Robot extends FTCRobot{
                         return (double) -angles.thirdAngle;
                     }
                 },
-                new PID(.5, 0, 0).setMinMax(-180,180,-.5,.5), 1000, 1);
+                new PID(0.5, 0, 0).setMinMax(-180, 180, -0.5, 0.5),
+                1000, 
+                1);
         steps.add(gyroCorrection);
         //steps.add(autoBalance);
         driveTrain.setPipeline(new Pipeline<>(steps));
@@ -140,13 +142,13 @@ public class Robot extends FTCRobot{
 
     @Override
     public void update() {
-        angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+        angles = gyro.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 
-        angleRates = imu.getAngularVelocity();
+        angleRates = gyro.getAngularVelocity();
 
-        Debug.msg("First angle Y", AngleUnit.DEGREES.fromUnit(AngleUnit.DEGREES, angles.firstAngle));// X
-        Debug.msg("Second angle X", AngleUnit.DEGREES.fromUnit(AngleUnit.DEGREES, angles.secondAngle)); // Y
-        Debug.msg("Third amgle Z", AngleUnit.DEGREES.fromUnit(AngleUnit.DEGREES, angles.thirdAngle));// Negative heading (Z)
+        Debug.msg("First angle Y", angles.firstAngle);// Y
+        Debug.msg("Second angle X", angles.secondAngle); // X
+        Debug.msg("Third amgle Z", angles.thirdAngle);// Negative heading (Z)
 
         Debug.msg("Y rotation rate", angleRates.yRotationRate);
         Debug.msg("Z rotation rate", angleRates.zRotationRate);
