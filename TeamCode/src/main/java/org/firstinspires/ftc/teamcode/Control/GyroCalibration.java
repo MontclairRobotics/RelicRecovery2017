@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Control;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -55,6 +55,7 @@ public class GyroCalibration extends LinearOpMode {
         parameters.loggingTag     = "IMU";
         imu = hardwareMap.get(BNO055IMU.class, "gyro");
         imu.initialize(parameters);
+        imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG,6);
 
         composeTelemetry();
         telemetry.log().add("Waiting for start...");
