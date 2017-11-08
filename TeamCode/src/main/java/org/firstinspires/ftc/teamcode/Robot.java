@@ -83,8 +83,6 @@ public class Robot extends FTCRobot{
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 
 
-        driveTrain.setDefaultInput(new BasicInput(new FTCJoystick(gamepad1, FTCJoystick.STICK.LEFT), new JoystickXAxis(new FTCJoystick(gamepad1, FTCJoystick.STICK.RIGHT))));
-
         /*
         AutoBalance autoBalance = new AutoBalance(
                 new PID(),
@@ -114,7 +112,9 @@ public class Robot extends FTCRobot{
                         return (double) -angles.thirdAngle;
                     }
                 },
+
                 new PID(.45, 0, 0).setMinMax(-180,180,-.5,.5), 1000, 1);
+
         steps.add(gyroCorrection);
         //steps.add(autoBalance);
         driveTrain.setPipeline(new Pipeline<>(steps));
