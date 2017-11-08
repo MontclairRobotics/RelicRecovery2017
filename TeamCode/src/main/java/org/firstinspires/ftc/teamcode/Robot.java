@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
@@ -48,7 +49,9 @@ public class Robot extends FTCRobot{
     AngularVelocity angleRates;
 
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
+    Servo intakeRight, intakeLeft;
     GlyphLift lift;
+    GlyphIntake intake;
 
 
 
@@ -58,7 +61,10 @@ public class Robot extends FTCRobot{
         backRight   = new FTCMotor("right_back");
         backLeft    = new FTCMotor("left_back");
         frontLeft   = new FTCMotor("left_front");
+        intakeRight = hardwareMap.get(Servo.class, "servo_right");
+        intakeLeft  = hardwareMap.get(Servo.class, "servo_left");
         lift = new GlyphLift(new FTCMotor("lift_left"), new FTCMotor("lift_right"));
+        intake = new GlyphIntake(intakeRight, intakeLeft);
 
         imu = hardwareMap.get(BNO055IMU.class, "gyro");
 
@@ -162,6 +168,48 @@ public class Robot extends FTCRobot{
             public void stop() {
                 lift.set(0);
             }
+            @Override
+            public void disabled() {
+
+            }
+        });
+
+        //intake open
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.y)).setAction(new Action() {
+            @Override
+            public void start() {
+            }
+
+            @Override
+            public void enabled() {
+                intake.open(45);
+            }
+
+            @Override
+            public void stop() {
+            }
+
+            @Override
+            public void disabled() {
+
+            }
+        });
+
+        //intake close
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
+            @Override
+            public void start() {
+            }
+
+            @Override
+            public void enabled() {
+                intake.close(45);
+            }
+
+            @Override
+            public void stop() {
+            }
+
             @Override
             public void disabled() {
 
