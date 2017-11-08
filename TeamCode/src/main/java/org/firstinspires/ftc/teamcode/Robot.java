@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -45,11 +46,11 @@ import java.util.ArrayList;
 public class Robot extends FTCRobot{
 
     Orientation angles; // An angle object to store the gyro angles
-    BNO055IMU imu; // Gyroscope
+    //BNO055IMU imu; // Gyroscope
     AngularVelocity angleRates;
 
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
-    Servo intakeRight, intakeLeft;
+    //Servo intakeRight, intakeLeft;
     GlyphLift lift;
     GlyphIntake intake;
 
@@ -61,21 +62,21 @@ public class Robot extends FTCRobot{
         backRight   = new FTCMotor("right_back");
         backLeft    = new FTCMotor("left_back");
         frontLeft   = new FTCMotor("left_front");
-        intakeRight = hardwareMap.get(Servo.class, "servo_right");
-        intakeLeft  = hardwareMap.get(Servo.class, "servo_left");
+        //intakeRight = hardwareMap.get(Servo.class, "servo_right");
+        //intakeLeft  = hardwareMap.get(Servo.class, "servo_left");
         lift = new GlyphLift(new FTCMotor("lift_left"), new FTCMotor("lift_right"));
-        intake = new GlyphIntake(intakeRight, intakeLeft);
+        //intake = new GlyphIntake(intakeRight, intakeLeft);
 
-        imu = hardwareMap.get(BNO055IMU.class, "gyro");
+        //imu = hardwareMap.get(BNO055IMU.class, "gyro");
 
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
+        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
         parameters.calibrationDataFile = "gyroData.json"; // specify the gyro calibration file, see @GyroCalibration
         parameters.loggingEnabled      = true; // enable logging
         parameters.loggingTag          = "IMU"; // set the logging tag
-        imu.initialize(parameters);
-        imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG,6);
+        //imu.initialize(parameters);
+        //imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG,6);*/
         final DriveModule[] modules = new DriveModule[4];
 
         //Mecanum
@@ -86,7 +87,7 @@ public class Robot extends FTCRobot{
 
 
         DriveTrain driveTrain = new DriveTrain(modules);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 
 
         /*
@@ -110,7 +111,7 @@ public class Robot extends FTCRobot{
         ArrayList<Step<DTTarget>> steps = new ArrayList<>();
         steps.add(new Deadzone(0.1, 0.1));
         steps.add(new Sensitivity(0.5,0.5));
-
+        /*
         GyroCorrection gyroCorrection = new GyroCorrection(
                 new Input<Double>() {
                     @Override
@@ -121,18 +122,20 @@ public class Robot extends FTCRobot{
 
                 new PID(.45, 0, 0).setMinMax(-180,180,-.5,.5), 1000, 1);
 
-        steps.add(gyroCorrection);
+        steps.add(gyroCorrection);*/
         //steps.add(autoBalance);
         driveTrain.setPipeline(new Pipeline<>(steps));
 
         driveTrain.setMapper(new UniversalMapper());
+        driveTrain.setDefaultInput(new BasicInput(new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.LEFT),
+                new JoystickXAxis(new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.RIGHT))));
 
 
-        GyroLock lock = new GyroLock(gyroCorrection);
+        //GyroLock lock = new GyroLock(gyroCorrection);
         //new Button(new FTCButton(GAMEPAD.A, FTCButton.BUTTON.y)).setAction(autoBalance);
 
         //Gyro Lock
-        new Button(new FTCButton(GAMEPAD.A, FTCButton.BUTTON.a)).setAction(lock);
+        //new Button(new FTCButton(GAMEPAD.A, FTCButton.BUTTON.a)).setAction(lock);
 
         //Lift Up
         new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.dpad_up)).setAction(new Action() {
@@ -227,6 +230,11 @@ public class Robot extends FTCRobot{
     }
 
     @Override
+    public void autoInit() {
+
+    }
+
+    @Override
     public void testInit() {
 
     }
@@ -238,17 +246,17 @@ public class Robot extends FTCRobot{
 
     @Override
     public void update() {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        angleRates = imu.getAngularVelocity();
+        //angleRates = imu.getAngularVelocity();
 
-        Debug.msg("First angle Z", angles.firstAngle);// X
+        /*Debug.msg("First angle Z", angles.firstAngle);// X
         Debug.msg("Second angle Y", angles.secondAngle); // Y
         Debug.msg("Third angle X",  angles.thirdAngle);// Negative heading (Z)
 
         Debug.msg("Y rotation rate", angleRates.yRotationRate);
         Debug.msg("Z rotation rate", angleRates.zRotationRate);
-        Debug.msg("X rotation rate", angleRates.xRotationRate);
+        Debug.msg("X rotation rate", angleRates.xRotationRate);*/
     }
 
     @Override
