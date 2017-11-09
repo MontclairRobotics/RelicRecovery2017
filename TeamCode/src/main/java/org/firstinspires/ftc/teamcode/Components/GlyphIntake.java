@@ -15,6 +15,8 @@ public class GlyphIntake {
     Servo rightServoBottom;
     Servo leftServoBottom;
 
+    double tgt;
+
     public GlyphIntake(Servo rightServoTop, Servo leftServoTop, Servo rightServoBottom, Servo leftServoBottom) {
         this.rightServoTop = rightServoTop;
         this.leftServoTop = leftServoTop;
@@ -29,15 +31,16 @@ public class GlyphIntake {
     }
 
     public void setPosBottom(double pos){
-        rightServoBottom.setPosition(pos);
-        leftServoBottom.setPosition(-pos);
+        rightServoBottom.setPosition(-pos);
+        leftServoBottom.setPosition(pos);
     }
 
     public void setPos(double pos){
         rightServoTop.setPosition(pos);
         leftServoTop.setPosition(-pos);
-        rightServoBottom.setPosition(pos);
-        leftServoBottom.setPosition(-pos);
+        rightServoBottom.setPosition(-pos);
+        leftServoBottom.setPosition(pos);
+        tgt=pos;
     }
 
     public double[] getPos(){
@@ -48,5 +51,10 @@ public class GlyphIntake {
                 leftServoBottom.getPosition()
         };
         return positions;
+    }
+
+    public double getTgt()
+    {
+        return tgt;
     }
 }

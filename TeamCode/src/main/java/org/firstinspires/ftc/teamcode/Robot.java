@@ -33,6 +33,7 @@ import org.montclairrobotics.sprocket.ftc.FTCRobot;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
@@ -52,24 +53,25 @@ public class Robot extends FTCRobot{
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
     Servo intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom;
     GlyphLift lift;
-    //GlyphIntake intake;
+    GlyphIntake intake;
     DigitalChannel limitSwitch;
 
 
     @Override
     public void setup() {
-        frontRight  = new FTCMotor("right_front");
-        backRight   = new FTCMotor("right_back");
-        backLeft    = new FTCMotor("left_back");
-        frontLeft   = new FTCMotor("left_front");
-        limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
-        //intakeRightTop = hardwareMap.get(Servo.class, "servo_right_top");
-        //intakeLeftTop  = hardwareMap.get(Servo.class, "servo_left_top");
-        //intakeRightBottom = hardwareMap.get(Servo.class, "servo_right_bottom");
-        //intakeLeftBottom = hardwareMap.get(Servo.class, "servo_left_bottom");
+        frontRight        = new FTCMotor("right_front");
+        backRight         = new FTCMotor("right_back");
+        backLeft          = new FTCMotor("left_back");
+        frontLeft         = new FTCMotor("left_front");
+        limitSwitch       = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
+        intakeRightTop    = hardwareMap.get(Servo.class,          "servo_right_top");
+        intakeLeftTop     = hardwareMap.get(Servo.class,          "servo_left_top");
+        intakeRightBottom = hardwareMap.get(Servo.class,          "servo_right_bottom");
+        intakeLeftBottom  = hardwareMap.get(Servo.class,          "servo_left_bottom");
 
         lift = new GlyphLift(new FTCMotor("lift_left"), new FTCMotor("lift_right"));
         //intake = new GlyphIntake(intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom);
+        limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         //imu = hardwareMap.get(BNO055IMU.class, "gyro");
 
@@ -84,10 +86,10 @@ public class Robot extends FTCRobot{
         final DriveModule[] modules = new DriveModule[4];
 
         //Mecanum
-        modules[0] = new DriveModule(new XY(1,1),  new XY(1,-1),  frontRight);
-        modules[1] = new DriveModule(new XY(1,-1),  new XY(-1,-1), backRight );
-        modules[2] = new DriveModule(new XY(-1,-1),  new XY(-1,1), backLeft  );
-        modules[3] = new DriveModule(new XY(-1,1), new XY(1,1), frontLeft );
+        modules[0] = new DriveModule(new XY(1,1),    new XY(1,-1),  frontRight);
+        modules[1] = new DriveModule(new XY(1,-1),   new XY(-1,-1), backRight );
+        modules[2] = new DriveModule(new XY(-1,-1),  new XY(-1,1),  backLeft  );
+        modules[3] = new DriveModule(new XY(-1,1),   new XY(1,1),   frontLeft );
 
 
         DriveTrain driveTrain = new DriveTrain(modules);
@@ -180,19 +182,19 @@ public class Robot extends FTCRobot{
 
             }
         });
-
+        /*
         //intake open
         new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.y)).setAction(new Action() {
             @Override
             public void start() {
-                /*
+
                 if(gamepad2.left_trigger < .5){
-                    intake.setPosTop(90);
+                    intake.setPosTop(3);
                 }else if(gamepad2.right_trigger < .5){
-                    intake.setPosBottom(90);
+                    intake.setPosBottom(3);
                 }else{
-                    intake.setPos(90);
-                }*/
+                    intake.setPos(3);
+                }
             }
 
             @Override
@@ -214,14 +216,14 @@ public class Robot extends FTCRobot{
         new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
             @Override
             public void start() {
-                /*
+
                 if(gamepad2.left_trigger < .5){
                     intake.setPosTop(0);
                 }else if(gamepad2.right_trigger < .5){
                     intake.setPosBottom(0);
                 }else{
                     intake.setPos(0);
-                }*/
+                }
             }
 
             @Override
@@ -231,6 +233,49 @@ public class Robot extends FTCRobot{
 
             @Override
             public void stop() {
+            }
+
+            @Override
+            public void disabled() {
+
+            }
+        });
+        */
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action() {
+            @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void enabled() {
+                intakeRightTop.setPosition(intakeRightTop.getPosition() + 5);
+            }
+
+            @Override
+            public void stop() {
+
+            }
+
+            @Override
+            public void disabled() {
+
+            }
+        });
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.b)).setAction(new Action() {
+            @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void enabled() {
+                intakeRightTop.setPosition(intakeRightTop.getPosition() - 5);
+            }
+
+            @Override
+            public void stop() {
+
             }
 
             @Override
@@ -274,10 +319,9 @@ public class Robot extends FTCRobot{
         Debug.msg("Second angle Y", angles.secondAngle); // Y
         Debug.msg("Third angle X",  angles.thirdAngle);// Negative heading (Z)
 
-        Debug.msg("Y rotation rate", angleRates.yRotationRate);
-        Debug.msg("Z rotation rate", angleRates.zRotationRate);
+         Debug.msg("Z rotation rate", angleRates.zRotationRate);
         Debug.msg("X rotation rate", angleRates.xRotationRate);*/
-
+        Debug.msg("Servo",intakeRightTop.getPosition());
         Debug.msg("Switch Value:", limitSwitch.getState());
     }
 

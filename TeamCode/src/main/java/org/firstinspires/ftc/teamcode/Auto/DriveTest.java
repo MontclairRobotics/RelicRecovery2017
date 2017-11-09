@@ -27,5 +27,8 @@ public class DriveTest extends Robot{
                 new Delay(5)
         );
     }
+    public void enabled() {
+        Debug.msg("IT HAS TO BE HERE","YOU ARE NOT CRAZY");
+    }
 
 }
