@@ -10,19 +10,26 @@ import org.montclairrobotics.sprocket.utils.Utils;
  */
 
 public class GlyphIntake {
-    Servo rightServo;
-    Servo leftServo;
+    Servo rightServoTop;
+    Servo leftServoTop;
+    Servo rightServoBottom;
+    Servo leftServoBottom;
 
-    public GlyphIntake(Servo rightServo, Servo leftServo) {
-        this.rightServo = rightServo;
-        this.leftServo = leftServo;
+    public GlyphIntake(Servo rightServoTop, Servo leftServoTop, Servo rightServoBottom, Servo leftServoBottom) {
+        this.rightServoTop = rightServoTop;
+        this.leftServoTop = leftServoTop;
+        this.rightServoBottom = rightServoBottom;
+        this.leftServoBottom = leftServoBottom;
     }
-
-    public void setPos(double pos){
+    /*
+    public void setPosTop(double pos){
         pos = Utils.constrain(pos, 0, 180);
         rightServo.setPosition(pos);
         leftServo.setPosition(-pos);
     }
+
+
+
 
     public double getPos(){
         return rightServo.getPosition();
@@ -34,5 +41,5 @@ public class GlyphIntake {
 
     public void close(double degPerSec){
         open(-degPerSec);
-    }
+    }*/
 }

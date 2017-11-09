@@ -185,7 +185,7 @@ public class Robot extends FTCRobot{
 
             @Override
             public void enabled() {
-                intake.open(45);
+                //intake.open(45);
             }
 
             @Override
@@ -206,7 +206,7 @@ public class Robot extends FTCRobot{
 
             @Override
             public void enabled() {
-                intake.close(45);
+                //intake.close(45);
             }
 
             @Override
