@@ -17,7 +17,7 @@ public class DriveTest extends Robot{
     @Override
     public void autoSetup(){
         action = new AutoMode("Drive Test",
-                new DriveTime(3, .5)
+                 new DriveTime(3, .5)
         );
     }
 

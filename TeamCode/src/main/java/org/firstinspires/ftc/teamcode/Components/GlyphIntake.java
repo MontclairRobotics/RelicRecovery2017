@@ -21,25 +21,32 @@ public class GlyphIntake {
         this.rightServoBottom = rightServoBottom;
         this.leftServoBottom = leftServoBottom;
     }
-    /*
+
     public void setPosTop(double pos){
         pos = Utils.constrain(pos, 0, 180);
-        rightServo.setPosition(pos);
-        leftServo.setPosition(-pos);
+        rightServoTop.setPosition(pos);
+        leftServoTop.setPosition(-pos);
     }
 
-
-
-
-    public double getPos(){
-        return rightServo.getPosition();
+    public void setPosBottom(double pos){
+        rightServoBottom.setPosition(pos);
+        leftServoBottom.setPosition(-pos);
     }
 
-    public void open(double degPerSec){
-        setPos(getPos() + degPerSec * Updater.getLoopTime());
+    public void setPos(double pos){
+        rightServoTop.setPosition(pos);
+        leftServoTop.setPosition(-pos);
+        rightServoBottom.setPosition(pos);
+        leftServoBottom.setPosition(-pos);
     }
 
-    public void close(double degPerSec){
-        open(-degPerSec);
-    }*/
+    public double[] getPos(){
+        double[] positions = {
+                rightServoTop.getPosition(),
+                rightServoBottom.getPosition(),
+                leftServoTop.getPosition(),
+                leftServoBottom.getPosition()
+        };
+        return positions;
+    }
 }

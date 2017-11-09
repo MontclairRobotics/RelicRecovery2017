@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -44,16 +45,15 @@ import java.util.ArrayList;
 
 @TeleOp(name="Sprocket Teleop", group="147")
 public class Robot extends FTCRobot{
-
     Orientation angles; // An angle object to store the gyro angles
     //BNO055IMU imu; // Gyroscope
     AngularVelocity angleRates;
 
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
-    //Servo intakeRight, intakeLeft;
+    Servo intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom;
     GlyphLift lift;
-    GlyphIntake intake;
-
+    //GlyphIntake intake;
+    DigitalChannel limitSwitch;
 
 
     @Override
@@ -62,10 +62,14 @@ public class Robot extends FTCRobot{
         backRight   = new FTCMotor("right_back");
         backLeft    = new FTCMotor("left_back");
         frontLeft   = new FTCMotor("left_front");
-        //intakeRight = hardwareMap.get(Servo.class, "servo_right");
-        //intakeLeft  = hardwareMap.get(Servo.class, "servo_left");
+        limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
+        //intakeRightTop = hardwareMap.get(Servo.class, "servo_right_top");
+        //intakeLeftTop  = hardwareMap.get(Servo.class, "servo_left_top");
+        //intakeRightBottom = hardwareMap.get(Servo.class, "servo_right_bottom");
+        //intakeLeftBottom = hardwareMap.get(Servo.class, "servo_left_bottom");
+
         lift = new GlyphLift(new FTCMotor("lift_left"), new FTCMotor("lift_right"));
-        //intake = new GlyphIntake(intakeRight, intakeLeft);
+        //intake = new GlyphIntake(intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom);
 
         //imu = hardwareMap.get(BNO055IMU.class, "gyro");
 
@@ -181,11 +185,19 @@ public class Robot extends FTCRobot{
         new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.y)).setAction(new Action() {
             @Override
             public void start() {
+                /*
+                if(gamepad2.left_trigger < .5){
+                    intake.setPosTop(90);
+                }else if(gamepad2.right_trigger < .5){
+                    intake.setPosBottom(90);
+                }else{
+                    intake.setPos(90);
+                }*/
             }
 
             @Override
             public void enabled() {
-                //intake.open(45);
+
             }
 
             @Override
@@ -202,11 +214,19 @@ public class Robot extends FTCRobot{
         new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
             @Override
             public void start() {
+                /*
+                if(gamepad2.left_trigger < .5){
+                    intake.setPosTop(0);
+                }else if(gamepad2.right_trigger < .5){
+                    intake.setPosBottom(0);
+                }else{
+                    intake.setPos(0);
+                }*/
             }
 
             @Override
             public void enabled() {
-                //intake.close(45);
+
             }
 
             @Override
@@ -257,6 +277,8 @@ public class Robot extends FTCRobot{
         Debug.msg("Y rotation rate", angleRates.yRotationRate);
         Debug.msg("Z rotation rate", angleRates.zRotationRate);
         Debug.msg("X rotation rate", angleRates.xRotationRate);*/
+
+        Debug.msg("Switch Value:", limitSwitch.getState());
     }
 
     @Override
