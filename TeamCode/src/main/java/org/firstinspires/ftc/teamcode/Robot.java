@@ -111,7 +111,8 @@ public class Robot extends FTCRobot{
 
         ArrayList<Step<DTTarget>> steps = new ArrayList<>();
         steps.add(new Deadzone(0.1, 0.1));
-        steps.add(new Sensitivity(1,0.2));
+        final Sensitivity sensitivity=new Sensitivity(1,0.2);
+        steps.add(sensitivity);
         steps.add(new Squared());
         /*
         GyroCorrection gyroCorrection = new GyroCorrection(
@@ -128,8 +129,8 @@ public class Robot extends FTCRobot{
         //steps.add(autoBalance);
         driveTrain.setPipeline(new Pipeline<>(steps));
 
-        final Input<Vector> halfJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.LEFT);
-        final Input<Vector> fullJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.DPAD);
+        final Input<Vector> fullJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.LEFT);
+        final Input<Vector> halfJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.DPAD);
 
         driveTrain.setMapper(new UniversalMapper());
         driveTrain.setDefaultInput(new BasicInput(new Input<Vector>(){
@@ -225,6 +226,32 @@ public class Robot extends FTCRobot{
             @Override
             public void disabled() {
                 intake.closeBottom();
+            }
+        });
+
+        //Half speed
+        new Button(new FTCButton(GAMEPAD.A, FTCButton.BUTTON.left_trigger)).setAction(new Action(){
+            @Override
+            public void start() {
+                sensitivity.dirScale=0.5;
+                sensitivity.turnScale=0.1;
+            }
+
+            @Override
+            public void enabled() {
+
+            }
+
+            @Override
+            public void stop() {
+                sensitivity.dirScale=1;
+                sensitivity.turnScale=0.2;
+
+            }
+
+            @Override
+            public void disabled() {
+
             }
         });
 
