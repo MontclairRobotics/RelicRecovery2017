@@ -31,7 +31,7 @@ public class DefultHardwareMap {
     public Servo   rightBottom = null;
     public ColorSensor colorSensor = null;
 
-    DefultGlyphIntake lift;
+    DefaultGlyphIntake lift;
 
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
@@ -65,7 +65,7 @@ public class DefultHardwareMap {
         leftBottom  = hwMap.servo.get("intake_left_bottom");
         rightBottom = hwMap.servo.get("intake_right_bottom");
 
-        lift = new DefultGlyphIntake(rightBottom, leftTop, rightTop, leftBottom);
+        lift = new DefaultGlyphIntake(rightBottom, leftTop, rightTop, leftBottom);
 
 
         colorSensor = hwMap.colorSensor.get("sensorColor");

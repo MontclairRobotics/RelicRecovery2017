@@ -53,7 +53,7 @@ public class DefultAutoMode extends OpMode{
     public final String LSA = "LAST STATE ACHIEVED";
     public final double TICKS_PER_INCH = 1500/42.3;
     public final double TICKS_PER_DEGREE = (43.23/360)*TICKS_PER_INCH*2;
-    public final double TICKS_PER_LIFT_INCH = 1000/1000;
+    public final double TICKS_PER_LIFT_INCH = 1400/6.5;
 
 
 
@@ -66,7 +66,7 @@ public class DefultAutoMode extends OpMode{
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
-        visionInit();
+        //visionInit();
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");

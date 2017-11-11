@@ -11,8 +11,10 @@ import org.firstinspires.ftc.teamcode.Components.GlyphLift;
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.control.BasicInput;
 import org.montclairrobotics.sprocket.control.JoystickXAxis;
+import org.montclairrobotics.sprocket.control.JoystickYAxis;
 import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.core.Sprocket;
+import org.montclairrobotics.sprocket.drive.ControlledMotor;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
@@ -43,6 +45,7 @@ public class Robot extends FTCRobot{
     AngularVelocity angleRates;
 
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
+    FTCMotor  liftLeft, liftRight;
     GlyphLift lift;
     GlyphIntake2 intake;
     DigitalChannel limitSwitch;
@@ -67,7 +70,9 @@ public class Robot extends FTCRobot{
         servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
-        lift = new GlyphLift(new FTCMotor("lift_left"), new FTCMotor("lift_right"));
+        liftLeft = new FTCMotor("lift_left");
+        liftRight = new FTCMotor("lift_right");
+        lift = new GlyphLift(liftLeft, liftRight);
         intake=new GlyphIntake2(servos);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
@@ -112,7 +117,7 @@ public class Robot extends FTCRobot{
 
         ArrayList<Step<DTTarget>> steps = new ArrayList<>();
         steps.add(new Deadzone(0.1, 0.1));
-        final Sensitivity sensitivity=new Sensitivity(1,0.4);
+        final Sensitivity sensitivity=new Sensitivity(1,0.6);
         steps.add(sensitivity);
         steps.add(new Squared());
         /*
@@ -150,47 +155,50 @@ public class Robot extends FTCRobot{
         //new Button(new FTCButton(GAMEPAD.A, FTCButton.BUTTON.a)).setAction(lock);
 
         //Lift Up
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.dpad_up)).setAction(new Action() {
-            @Override
-            public void start() {
-                lift.set(1);
-            }
-            @Override
-            public void enabled() {
+//        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.dpad_up)).setAction(new Action() {
+//            @Override
+//            public void start() {
+//                lift.set(1);
+//            }
+//            @Override
+//            public void enabled() {
+//
+//            }
+//            @Override
+//            public void stop() {
+//               lift.set(0);
+//            }
+//            @Override
+//            public void disabled() {
+//
+//            }
+//        });
+//
+//        //Lift Down
+//        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.dpad_down)).setAction(new Action(){
+//            @Override
+//            public void start() {
+//               lift.set(-1);
+//            }
+//            @Override
+//            public void enabled() {
+//
+//            }
+//            @Override
+//            public void stop() {
+//                lift.set(0);
+//            }
+//            @Override
+//            public void disabled() {
+//
+//            }
+//        });
 
-            }
-            @Override
-            public void stop() {
-               lift.set(0);
-            }
-            @Override
-            public void disabled() {
-
-            }
-        });
-
-        //Lift Down
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.dpad_down)).setAction(new Action(){
-            @Override
-            public void start() {
-               lift.set(-1);
-            }
-            @Override
-            public void enabled() {
-
-            }
-            @Override
-            public void stop() {
-                lift.set(0);
-            }
-            @Override
-            public void disabled() {
-
-            }
-        });
+        new ControlledMotor(liftLeft, new JoystickYAxis(new FTCJoystick(GAMEPAD.B, FTCJoystick.STICK.LEFT)).negate());
+        new ControlledMotor(liftRight, new JoystickYAxis(new FTCJoystick(GAMEPAD.B, FTCJoystick.STICK.LEFT)).negate());
 
         //Top Servos
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.right_trigger)).setAction(new Action(){
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.b)).setAction(new Action(){
             @Override
             public void start() {
             }
@@ -210,7 +218,7 @@ public class Robot extends FTCRobot{
             }
         });
         //Bottom Servos
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.left_trigger)).setAction(new Action(){
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
             @Override
             public void start() {
             }
@@ -231,11 +239,11 @@ public class Robot extends FTCRobot{
         });
 
         //Half speed
-        new Button(new FTCButton(GAMEPAD.A, FTCButton.BUTTON.left_trigger)).setAction(new Action(){
+        new Button(new FTCButton(GAMEPAD.A, FTCButton.BUTTON.left_bumper)).setAction(new Action(){
             @Override
             public void start() {
                 sensitivity.dirScale=0.5;
-                sensitivity.turnScale=0.2;
+                sensitivity.turnScale=0.3;
             }
 
             @Override
@@ -246,7 +254,7 @@ public class Robot extends FTCRobot{
             @Override
             public void stop() {
                 sensitivity.dirScale=1;
-                sensitivity.turnScale=0.4;
+                sensitivity.turnScale=0.6;
 
             }
 
