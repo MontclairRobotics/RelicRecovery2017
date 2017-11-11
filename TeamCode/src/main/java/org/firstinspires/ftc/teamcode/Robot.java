@@ -16,6 +16,7 @@ import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.drive.NewMecanum;
 import org.montclairrobotics.sprocket.drive.UniversalMapper;
 import org.montclairrobotics.sprocket.drive.steps.Deadzone;
 import org.montclairrobotics.sprocket.drive.steps.Sensitivity;
@@ -111,7 +112,7 @@ public class Robot extends FTCRobot{
 
         ArrayList<Step<DTTarget>> steps = new ArrayList<>();
         steps.add(new Deadzone(0.1, 0.1));
-        final Sensitivity sensitivity=new Sensitivity(1,0.2);
+        final Sensitivity sensitivity=new Sensitivity(1,0.4);
         steps.add(sensitivity);
         steps.add(new Squared());
         /*
@@ -132,7 +133,7 @@ public class Robot extends FTCRobot{
         final Input<Vector> fullJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.LEFT);
         final Input<Vector> halfJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.DPAD);
 
-        driveTrain.setMapper(new UniversalMapper());
+        driveTrain.setMapper(new NewMecanum());
         driveTrain.setDefaultInput(new BasicInput(new Input<Vector>(){
             @Override
             public Vector get() {
@@ -189,7 +190,7 @@ public class Robot extends FTCRobot{
         });
 
         //Top Servos
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.y)).setAction(new Action(){
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.right_trigger)).setAction(new Action(){
             @Override
             public void start() {
             }
@@ -209,7 +210,7 @@ public class Robot extends FTCRobot{
             }
         });
         //Bottom Servos
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.left_trigger)).setAction(new Action(){
             @Override
             public void start() {
             }
@@ -234,7 +235,7 @@ public class Robot extends FTCRobot{
             @Override
             public void start() {
                 sensitivity.dirScale=0.5;
-                sensitivity.turnScale=0.1;
+                sensitivity.turnScale=0.2;
             }
 
             @Override
@@ -245,7 +246,7 @@ public class Robot extends FTCRobot{
             @Override
             public void stop() {
                 sensitivity.dirScale=1;
-                sensitivity.turnScale=0.2;
+                sensitivity.turnScale=0.4;
 
             }
 

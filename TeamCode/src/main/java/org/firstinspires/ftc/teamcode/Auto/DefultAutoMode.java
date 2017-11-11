@@ -189,6 +189,10 @@ public class DefultAutoMode extends OpMode{
 
     public boolean autoTurn(double degrees, double speed) {
         int ticks = hardware.frontLeft.getCurrentPosition();
+        if(degrees < 0) {
+            speed *= -1;
+        }
+
         if(ticks < degrees*TICKS_PER_DEGREE) {
             hardware.frontLeft.setPower(speed);
             hardware.backLeft.setPower(speed);
@@ -214,19 +218,43 @@ public class DefultAutoMode extends OpMode{
 
             case RED_CLOSE:
                 if(autoDrive(new XY(12,36),0.5)){
-                    return autoTurn(90,1);
+                    return true;
                 }
 
             case BLUE_FAR:
                 if(autoDrive(new XY(-12,-36),0.5)){
-                    return autoTurn(180,1);
+                    return true;
                 }
 
             case BLUE_CLOSE:
                 if (autoDrive(new XY(12,-36),0.5)){
-                    return autoTurn(90,1);
+                    return true;
                 }
 
+        }
+        telemetry.addData("INFO","Start position not defined");
+        return false;
+    }
+
+    public boolean turnAtSafeZone(){
+        switch (startPosition){
+            case RED_FAR:
+                return true;
+
+            case RED_CLOSE:
+                if(autoTurn(90,1)){
+                    return true;
+                }
+
+            case BLUE_FAR:
+                if(autoTurn(180,1)){
+                    return true;
+                }
+
+            case BLUE_CLOSE:
+                if (autoTurn(90,1)){
+                    return true;
+                }
         }
         telemetry.addData("INFO","Start position not defined");
         return false;

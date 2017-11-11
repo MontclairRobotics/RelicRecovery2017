@@ -96,7 +96,7 @@ public class DefultHardwareMap {
     }
 
     public double getLiftTicks(){
-        return (glyphLeft.getCurrentPosition()+glyphRight.getCurrentPosition())/2;
+        return glyphRight.getCurrentPosition();
     }
 
     public void resetLiftEncoders(){
