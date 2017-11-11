@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
@@ -10,14 +9,14 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Safe Zone Blue Close")
-public class SafeZoneBlueClose extends DefultAutoMode {
+@Autonomous(name = "Everything Red Far")
+public class EverythingRedFar extends DefultAutoMode {
 
     @Override
     public void init() {
         autoInit();
-        allianceColor = AllianceColor.BLUE;
-        startPosition = StartPosition.BLUE_CLOSE;
+        allianceColor = AllianceColor.RED;
+        startPosition = StartPosition.RED_FAR;
     }
 
     @Override
@@ -26,29 +25,46 @@ public class SafeZoneBlueClose extends DefultAutoMode {
 
             case 0:
                 hardware.lift.closeAll();
-                nextState(pause(5));
+                hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
+                nextState(setGlyphLiftPos(2,0.75) && pause(5));
                 break;
 
             case 1:
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(2,0.75));
+                nextState(getJewelColor());
                 break;
 
             case 2:
                 hardware.lift.closeAll();
-                nextState(driveToSafeZone());
+                nextState(jewelReact());
                 break;
 
             case 3:
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(-2,0.75));
+                hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
+                nextState(pause(5));
                 break;
 
             case 4:
-                hardware.lift.openAll();
-                nextState(pause(5));
+                hardware.lift.closeAll();
+                nextState(driveToSafeZone());
+                break;
 
             case 5:
+                hardware.lift.closeAll();
+                nextState(autoDrive(new XY(0,3),1));
+
+            case 6:
+                hardware.lift.closeAll();
+                nextState(setGlyphLiftPos(-2,0.75));
+                break;
+
+            case 7:
+                hardware.lift.openAll();
+                nextState(pause(5));
+                break;
+
+            case 8:
                 telemetry.addData("INFO", LSA);
                 break;
         }

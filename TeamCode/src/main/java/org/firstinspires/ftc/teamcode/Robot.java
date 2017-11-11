@@ -1,17 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Components.GlyphIntake;
+import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 import org.firstinspires.ftc.teamcode.Components.GlyphLift;
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.control.BasicInput;
@@ -23,26 +18,22 @@ import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.UniversalMapper;
 import org.montclairrobotics.sprocket.drive.steps.Deadzone;
-import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.drive.steps.Sensitivity;
-import org.montclairrobotics.sprocket.drive.utils.GyroLock;
+import org.montclairrobotics.sprocket.drive.steps.Squared;
 import org.montclairrobotics.sprocket.ftc.FTCButton;
 import org.montclairrobotics.sprocket.ftc.FTCJoystick;
 import org.montclairrobotics.sprocket.ftc.FTCMotor;
 import org.montclairrobotics.sprocket.ftc.FTCRobot;
-import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
-import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.PID;
 
 import java.util.ArrayList;
 
-//import org.montclairrobotics.sprocket.drive.MecanumMapper;
+//import org.montclairrobotics.sprocket.drive.DefultMecanumMapper;
 
 @TeleOp(name="Sprocket Teleop", group="147")
 public class Robot extends FTCRobot{
@@ -53,9 +44,9 @@ public class Robot extends FTCRobot{
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
     Servo intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom;
     GlyphLift lift;
-    GlyphIntake intake;
+    GlyphIntake2 intake;
     DigitalChannel limitSwitch;
-
+    Servo[] servos;
 
     @Override
     public void setup() {
@@ -64,13 +55,22 @@ public class Robot extends FTCRobot{
         backLeft          = new FTCMotor("left_back");
         frontLeft         = new FTCMotor("left_front");
         limitSwitch       = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
+
+        /*
         intakeRightTop    = hardwareMap.get(Servo.class,          "servo_right_top");
         intakeLeftTop     = hardwareMap.get(Servo.class,          "servo_left_top");
         intakeRightBottom = hardwareMap.get(Servo.class,          "servo_right_bottom");
         intakeLeftBottom  = hardwareMap.get(Servo.class,          "servo_left_bottom");
+        */
+        servos = new Servo[4];
+        servos[0] = hardwareMap.get(Servo.class, "intake_right_top");
+        servos[1] = hardwareMap.get(Servo.class, "intake_left_top");
+        servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
+        servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
         lift = new GlyphLift(new FTCMotor("lift_left"), new FTCMotor("lift_right"));
-        //intake = new GlyphIntake(intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom);
+        intake=new GlyphIntake2(servos);
+        //intake = new DefultGlyphIntake(intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         //imu = hardwareMap.get(BNO055IMU.class, "gyro");
@@ -116,7 +116,8 @@ public class Robot extends FTCRobot{
 
         ArrayList<Step<DTTarget>> steps = new ArrayList<>();
         steps.add(new Deadzone(0.1, 0.1));
-        steps.add(new Sensitivity(0.5,0.5));
+        steps.add(new Sensitivity(1,0.5));
+        steps.add(new Squared());
         /*
         GyroCorrection gyroCorrection = new GyroCorrection(
                 new Input<Double>() {
@@ -132,8 +133,16 @@ public class Robot extends FTCRobot{
         //steps.add(autoBalance);
         driveTrain.setPipeline(new Pipeline<>(steps));
 
+        final Input<Vector> halfJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.LEFT);
+        final Input<Vector> fullJoystick=new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.DPAD);
+
         driveTrain.setMapper(new UniversalMapper());
-        driveTrain.setDefaultInput(new BasicInput(new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.LEFT),
+        driveTrain.setDefaultInput(new BasicInput(new Input<Vector>(){
+            @Override
+            public Vector get() {
+                return halfJoystick.get().scale(0.7).add(fullJoystick.get());
+            }
+        },
                 new JoystickXAxis(new FTCJoystick(GAMEPAD.A, FTCJoystick.STICK.RIGHT))));
 
 
@@ -182,6 +191,48 @@ public class Robot extends FTCRobot{
 
             }
         });
+
+        //Top Servos
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
+            @Override
+            public void start() {
+            }
+
+            @Override
+            public void enabled() {
+                intake.openTop();
+            }
+
+            @Override
+            public void stop() {
+            }
+
+            @Override
+            public void disabled() {
+                intake.closeTop();
+            }
+        });
+        //Bottom Servos
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.b)).setAction(new Action(){
+            @Override
+            public void start() {
+            }
+
+            @Override
+            public void enabled() {
+                intake.openBottom();
+            }
+
+            @Override
+            public void stop() {
+            }
+
+            @Override
+            public void disabled() {
+                intake.closeBottom();
+            }
+        });
+
         /*
         //intake open
         new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.y)).setAction(new Action() {
@@ -241,6 +292,7 @@ public class Robot extends FTCRobot{
             }
         });
         */
+        /*
         new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action() {
             @Override
             public void start() {
@@ -282,7 +334,7 @@ public class Robot extends FTCRobot{
             public void disabled() {
 
             }
-        });
+        });*/
     }
 
     @Override
@@ -321,7 +373,7 @@ public class Robot extends FTCRobot{
 
          Debug.msg("Z rotation rate", angleRates.zRotationRate);
         Debug.msg("X rotation rate", angleRates.xRotationRate);*/
-        Debug.msg("Servo",intakeRightTop.getPosition());
+        //Debug.msg("Servo",intakeRightTop.getPosition());
         Debug.msg("Switch Value:", limitSwitch.getState());
     }
 

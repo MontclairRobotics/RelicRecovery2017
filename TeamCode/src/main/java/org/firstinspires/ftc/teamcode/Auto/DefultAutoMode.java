@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.ArmPosition;
 import org.firstinspires.ftc.teamcode.Auto.Enums.JewelColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.PictogramResults;
+import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
@@ -41,6 +42,7 @@ public class DefultAutoMode extends OpMode{
     DefultHardwareMap hardware;
     DefultMecanumMapper mapper;
     AllianceColor allianceColor;
+    StartPosition startPosition;
     ElapsedTime timer;
     double startTime;
 
@@ -124,7 +126,7 @@ public class DefultAutoMode extends OpMode{
     }
 
     //colorProx
-    public boolean getJewel(){
+    public boolean getJewelColor(){
         if(sensorColor.red() > sensorColor.blue()){
             color = RED;
         }else if(sensorColor.blue()> sensorColor.red()){
@@ -134,29 +136,37 @@ public class DefultAutoMode extends OpMode{
             return false;
         }
         telemetry.addData("Jewel Color", color);
-//        switch (color){
-//            case RED:
-//                switch (allianceColor){
-//                    case RED: //move forward
-//                        break;
-//
-//                    case BLUE: //move backwards
-//                        break;
-//                }
-//
-//                break;
-//
-//            case BLUE:
-//                switch (allianceColor){
-//                    case RED: //move backwards
-//                        break;
-//
-//                    case BLUE: //move forwards
-//                        break;
-//                }
-//                break;
-//        }
         return true;
+    }
+
+    public boolean jewelReact(){
+        switch (color) {
+            case RED:
+                switch (allianceColor) {
+                    case RED: //turn left
+                        autoTurn(-90, 0.75);
+                        return autoTurn(90, 0.75);
+
+                    case BLUE: //turn right
+                        autoTurn(90, 0.75);
+                        return autoTurn(-90, 0.75);
+                }
+                break;
+
+            case BLUE:
+                switch (allianceColor) {
+                    case RED: //turn left
+                        autoTurn(-90, 0.75);
+                        return autoTurn(90, 0.75);
+
+                    case BLUE: //turn right
+                        autoTurn(90, 0.75);
+                        return autoTurn(-90, 0.75);
+                }
+                break;
+        }
+        telemetry.addData("INFO","FAILED jewelReact()");
+        return false;
     }
 
     //driving
@@ -196,18 +206,31 @@ public class DefultAutoMode extends OpMode{
         return false;
     }
 
-    //jewel arm
-    public boolean jewelArm(ArmPosition pos){
-        if(pos == ArmPosition.UP){
-            hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
-            pause(5);
-            return true;
-        }else if(pos == ArmPosition.DOWN){
-            hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
-            pause(5);
-            return true;
-        }else
-            return false;
+    public boolean driveToSafeZone(){
+        switch (startPosition){
+            case RED_FAR:
+                if(autoDrive(new XY(-12,36),0.5)){
+                    return true;
+                }
+
+            case RED_CLOSE:
+                if(autoDrive(new XY(12,36),0.5)){
+                    return autoTurn(90,1);
+                }
+
+            case BLUE_FAR:
+                if(autoDrive(new XY(-12,-36),0.5)){
+                    return autoTurn(180,1);
+                }
+
+            case BLUE_CLOSE:
+                if (autoDrive(new XY(12,-36),0.5)){
+                    return autoTurn(90,1);
+                }
+
+        }
+        telemetry.addData("INFO","Start position not defined");
+        return false;
     }
 
     //glyph

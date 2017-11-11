@@ -10,8 +10,8 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Safe Zone Blue Close")
-public class SafeZoneBlueClose extends DefultAutoMode {
+@Autonomous(name = "Glyph Blue Close")
+public class GlyphBlueClose extends DefultAutoMode {
 
     @Override
     public void init() {
@@ -41,14 +41,19 @@ public class SafeZoneBlueClose extends DefultAutoMode {
 
             case 3:
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(-2,0.75));
+                nextState(autoDrive(new XY(0,3),1));
                 break;
 
             case 4:
+                hardware.lift.closeAll();
+                nextState(setGlyphLiftPos(-2,0.75));
+                break;
+
+            case 5:
                 hardware.lift.openAll();
                 nextState(pause(5));
 
-            case 5:
+            case 6:
                 telemetry.addData("INFO", LSA);
                 break;
         }
