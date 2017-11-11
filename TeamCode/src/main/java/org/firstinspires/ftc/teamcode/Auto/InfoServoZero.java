@@ -8,8 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by MHS Robotics on 11/9/2017.
  */
 
-@Autonomous(name = "Zero")
-@Disabled
+@Autonomous(name = "Info: Zero All Servos")
 public class InfoServoZero extends DefultAutoMode {
 
     Servo servo;

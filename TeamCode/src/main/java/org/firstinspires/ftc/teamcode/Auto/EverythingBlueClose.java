@@ -9,7 +9,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Everything Blue Close")
+@Autonomous(name = "Everything: Blue Close")
 
 public class EverythingBlueClose extends DefultAutoMode {
 

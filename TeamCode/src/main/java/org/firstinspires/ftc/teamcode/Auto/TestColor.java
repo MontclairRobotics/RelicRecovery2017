@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by MHS Robotics on 11/8/2017.
  */
-@Autonomous(name = "Color")
+@Autonomous(name = "Test: Color Sensor")
 public class TestColor extends DefultAutoMode {
     @Override
     public void init() {

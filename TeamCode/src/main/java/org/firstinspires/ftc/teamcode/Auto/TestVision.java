@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /**
  * Created by MHS Robotics on 11/8/2017.
  */
-@Autonomous(name = "Vision")
+@Autonomous(name = "Test: Vision")
+@Disabled
 public class TestVision extends DefultAutoMode {
     @Override
     public void init() {

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by MHS Robotics on 11/9/2017.
  */
-@Autonomous(name = "Arm")
+@Autonomous(name = "Test: Arm Servo")
 public class TestArm extends DefultAutoMode {
     @Override
     public void init() {
@@ -17,12 +17,12 @@ public class TestArm extends DefultAutoMode {
         switch (state){
             case 0:
                 hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
-                pause(3);
+                nextState(pause(3));
                 break;
 
             case 1:
                 hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
-                pause(3);
+                nextState(pause(3));
                 break;
 
             case 2:

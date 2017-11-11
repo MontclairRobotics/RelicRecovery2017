@@ -9,7 +9,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * Created by MHS Robotics on 11/9/2017.
  */
 
-@Autonomous(name = "Ticks")
+@Autonomous(name = "Info: Ticks")
 @Disabled
 public class InfoFindDriveTicks extends DefultAutoMode {
 

@@ -10,7 +10,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Safe Zone Red Close")
+@Autonomous(name = "Safe Zone: Red Close")
 public class SafeZoneRedClose extends DefultAutoMode {
 
     @Override

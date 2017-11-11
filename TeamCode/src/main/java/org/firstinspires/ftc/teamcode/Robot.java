@@ -42,7 +42,6 @@ public class Robot extends FTCRobot{
     AngularVelocity angleRates;
 
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
-    Servo intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom;
     GlyphLift lift;
     GlyphIntake2 intake;
     DigitalChannel limitSwitch;
@@ -56,12 +55,6 @@ public class Robot extends FTCRobot{
         frontLeft         = new FTCMotor("left_front");
         limitSwitch       = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
 
-        /*
-        intakeRightTop    = hardwareMap.get(Servo.class,          "servo_right_top");
-        intakeLeftTop     = hardwareMap.get(Servo.class,          "servo_left_top");
-        intakeRightBottom = hardwareMap.get(Servo.class,          "servo_right_bottom");
-        intakeLeftBottom  = hardwareMap.get(Servo.class,          "servo_left_bottom");
-        */
         servos = new Servo[4];
         servos[0] = hardwareMap.get(Servo.class, "intake_right_top");
         servos[1] = hardwareMap.get(Servo.class, "intake_left_top");
@@ -70,11 +63,9 @@ public class Robot extends FTCRobot{
 
         lift = new GlyphLift(new FTCMotor("lift_left"), new FTCMotor("lift_right"));
         intake=new GlyphIntake2(servos);
-        //intake = new DefultGlyphIntake(intakeRightTop, intakeLeftTop, intakeRightBottom, intakeLeftBottom);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         //imu = hardwareMap.get(BNO055IMU.class, "gyro");
-
 
         /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
@@ -94,7 +85,6 @@ public class Robot extends FTCRobot{
 
         DriveTrain driveTrain = new DriveTrain(modules);
         //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
-
 
         /*
         AutoBalance autoBalance = new AutoBalance(
@@ -233,108 +223,6 @@ public class Robot extends FTCRobot{
             }
         });
 
-        /*
-        //intake open
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.y)).setAction(new Action() {
-            @Override
-            public void start() {
-
-                if(gamepad2.left_trigger < .5){
-                    intake.setPosTop(3);
-                }else if(gamepad2.right_trigger < .5){
-                    intake.setPosBottom(3);
-                }else{
-                    intake.setPos(3);
-                }
-            }
-
-            @Override
-            public void enabled() {
-
-            }
-
-            @Override
-            public void stop() {
-            }
-
-            @Override
-            public void disabled() {
-
-            }
-        });
-
-        //intake close
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
-            @Override
-            public void start() {
-
-                if(gamepad2.left_trigger < .5){
-                    intake.setPosTop(0);
-                }else if(gamepad2.right_trigger < .5){
-                    intake.setPosBottom(0);
-                }else{
-                    intake.setPos(0);
-                }
-            }
-
-            @Override
-            public void enabled() {
-
-            }
-
-            @Override
-            public void stop() {
-            }
-
-            @Override
-            public void disabled() {
-
-            }
-        });
-        */
-        /*
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action() {
-            @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void enabled() {
-                intakeRightTop.setPosition(intakeRightTop.getPosition() + 5);
-            }
-
-            @Override
-            public void stop() {
-
-            }
-
-            @Override
-            public void disabled() {
-
-            }
-        });
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.b)).setAction(new Action() {
-            @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void enabled() {
-                intakeRightTop.setPosition(intakeRightTop.getPosition() - 5);
-            }
-
-            @Override
-            public void stop() {
-
-            }
-
-            @Override
-            public void disabled() {
-
-            }
-        });*/
     }
 
     @Override

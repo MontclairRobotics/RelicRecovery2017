@@ -9,8 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by MHS Robotics on 11/9/2017.
  */
 
-@TeleOp(name = "Glyph Test")
-@Disabled
+@TeleOp(name = "Info: Glyph Test")
 public class InfoGlyphTest extends DefultAutoMode {
 
     Gamepad controller;

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by MHS Robotics on 11/9/2017.
  */
-@Autonomous(name = "Glyph")
+@Autonomous(name = "Test: Glyph Intake and Lift")
 public class TestGlyph extends DefultAutoMode {
 
     @Override

@@ -8,8 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class DefultGlyphIntake {
 
-    private final double[] servoOpen = {.7206, .751, .883, .866};
-    private final double[] servoClose = {.624, .581, .926, .974};
+    //    private final double[] servoOpen = {.7206, .751, .883, .866};
+//    private final double[] servoClose = {.624, .581, .926, .974};
+    private final double[] servoOpen = {.7206-.624, .751-.581, 0, 0};
+    private final double[] servoClose = {0, 0, .926-.883, .974-.866};
 
     private final int[] topServos = {1, 2};
     private final int[] bottomServos = {0, 3};

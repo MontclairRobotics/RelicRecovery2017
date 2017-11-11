@@ -10,7 +10,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Glyph Blue Far")
+@Autonomous(name = "Glyph: Blue Far")
 public class GlyphBlueFar extends DefultAutoMode {
 
     @Override

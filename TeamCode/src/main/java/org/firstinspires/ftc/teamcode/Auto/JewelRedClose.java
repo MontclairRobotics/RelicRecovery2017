@@ -9,7 +9,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Jewel Red Close")
+@Autonomous(name = "Jewel: Red Close")
 public class JewelRedClose extends DefultAutoMode {
 
     @Override

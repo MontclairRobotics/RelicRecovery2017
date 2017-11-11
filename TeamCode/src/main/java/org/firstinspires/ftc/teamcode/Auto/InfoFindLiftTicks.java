@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Lift Ticks")
+@Autonomous(name = "Info: Lift Ticks")
 public class InfoFindLiftTicks extends DefultAutoMode {
 
     @Override
