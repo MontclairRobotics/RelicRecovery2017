@@ -46,6 +46,11 @@ public class Robot extends FTCRobot{
     GlyphIntake2 intake;
     DigitalChannel limitSwitch;
     Servo[] servos;
+    public static int RIGHT_TOP=0;
+    public static int LEFT_TOP=1;
+    public static int RIGHT_BOTTOM=2;
+    public static int LEFT_BOTTOM=3;
+
 
     @Override
     public void setup() {
@@ -106,7 +111,7 @@ public class Robot extends FTCRobot{
 
         ArrayList<Step<DTTarget>> steps = new ArrayList<>();
         steps.add(new Deadzone(0.1, 0.1));
-        steps.add(new Sensitivity(1,0.5));
+        steps.add(new Sensitivity(1,0.2));
         steps.add(new Squared());
         /*
         GyroCorrection gyroCorrection = new GyroCorrection(
@@ -183,7 +188,7 @@ public class Robot extends FTCRobot{
         });
 
         //Top Servos
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.y)).setAction(new Action(){
             @Override
             public void start() {
             }
@@ -203,7 +208,7 @@ public class Robot extends FTCRobot{
             }
         });
         //Bottom Servos
-        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.b)).setAction(new Action(){
+        new Button(new FTCButton(GAMEPAD.B, FTCButton.BUTTON.a)).setAction(new Action(){
             @Override
             public void start() {
             }
@@ -231,7 +236,7 @@ public class Robot extends FTCRobot{
 
     @Override
     public void teleopInit() {
-
+        intake.openAll();
     }
 
     @Override
