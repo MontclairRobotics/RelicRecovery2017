@@ -8,8 +8,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Disabled
-@Autonomous(name = "Safe Zone: Blue Far")
+@Autonomous(name = "Blue Far")
 public class SafeZoneBlueFar extends DefaultAutoMode {
 
     @Override

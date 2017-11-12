@@ -8,8 +8,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "USE THIS MATCH 19")
-@Disabled
+@Autonomous(name = "Red Far")
 public class SafeZoneRedFar extends DefaultAutoMode {
 
     @Override
@@ -33,17 +32,17 @@ public class SafeZoneRedFar extends DefaultAutoMode {
 
             case 2:
                 hardware.lift.closeAll();
-                nextState(autoDrive(new XY(0,15),0.5));
+                nextState(autoDrive(new XY(0,36),0.5));
                 break;
 
             case 3:
                 hardware.lift.closeAll();
-                nextState(autoTurn(90,1));
+                nextState(autoTurn(-90,1));
                 break;
 
             case 4:
                 hardware.lift.closeAll();
-                nextState(autoDrive(new XY(0,36),0.5));
+                nextState(autoDrive(new XY(0,12),0.5));
                 break;
 
             case 5:
