@@ -218,6 +218,10 @@ public class DefaultAutoMode extends OpMode{
 
     }
 
+    public void nextState(boolean nextState) {
+        nextState(nextState, state + 1);
+    }
+
     //Wait method
     public boolean pause(double seconds){
         if(getSeconds()>seconds){

@@ -21,37 +21,37 @@ public class SafeZoneBlueClose extends DefaultAutoMode {
 
             case 0:
                 hardware.lift.closeAll();
-                nextState(pause(3),1);
+                nextState(pause(3));
                 break;
 
             case 1:
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(5,0.75),2);
+                nextState(setGlyphLiftPos(5,0.75));
                 break;
 
             case 2:
                 hardware.lift.closeAll();
-                nextState(autoDrive(new XY(0,-36),0.5),3);
+                nextState(autoDrive(new XY(0,-36),0.5));
                 break;
 
             case 3:
                 hardware.lift.closeAll();
-                nextState(autoTurn(90,1),4);
+                nextState(autoTurn(90,1));
                 break;
 
             case 4:
                 hardware.lift.closeAll();
-                nextState(autoDrive(new XY(0,12),1),5);
+                nextState(autoDrive(new XY(0,12),1));
                 break;
 
             case 5:
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(-5,0.75),6);
+                nextState(setGlyphLiftPos(-5,0.75));
                 break;
 
             case 6:
                 hardware.lift.openAll();
-                nextState(pause(5),7);
+                nextState(pause(5));
 
             case 7:
                 telemetry.addData("INFO", LSA);
