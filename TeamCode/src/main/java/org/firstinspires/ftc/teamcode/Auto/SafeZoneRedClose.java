@@ -7,7 +7,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
-@Autonomous(name = "Safe Zone: Red Close")
+@Autonomous(name = "F*CK SPROCKET")
 public class SafeZoneRedClose extends DefaultAutoMode {
 
     @Override
@@ -41,7 +41,7 @@ public class SafeZoneRedClose extends DefaultAutoMode {
 
             case 4:
                 hardware.lift.closeAll();
-                nextState(autoDrive(new XY(0,12),1));
+                nextState(autoDrive(new XY(0,12),0.75));
                 break;
 
             case 5:

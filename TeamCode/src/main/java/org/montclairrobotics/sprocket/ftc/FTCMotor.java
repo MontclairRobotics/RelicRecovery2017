@@ -23,6 +23,11 @@ public class FTCMotor implements IMotor{
 		motor.setPower(0);
 		return this;
 	}
+
+	public DcMotor getMotor() {
+		return motor;
+	}
+
 	public FTCMotor setZeroPowerBehavior(DcMotor.ZeroPowerBehavior b)
 	{
 		motor.setZeroPowerBehavior(b);

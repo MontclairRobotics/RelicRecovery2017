@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
  * Created by MHS Robotics on 11/10/2017.
  */
+@Disabled
 @Autonomous(name = "Safe Zone: Blue Far")
 public class SafeZoneBlueFar extends DefaultAutoMode {
 
@@ -31,7 +33,7 @@ public class SafeZoneBlueFar extends DefaultAutoMode {
 
             case 2:
                 hardware.lift.closeAll();
-                nextState(autoDrive(new XY(0,-36),0.5));
+                nextState(autoDrive(new XY(0,-38),0.5   ));
                 break;
 
             case 3:
@@ -41,7 +43,7 @@ public class SafeZoneBlueFar extends DefaultAutoMode {
 
             case 4:
                 hardware.lift.closeAll();
-                nextState(autoDrive(new XY(0,12),1));
+                nextState(autoDrive(new XY(0,12),0.5));
                 break;
 
             case 5:

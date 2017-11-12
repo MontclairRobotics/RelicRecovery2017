@@ -10,12 +10,18 @@ public class TestColor extends DefaultAutoMode {
     @Override
     public void init() {
         autoInit();
+        sensorColor.enableLed(false);
     }
 
     @Override
     public void loop() {
-        telemetry.addData("Red", sensorColor.red());
-        telemetry.addData("Blue",sensorColor.blue());
-        getJewelColor();
+        if(sensorColor == null) {
+            telemetry.addData("Stuff", "Color sensor is null");
+        }else {
+            telemetry.addData("Red", sensorColor.red());
+            telemetry.addData("Blue", sensorColor.blue());
+            telemetry.addData("Green", sensorColor.green());
+            getJewelColor();
+        }
     }
 }

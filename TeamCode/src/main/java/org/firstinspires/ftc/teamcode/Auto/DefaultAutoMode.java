@@ -41,9 +41,8 @@ public class DefaultAutoMode extends OpMode{
 
     //final
     //TODO: Get measurement @ MAX POWER
-    public final double JEWEL_ARM_DOWN_POS = 0.75;
+    public final double JEWEL_ARM_DOWN_POS = 1;
     public final double JEWEL_ARM_UP_POS = 0;
-    public final double PAUSE_TIME = 0.5;
     public final String LSA = "LAST STATE ACHIEVED";
     public final double TICKS_PER_INCH = 1500/42.3;
     public final double TICKS_PER_DEGREE = (43.23/360)*TICKS_PER_INCH*2.5;
@@ -55,14 +54,16 @@ public class DefaultAutoMode extends OpMode{
         hardware = new DefaultHardwareMap();
         hardware.init(hardwareMap);
         hardware.lift.closeAll();
-        hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
+//        hardware.jewelArm.setPosition(0);
         telemetry.addData("INFO","Hardware Map Init");
         mapper = new DefaultMecanumMapper();
+
+        sensorColor = hardware.sensorColor;
 
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
-//        visionInit();  //TODO: uncomment once phone is mounted on other side
+//        visionInit();  //TODO: uncomment one is mounted on other side
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");
