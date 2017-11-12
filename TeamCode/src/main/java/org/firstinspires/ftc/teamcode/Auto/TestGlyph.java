@@ -20,22 +20,22 @@ public class TestGlyph extends DefaultAutoMode {
         switch (state){
             case 0:
                 hardware.lift.closeAll();
-                nextState(pause(1));
+                nextState(pause(1),1);
                 break;
 
             case 1:
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(5,0.75));
+                nextState(setGlyphLiftPos(5,0.75),2);
                 break;
 
             case 2:
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(-5,0.75));
+                nextState(setGlyphLiftPos(-5,0.75),3);
                 break;
 
             case 3:
                 hardware.lift.openAll();
-                nextState(pause(1));
+                nextState(pause(1),4);
                 break;
 
             case 4:

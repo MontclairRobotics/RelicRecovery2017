@@ -18,7 +18,7 @@ public class TestVision extends DefaultAutoMode {
     public void loop() {
         switch (state){
             case 0:
-                nextState(getPictogram());
+//                nextState(getPictogram());
                 break;
 
             case 1:

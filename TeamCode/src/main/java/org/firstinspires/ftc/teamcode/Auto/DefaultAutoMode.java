@@ -11,7 +11,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.PictogramResults;
-import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
@@ -37,7 +36,6 @@ public class DefaultAutoMode extends OpMode{
     DefaultHardwareMap hardware;
     DefaultMecanumMapper mapper;
     AllianceColor allianceColor;
-    StartPosition startPosition;
     ElapsedTime timer;
     double startTime;
 
@@ -174,59 +172,6 @@ public class DefaultAutoMode extends OpMode{
             hardware.resetDriveEncoders();
             return true;
         }
-        return false;
-    }
-
-    //flawed logic ... DO NOT USE
-    public boolean driveToSafeZone(){
-        switch (startPosition){
-            case RED_FAR:
-                if(autoDrive(new XY(-12,36),0.5)){
-                    return true;
-                }
-
-            case RED_CLOSE:
-                if(autoDrive(new XY(12,36),0.5)){
-                    return true;
-                }
-
-            case BLUE_FAR:
-                if(autoDrive(new XY(-12,-36),0.5)){
-                    return true;
-                }
-
-            case BLUE_CLOSE:
-                if (autoDrive(new XY(12,-36),0.5)){
-                    return true;
-                }
-
-        }
-        telemetry.addData("INFO","Start position not defined");
-        return false;
-    }
-
-    //flawed logic ... DO NOT USE
-    public boolean turnAtSafeZone(){
-        switch (startPosition){
-            case RED_FAR:
-                return true;
-
-            case RED_CLOSE:
-                if(autoTurn(90,1)){
-                    return true;
-                }
-
-            case BLUE_FAR:
-                if(autoTurn(180,1)){
-                    return true;
-                }
-
-            case BLUE_CLOSE:
-                if (autoTurn(90,1)){
-                    return true;
-                }
-        }
-        telemetry.addData("INFO","Start position not defined");
         return false;
     }
 

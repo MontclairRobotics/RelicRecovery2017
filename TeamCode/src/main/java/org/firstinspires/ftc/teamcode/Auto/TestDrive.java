@@ -23,11 +23,11 @@ public class TestDrive extends DefaultAutoMode {
         telemetry.addData("state", state);
         switch(state){
             case 0:
-                nextState(autoDrive(new XY(0,12),1));
+                nextState(autoDrive(new XY(0,12),1),1);
                 break;
 
             case 1:
-                nextState(autoTurn(90,1));
+                nextState(autoTurn(90,1),2);
 
             case 2:
                 telemetry.addData("INFO", LSA);
