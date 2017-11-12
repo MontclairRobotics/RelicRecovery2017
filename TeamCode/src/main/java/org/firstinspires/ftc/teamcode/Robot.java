@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -36,7 +37,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 
 import java.util.ArrayList;
 
-//import org.montclairrobotics.sprocket.drive.DefultMecanumMapper;
+//import org.montclairrobotics.sprocket.drive.DefaultMecanumMapper;
 
 @TeleOp(name="Sprocket Teleop", group="147")
 public class Robot extends FTCRobot{
@@ -59,9 +60,13 @@ public class Robot extends FTCRobot{
     @Override
     public void setup() {
         frontRight        = new FTCMotor("right_front");
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         backRight         = new FTCMotor("right_back");
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         backLeft          = new FTCMotor("left_back");
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         frontLeft         = new FTCMotor("left_front");
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         limitSwitch       = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
 
         servos = new Servo[4];

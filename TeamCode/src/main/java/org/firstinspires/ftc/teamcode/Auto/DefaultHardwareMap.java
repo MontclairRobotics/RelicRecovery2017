@@ -7,13 +7,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
  * Created by MHS Robotics on 11/9/2017.
  */
 
-public class DefultHardwareMap {
+public class DefaultHardwareMap {
 
     public DcMotor frontLeft   = null;
     public DcMotor frontRight  = null;
@@ -22,16 +23,18 @@ public class DefultHardwareMap {
     public DcMotor glyphLeft   = null;
     public DcMotor glyphRight  = null;
 
-    public DefultFTCDriveModule[] driveModules;
+    public DefaultFTCDriveModule[] driveModules;
 
     public Servo   jewelArm    = null;
-    public Servo   leftTop     = null;
-    public Servo   rightTop    = null;
-    public Servo   leftBottom  = null;
-    public Servo   rightBottom = null;
-    public ColorSensor colorSensor = null;
+    public Servo[] servos      = null;
 
-    DefaultGlyphIntake lift;
+    public static int RIGHT_TOP=0;
+    public static int LEFT_TOP=1;
+    public static int RIGHT_BOTTOM=2;
+    public static int LEFT_BOTTOM=3;
+
+    GlyphIntake2 lift;
+    ColorSensor sensorColor;
 
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
@@ -53,22 +56,22 @@ public class DefultHardwareMap {
         glyphLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         glyphRight  = hwMap.dcMotor.get("lift_right");
 
-        driveModules = new DefultFTCDriveModule[4];
-        driveModules[0] = new DefultFTCDriveModule(frontLeft, new XY(-1, 1), new XY(-1, 1));
-        driveModules[1] = new DefultFTCDriveModule(frontRight, new XY(1, 1), new XY(1, 1));
-        driveModules[2] = new DefultFTCDriveModule(backLeft, new XY(-1, -1), new XY(1, 1));
-        driveModules[3] = new DefultFTCDriveModule(backRight, new XY(1, -1), new XY(-1, 1));
+        driveModules = new DefaultFTCDriveModule[4];
+        driveModules[0] = new DefaultFTCDriveModule(frontLeft, new XY(-1, 1), new XY(-1, 1));
+        driveModules[1] = new DefaultFTCDriveModule(frontRight, new XY(1, 1), new XY(1, 1));
+        driveModules[2] = new DefaultFTCDriveModule(backLeft, new XY(-1, -1), new XY(1, 1));
+        driveModules[3] = new DefaultFTCDriveModule(backRight, new XY(1, -1), new XY(-1, 1));
 
         jewelArm    = hwMap.servo.get("jewel_arm");
-        leftTop     = hwMap.servo.get("intake_left_top");
-        rightTop    = hwMap.servo.get("intake_right_top");
-        leftBottom  = hwMap.servo.get("intake_left_bottom");
-        rightBottom = hwMap.servo.get("intake_right_bottom");
 
-        lift = new DefaultGlyphIntake(rightBottom, leftTop, rightTop, leftBottom);
+        servos = new Servo[4];
+        servos[0] = ahwMap.get(Servo.class, "intake_right_top");
+        servos[1] = ahwMap.get(Servo.class, "intake_left_top");
+        servos[2] = ahwMap.get(Servo.class, "intake_right_bottom");
+        servos[3] = ahwMap.get(Servo.class, "intake_left_bottom");
 
-
-        colorSensor = hwMap.colorSensor.get("sensorColor");
+        lift=new GlyphIntake2(servos);
+        sensorColor = hwMap.get(ColorSensor.class, "colorSensor");
 
 
 
@@ -82,14 +85,14 @@ public class DefultHardwareMap {
 
     public double getTicks() {
         double sum = 0.0;
-        for(DefultFTCDriveModule module : driveModules) {
+        for(DefaultFTCDriveModule module : driveModules) {
             sum += module.getMotor().getCurrentPosition();
         }
         return sum / driveModules.length;
     }
 
     public void resetDriveEncoders() {
-        for(DefultFTCDriveModule module : driveModules) {
+        for(DefaultFTCDriveModule module : driveModules) {
             module.getMotor().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             module.getMotor().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }

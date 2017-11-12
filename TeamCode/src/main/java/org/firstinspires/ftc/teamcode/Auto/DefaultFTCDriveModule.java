@@ -8,14 +8,14 @@ import org.montclairrobotics.sprocket.geometry.Vector;
  * Created by Rafi on 11/9/2017.
  */
 
-public class DefultFTCDriveModule {
+public class DefaultFTCDriveModule {
 
     private DcMotor motor;
     private Vector offset;
     private Vector force;
     public double temp;
 
-    public DefultFTCDriveModule(DcMotor motor, Vector offset, Vector force) {
+    public DefaultFTCDriveModule(DcMotor motor, Vector offset, Vector force) {
         this.motor = motor;
         this.offset = offset;
         this.force = force;

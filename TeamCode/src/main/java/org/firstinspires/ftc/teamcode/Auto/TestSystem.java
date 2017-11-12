@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
-import org.montclairrobotics.sprocket.auto.AutoMode;
 
 /**
  * Created by MHS Robotics on 11/11/2017.
  */
-
-public class TestSystem extends DefultAutoMode {
+@Autonomous(name = "Test: System Flow")
+@Disabled
+public class TestSystem extends DefaultAutoMode {
 
     @Override
     public void init() {

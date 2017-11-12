@@ -10,7 +10,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  */
 @Autonomous(name = "Test: Drive and Turn")
 @Disabled
-public class TestDrive extends DefultAutoMode {
+public class TestDrive extends DefaultAutoMode {
 
     @Override
     public void init() {

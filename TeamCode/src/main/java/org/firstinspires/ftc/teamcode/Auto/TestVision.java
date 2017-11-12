@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
  */
 @Autonomous(name = "Test: Vision")
 @Disabled
-public class TestVision extends DefultAutoMode {
+public class TestVision extends DefaultAutoMode {
     @Override
     public void init() {
         autoInit();

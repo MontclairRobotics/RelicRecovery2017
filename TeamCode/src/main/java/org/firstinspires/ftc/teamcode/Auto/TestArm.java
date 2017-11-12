@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Created by MHS Robotics on 11/9/2017.
  */
 @Autonomous(name = "Test: Arm Servo")
-public class TestArm extends DefultAutoMode {
+public class TestArm extends DefaultAutoMode {
     @Override
     public void init() {
         autoInit();

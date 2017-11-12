@@ -10,21 +10,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
-import org.firstinspires.ftc.teamcode.Auto.Enums.JewelColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.PictogramResults;
 import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
-import static org.firstinspires.ftc.teamcode.Auto.Enums.JewelColor.BLUE;
-import static org.firstinspires.ftc.teamcode.Auto.Enums.JewelColor.RED;
-
 /**
  * Created by MHS Robotics on 11/6/2017.
  */
 
-public class DefultAutoMode extends OpMode{
+public class DefaultAutoMode extends OpMode{
 
     //Vuforia Vars
     VuforiaLocalizer vuforia;
@@ -35,11 +31,11 @@ public class DefultAutoMode extends OpMode{
 
     //Color Prox Vars
     ColorSensor sensorColor;
-    JewelColor color;
+    AllianceColor color;
 
     //auto mode objects
-    DefultHardwareMap hardware;
-    DefultMecanumMapper mapper;
+    DefaultHardwareMap hardware;
+    DefaultMecanumMapper mapper;
     AllianceColor allianceColor;
     StartPosition startPosition;
     ElapsedTime timer;
@@ -47,26 +43,28 @@ public class DefultAutoMode extends OpMode{
 
     //final
     //TODO: Get measurement @ MAX POWER
-    public final double JEWEL_ARM_DOWN_POS = 0.59;
+    public final double JEWEL_ARM_DOWN_POS = 0.75;
     public final double JEWEL_ARM_UP_POS = 0;
     public final double PAUSE_TIME = 0.5;
     public final String LSA = "LAST STATE ACHIEVED";
     public final double TICKS_PER_INCH = 1500/42.3;
-    public final double TICKS_PER_DEGREE = (43.23/360)*TICKS_PER_INCH*2;
+    public final double TICKS_PER_DEGREE = (43.23/360)*TICKS_PER_INCH*2.5;
     public final double TICKS_PER_LIFT_INCH = 1400/6.5;
 
 
 
     public void autoInit(){
-        hardware = new DefultHardwareMap();
+        hardware = new DefaultHardwareMap();
         hardware.init(hardwareMap);
+        hardware.lift.closeAll();
+        hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
         telemetry.addData("INFO","Hardware Map Init");
-        mapper = new DefultMecanumMapper();
+        mapper = new DefaultMecanumMapper();
 
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
-        //visionInit();
+//        visionInit();  //TODO: uncomment once phone is mounted on other side
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");
@@ -127,45 +125,15 @@ public class DefultAutoMode extends OpMode{
     //colorProx
     public boolean getJewelColor(){
         if(sensorColor.red() > sensorColor.blue()){
-            color = RED;
+            color = AllianceColor.RED;
         }else if(sensorColor.blue()> sensorColor.red()){
-            color = BLUE;
+            color = AllianceColor.BLUE;
         }else{
-            color = JewelColor.UNKNOWN;
+            telemetry.addData("INFO","ID FAILED");
             return false;
         }
         telemetry.addData("Jewel Color", color);
         return true;
-    }
-
-    public boolean jewelReact(){
-        switch (color) {
-            case RED:
-                switch (allianceColor) {
-                    case RED: //turn left
-                        autoTurn(-90, 0.75);
-                        return autoTurn(90, 0.75);
-
-                    case BLUE: //turn right
-                        autoTurn(90, 0.75);
-                        return autoTurn(-90, 0.75);
-                }
-                break;
-
-            case BLUE:
-                switch (allianceColor) {
-                    case RED: //turn left
-                        autoTurn(-90, 0.75);
-                        return autoTurn(90, 0.75);
-
-                    case BLUE: //turn right
-                        autoTurn(90, 0.75);
-                        return autoTurn(-90, 0.75);
-                }
-                break;
-        }
-        telemetry.addData("INFO","FAILED jewelReact()");
-        return false;
     }
 
     //driving
@@ -177,7 +145,7 @@ public class DefultAutoMode extends OpMode{
     }
 
     public boolean autoDrive(Vector v, double speed) {
-        if(hardware.getTicks() < v.getMagnitude()*TICKS_PER_INCH) {
+        if(Math.abs(hardware.getTicks()) < v.getMagnitude()*TICKS_PER_INCH) {
             drive(v.normalize().scale(speed), 0);
         } else {
             drive(new XY(0, 0), 0);
@@ -188,12 +156,12 @@ public class DefultAutoMode extends OpMode{
     }
 
     public boolean autoTurn(double degrees, double speed) {
-        int ticks = hardware.frontLeft.getCurrentPosition();
+        int ticks = Math.abs(hardware.frontLeft.getCurrentPosition());
         if(degrees < 0) {
             speed *= -1;
         }
 
-        if(ticks < degrees*TICKS_PER_DEGREE) {
+        if(ticks < Math.abs(degrees*TICKS_PER_DEGREE)) {
             hardware.frontLeft.setPower(speed);
             hardware.backLeft.setPower(speed);
             hardware.frontRight.setPower(-speed);
@@ -209,6 +177,7 @@ public class DefultAutoMode extends OpMode{
         return false;
     }
 
+    //flawed logic ... DO NOT USE
     public boolean driveToSafeZone(){
         switch (startPosition){
             case RED_FAR:
@@ -236,6 +205,7 @@ public class DefultAutoMode extends OpMode{
         return false;
     }
 
+    //flawed logic ... DO NOT USE
     public boolean turnAtSafeZone(){
         switch (startPosition){
             case RED_FAR:
@@ -294,9 +264,9 @@ public class DefultAutoMode extends OpMode{
     public void setState(int state){
         this.state = state;
     }
-    public void nextState(boolean nextState){
+    public void nextState(boolean nextState,int nextStateNumber){
         if(nextState){
-            state++;
+            state = nextStateNumber;
             telemetry.addData("Info","State "+state+" Achieved");
             startTime = timer.milliseconds();
         }
