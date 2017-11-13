@@ -111,11 +111,10 @@ public class PID implements Updatable,Input<Double>{
 	 * @param t the target/setpoint
 	 * @param reset true if the PID should reset, false otherwise
 	 */
-	public PID setTarget(double t,boolean reset)
+	public PID setTarget(double t, boolean reset)
 	{
-		target=t;
-		if(reset)
-		{
+		target = t;
+		if (reset) {
 			error=0.0;
 			prevVal=0.0;
 			totalError=0.0;
@@ -141,12 +140,11 @@ public class PID implements Updatable,Input<Double>{
 		
 		double dVal=val-prevVal;
 		
-		if(minIn!=0&&maxIn!=0)
-		{
+		if(minIn != 0 && maxIn != 0) {
 			double diff=maxIn-minIn;
-			error=((error-minIn)%diff+diff)%diff+minIn;
-			dVal=((dVal-minIn)%diff+diff)%diff+minIn;
-			Debug.msg("dVal",dVal);
+			error = ((error - minIn) % diff + diff) % diff + minIn;
+			dVal = ((dVal - minIn) % diff + diff) % diff + minIn;
+			Debug.msg("dVal", dVal);
 		}
 		totalError += error * loopTime;
 		if (I != 0.0) 

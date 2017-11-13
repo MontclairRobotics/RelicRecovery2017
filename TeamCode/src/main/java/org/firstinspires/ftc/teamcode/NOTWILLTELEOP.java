@@ -11,13 +11,13 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
  * Created by MHS Robotics on 11/12/2017.
  */
 
-@TeleOp(name="Teleop: PLEASE DONT DELETE THIS WILL")
+@TeleOp(name="Teleop: PLEASE DON'T DELETE THIS WILL")
 public class NOTWILLTELEOP extends OpMode {
-    DcMotor frontRight,backRight,frontLeft,backLeft;
+    DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
 
     GlyphIntake2 intake;
-    DcMotor liftA,liftB;
+    DcMotor liftA, liftB;
     @Override
     public void init() {
         frontRight        = hardwareMap.get(DcMotor.class, "right_front");
@@ -43,33 +43,28 @@ public class NOTWILLTELEOP extends OpMode {
 
     @Override
     public void loop() {
-        double pow=1;
-        if(gamepad1.left_bumper)
-        {
-            pow=0.5;
+        double pow = 1;
+        if (gamepad1.left_bumper) {
+            pow = 0.5;
         }
-        double x=gamepad1.left_stick_x*pow;
-        double y=-gamepad1.left_stick_y*pow;
-        double turn=gamepad1.right_stick_x*pow;
-        frontRight.setPower(x-y+turn);
-        backRight.setPower(-x-y+turn);
-        backLeft.setPower(-x+y+turn);
-        frontLeft.setPower(x+y+turn);
 
-        if(gamepad2.a)
-        {
+        double x = gamepad1.left_stick_x * pow;
+        double y = -gamepad1.left_stick_y * pow;
+        double turn = gamepad1.right_stick_x * pow;
+        frontRight.setPower(x - y + turn);
+        backRight.setPower(-x - y + turn);
+        backLeft.setPower(-x + y + turn);
+        frontLeft.setPower(x + y + turn);
+
+        if (gamepad2.a) {
             intake.openBottom();
-        }
-        else
-        {
+        } else {
             intake.closeBottom();
         }
-        if(gamepad2.b)
-        {
+
+        if (gamepad2.b) {
             intake.openTop();
-        }
-        else
-        {
+        } else {
             intake.closeTop();
         }
 

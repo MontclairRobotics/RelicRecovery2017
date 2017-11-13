@@ -23,45 +23,51 @@ import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-public class OurQuaternion {
+public class RRQuaternion {
     public double w, x, y, z;
 
-    public OurQuaternion(double w, double x, double y, double z) {
+    public RRQuaternion(double w, double x, double y, double z) {
         this.w = w;
         this.x = x;
         this.y = y;
         this.z = z;
     }
-    public OurQuaternion(Quaternion q) {
-        this.w=q.w;
-        this.x=q.x;
-        this.y=q.y;
-        this.z=q.z;
+    public RRQuaternion(Quaternion q) {
+        this.w = q.w;
+        this.x = q.x;
+        this.y = q.y;
+        this.z = q.z;
     }
 
     public double magnitude() {
-        return Math.sqrt(w*w+x*x+y*y+z*z);
+        return Math.sqrt(w*w + x*x + y*y + z*z);
     }
-    public OurQuaternion conjugate() {
-        return new OurQuaternion(-w, -x, -y, -z);
+    public RRQuaternion conjugate() {
+        return new RRQuaternion(-w, -x, -y, -z);
     }
-    public OurVector3 rotateVector(OurVector3 v)
-    {
-        OurVector3 qv=new OurVector3(x,y,z);
-        OurVector3 t = qv.cross(v).scale(2.0);
-        return v.add(t.scale(w)).add(qv.cross(t));
+
+    public RRVector rotateVector(RRVector v) {
+        RRVector q = new RRVector(-x, -y, -z);
+        RRVector t = q.cross(v).scale(2);
+        return v.add(t.scale(w)).add(q.cross(t));
     }
-    public double getRotX() {
-        OurVector3 v=rotateVector(OurVector3.forward);
-        return Math.atan2(v.z,v.y);
+
+    /** @return the rotational angle about the x-axis (in degrees). */
+    public double getX() {
+        RRVector v = rotateVector(RRVector.J);
+        return Math.atan2(v.z, v.y) * (180/Math.PI);
     }
-    public double getRotY() {
-        OurVector3 v=rotateVector(OurVector3.right);
-        return Math.atan2(v.z,v.x);
+
+    /** @return the rotational angle about the y-axis (in degrees). */
+    public double getY() {
+        RRVector v = rotateVector(RRVector.I);
+        return Math.atan2(v.z, v.x) * (180/Math.PI);
     }
-    public double getRotZ() {
-        OurVector3 v = rotateVector(OurVector3.forward);
-        return Math.atan2(v.x, v.y);
+
+    /** @return the rotational angle about the z-axis (in degrees). */
+    public double getZ() {
+        RRVector v = rotateVector(RRVector.J);
+        return Math.atan2(v.x, v.y) * (180/Math.PI);
     }
 }
 
@@ -141,18 +147,18 @@ public class OurQuaternion {
         return Quaternion(_w - q._w, _x - q._x, _y - q._y, _z - q._z);
     }
 
-    Quaternion operator/(double scalar) const
+    Quaternion operator/(double s) const
     {
-        return Quaternion(_w / scalar, _x / scalar, _y / scalar, _z / scalar);
+        return Quaternion(_w / s, _x / s, _y / s, _z / s);
     }
 
-    Quaternion operator*(double scalar) const
+    Quaternion operator*(double s) const
     {
-        return scale(scalar);
+        return scale(s);
     }
 
-    Quaternion scale(double scalar) const
+    Quaternion scale(double s) const
     {
-        return Quaternion(_w * scalar, _x * scalar, _y * scalar, _z * scalar);
+        return Quaternion(_w * s, _x * s, _y * s, _z * s);
     }
 */
