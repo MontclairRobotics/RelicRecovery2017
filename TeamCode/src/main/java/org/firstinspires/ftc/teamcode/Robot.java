@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 //import org.montclairrobotics.sprocket.drive.DefaultMecanumMapper;
 
 @TeleOp(name="Sprocket Teleop", group="147")
-
+@Disabled
 public class Robot extends FTCRobot {
     Gyro gyro;
 

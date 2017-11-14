@@ -17,16 +17,16 @@ public class TestVision extends DefaultAutoMode {
     @Override
     public void loop() {
         switch (state){
+
             case 0:
-//                nextState(getPictogram());
+                getPictogram();
                 break;
 
             case 1:
-                telemetry.addData("Vision",pictogram);
-                pictogramDrive(pictogram);
+                nextState(pictogramDrive(pictogram));
                 break;
 
-            case 4:
+            case 2:
                 telemetry.addData("INFO","Last State Achieved");
                 break;
         }
