@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /**
- * Created by MHS Robotics on 11/8/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Will
+ * */
 @Autonomous(name = "Test: Vision")
 @Disabled
 public class TestVision extends DefaultAutoMode {

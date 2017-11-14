@@ -9,8 +9,9 @@ import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
 /**
- * Created by Hymowitz on 11/9/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Jack
+ * */
 
 public class Gyro implements Input<Double>, Updatable {
     double x, y, z;

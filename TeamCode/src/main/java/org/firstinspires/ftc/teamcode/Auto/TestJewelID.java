@@ -8,8 +8,9 @@ import org.montclairrobotics.sprocket.auto.states.DriveTime;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
- * Created by MHS Robotics on 11/12/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Will
+ * */
 @Autonomous(name = "Test: Jewel ID")
 public class TestJewelID extends DefaultAutoMode {
 

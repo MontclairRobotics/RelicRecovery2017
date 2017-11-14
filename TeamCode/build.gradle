@@ -11,4 +11,5 @@
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 dependencies {
+    compile files('/Users/Will/RelicRecoverySprocket/libs/opencv-android.jar')
 }

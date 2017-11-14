@@ -17,9 +17,9 @@ import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 /**
- * Created by MHS Robotics on 11/12/2017.
- */
-
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Garrett
+ * */
 @TeleOp(name="Teleop: PLEASE DON'T DELETE THIS WILL")
 public class CompTeleop extends OpMode {
     DcMotor frontRight, backRight, frontLeft, backLeft;
@@ -82,6 +82,8 @@ public class CompTeleop extends OpMode {
         } else {
             intake.closeTop();
         }
+
+
 
         liftA.setPower(gamepad2.left_stick_y);
         liftB.setPower(-gamepad2.left_stick_y);

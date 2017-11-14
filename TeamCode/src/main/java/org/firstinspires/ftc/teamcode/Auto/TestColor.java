@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode.Auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /**
- * Created by MHS Robotics on 11/8/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Will
+ * */
 @Autonomous(name = "Test: Color Sensor")
 public class TestColor extends DefaultAutoMode {
     @Override

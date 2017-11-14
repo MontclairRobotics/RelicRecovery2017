@@ -5,8 +5,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Robot;
 
 /**
- * Created by MHS Robotics on 11/9/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Rafi
+ * */
 
 public class GlyphIntake2 {
 
