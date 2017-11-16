@@ -46,6 +46,6 @@ public class Gyro implements Input<Double>, Updatable {
 
     @Override
     public Double get() {
-        return quat.getZ();
+        return quat.getX();
     }
 }
