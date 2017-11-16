@@ -110,8 +110,7 @@ public class DefaultAutoMode extends OpMode{
         switch (image){
             case LEFT:
                 telemetry.addData("Moving","LEFT");
-//                return autoDrive(new XY(-7.5,0),1);
-                return true;
+                return autoDrive(new XY(-7.5,0),1);
 
             case CENTER:
                 telemetry.addData("Moving","CENTER");
@@ -119,9 +118,7 @@ public class DefaultAutoMode extends OpMode{
 
             case RIGHT:
                 telemetry.addData("Moving","Right");
-//                return autoDrive(new XY(7.5,0),1);
-                return true;
-
+                return autoDrive(new XY(7.5,0),1);
 
         }
         telemetry.addData("INFO","FAILED");

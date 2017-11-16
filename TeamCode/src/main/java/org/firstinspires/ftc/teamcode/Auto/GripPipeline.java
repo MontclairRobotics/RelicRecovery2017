@@ -30,14 +30,14 @@ public class GripPipeline {
 	private Mat rgbThresholdOutput = new Mat();
 	private MatOfKeyPoint findBlobsOutput = new MatOfKeyPoint();
 
-	static {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
+//	static {
+//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//	}
 
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	public void process(Mat source0) {
+	public MatOfKeyPoint process(Mat source0) {
 		// Step Blur0:
 		Mat blur0Input = source0;
 		BlurType blur0Type = BlurType.get("Median Filter");
@@ -64,6 +64,7 @@ public class GripPipeline {
 		boolean findBlobsDarkBlobs = false;
 		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
 
+		return findBlobsOutput;
 	}
 
 	/**
