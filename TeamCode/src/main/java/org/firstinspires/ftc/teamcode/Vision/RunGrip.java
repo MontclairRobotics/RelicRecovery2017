@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.Vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.teamcode.Vision.GripPipeline;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfKeyPoint;
@@ -29,10 +29,6 @@ public class RunGrip extends Thread{
         parameters.vuforiaLicenseKey = "AVhGMov/////AAAAGUk16JthIkWst4BeQ3creo+NTUF+BxVD6iSoptSHES0tn3qxxl8EoEMBtZfR9lS5zeb8wa5m+susmQEk+ELlMZvkhfCo5hwgtQVQo95VhTaduQjLatwooAcigCDfAK19KDQPw7O4/Q0p0G79ni5UlnYrw/lF1ZC2iv+41EGTjOTT8yC6wWMzzi2ugWGtIYs9Qy62b9S+Jr2/JjoqtzoaeUX7cmshji5IRmPojALj71tKJb1Gay4XcCb7fMMkO10SDaY84E66Vt0aEhgyA4VY/ASABIEEBlpDoq7N/tTSMxDfahX0xP76BXUSNEug7Y378HPg9siRGv5AQns3Y44RfPqBu6kQN1yDXb+43Zl3ZkzF";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-//        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-//        relicTemplate = relicTrackables.get(0);
-//        relicTrackables.activate();
-//        telemetry.addData("INFO","Vision Init");
     }
 
     //https://ftcforum.usfirst.org/forum/ftc-technology/android-studio/6086-grabbing-frames-from-vuforia-for-analysis
@@ -62,15 +58,15 @@ public class RunGrip extends Thread{
     }
 
     public MatOfKeyPoint runOpenCV() throws InterruptedException {
-        GripPipeline p = new GripPipeline();
-        return p.process(getMat(vuforia));
+        GripPipeline gripPipeline = new GripPipeline();
+        return gripPipeline.process(getMat(vuforia));
     }
 
     public void run(){
-        startVuforia();
         int x = 0;
         try {
             x = runOpenCV().toArray().length;
+//            x = runOpenCV().toList().size();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

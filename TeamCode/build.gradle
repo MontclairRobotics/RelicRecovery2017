@@ -12,4 +12,8 @@
 apply from: '../build.common.gradle'
 dependencies {
     compile files('/Users/Will/RelicRecoverySprocket/libs/opencv-android.jar')
+    implementation files('C:/Users/Montclair Robotics/Documents/RelicRecoverySprocket/libs/opencv-android.jar')
+}
+android {
+    buildToolsVersion '26.0.2'
 }

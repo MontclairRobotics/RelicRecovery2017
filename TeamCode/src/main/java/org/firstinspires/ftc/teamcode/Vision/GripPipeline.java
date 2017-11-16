@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.Vision;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,9 +30,9 @@ public class GripPipeline {
 	private Mat rgbThresholdOutput = new Mat();
 	private MatOfKeyPoint findBlobsOutput = new MatOfKeyPoint();
 
-//	static {
-//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//	}
+	static {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	}
 
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
