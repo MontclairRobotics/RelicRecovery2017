@@ -23,13 +23,13 @@ public class Toggle implements Action{
 
 	@Override
 	public void enabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void disabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 	

@@ -8,7 +8,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * */
 
 //85 pts auto
-public class Auto extends DefaultAutoMode {
+public class DefaultAuto extends DefaultAutoMode {
     @Override
     public void init() {
         autoInit();

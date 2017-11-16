@@ -13,21 +13,21 @@ public class SmoothVectorInput implements Input<Vector>{
 
 			@Override
 			public Double get() {
-				// TODO Auto-generated method stub
+				// TODO DefaultAuto-generated method stub
 				return inp.get().getX();
 			}});
 		y=new SmoothInput(len,new Input<Double>(){
 
 			@Override
 			public Double get() {
-				// TODO Auto-generated method stub
+				// TODO DefaultAuto-generated method stub
 				return inp.get().getY();
 			}});
 	}
 
 	@Override
 	public Vector get() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		return new XY(x.get(),y.get());
 	}
 

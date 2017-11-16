@@ -60,7 +60,7 @@ public class DefaultAutoMode extends OpMode{
         hardware = new DefaultHardwareMap();
         hardware.init(hardwareMap);
         hardware.lift.closeAll();
-        gyro = new Gyro();
+//        gyro = new Gyro();
         telemetry.addData("INFO","Hardware Map Init");
         mapper = new DefaultMecanumMapper();
         sensorColor = hardware.sensorColor;
@@ -106,10 +106,12 @@ public class DefaultAutoMode extends OpMode{
         }
     }
     public boolean pictogramDrive(PictogramResults image){
+        telemetry.addData("Pictogram",pictogram);
         switch (image){
             case LEFT:
                 telemetry.addData("Moving","LEFT");
-                return autoDrive(new XY(-7.5,0),1);
+//                return autoDrive(new XY(-7.5,0),1);
+                return true;
 
             case CENTER:
                 telemetry.addData("Moving","CENTER");
@@ -117,7 +119,8 @@ public class DefaultAutoMode extends OpMode{
 
             case RIGHT:
                 telemetry.addData("Moving","Right");
-                return autoDrive(new XY(7.5,0),1);
+//                return autoDrive(new XY(7.5,0),1);
+                return true;
 
 
         }

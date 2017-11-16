@@ -30,7 +30,7 @@ public class AutoMode extends StateMachine{
 	public void start()
 	{
 		super.start();
-		Debug.msg("Auto Mode Running:",name);
+		Debug.msg("DefaultAuto Mode Running:",name);
 	}
 	public void stop()
 	{

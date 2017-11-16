@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 
 
 @Autonomous(name = "Production: Blue Far")
-public class ProductionBlueFar extends Auto{
+public class ProductionBlueFar extends DefaultAuto {
     @Override
     public void init() {
         super.init();

@@ -8,8 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
  * @Author:Will
  * */
 @Autonomous(name = "Test: Vision")
-@Disabled
-public class TestVision extends DefaultAutoMode {
+public class TestVuforia extends DefaultAutoMode {
     @Override
     public void init() {
         autoInit();
@@ -20,11 +19,11 @@ public class TestVision extends DefaultAutoMode {
         switch (state){
 
             case 0:
-                getPictogram();
+                nextState(getPictogram());
                 break;
 
             case 1:
-                nextState(pictogramDrive(pictogram));
+                pictogramDrive(pictogram);
                 break;
 
             case 2:
