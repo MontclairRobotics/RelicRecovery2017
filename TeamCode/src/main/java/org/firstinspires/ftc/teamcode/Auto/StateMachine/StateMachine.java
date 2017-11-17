@@ -1,22 +1,17 @@
-package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * @author MHS Robotics
  *
- * State machines are designed to be run in an autonomous OpMode
- * @see OpMode
+ * State machines are designed to be run in a State Machine Auto
+ * @see StateMachineAuto
  *
  * StateMachine is a state itsef so State Machines can be run inside of other State Machines,
  * This allows the user to re-use code for actions that are run often in autonomous.
  *
- * When being run in a autonomous OpMode the state machine should be defined globally and
- * instaniated in the init() method of the OpMode.
- * The run method should be run every loop in the loop() method in the OpMode until the
- * state machine is done
  * @see #run()
  */
 
