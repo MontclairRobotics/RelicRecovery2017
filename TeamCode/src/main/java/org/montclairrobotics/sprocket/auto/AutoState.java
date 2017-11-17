@@ -22,7 +22,7 @@ public abstract class AutoState implements State,DTInput {
 	
 	public final void start()
 	{
-		t=Updater.getTime();
+		t=Updater.getTime(); //check this
 		Sprocket.getMainDriveTrain().setTempInput(this);
 		userStart();
 	}
