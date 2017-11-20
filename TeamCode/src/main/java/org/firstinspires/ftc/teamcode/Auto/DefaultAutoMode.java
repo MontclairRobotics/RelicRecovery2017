@@ -46,7 +46,6 @@ public class DefaultAutoMode extends OpMode{
     double startTime;
 
     //final
-    //TODO: Get measurement @ MAX POWER
     public final double JEWEL_ARM_DOWN_POS = 1;
     public final double JEWEL_ARM_UP_POS = 0;
     public final String LSA = "LAST STATE ACHIEVED";
@@ -60,7 +59,7 @@ public class DefaultAutoMode extends OpMode{
         hardware = new DefaultHardwareMap();
         hardware.init(hardwareMap);
         hardware.lift.closeAll();
-//        gyro = new Gyro();
+//        gyro = new Gyro(); //uncomment once josh makes it work
         telemetry.addData("INFO","Hardware Map Init");
         mapper = new DefaultMecanumMapper();
         sensorColor = hardware.sensorColor;
@@ -282,10 +281,14 @@ public class DefaultAutoMode extends OpMode{
     public void setState(int state){
         this.state = state;
     }
-    public void nextState(boolean nextState,int nextStateNumber){
+
+
+
+    public void nextState(boolean nextState, int nextStateNumber){
         if(nextState){
             state = nextStateNumber;
             telemetry.addData("Info","State "+state+" Achieved");
+            telemetry.addData("Time Elapsed",getRuntime());
             startTime = timer.milliseconds();
         }
 
