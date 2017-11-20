@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
+import org.montclairrobotics.sprocket.geometry.Degrees;
+import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
  * Created by MHS Robotics on 11/12/2017.
@@ -15,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 public class NOTWILLTELEOP extends OpMode {
     DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
+    Gyro gyro;
 
     GlyphIntake2 intake;
     DcMotor liftA, liftB;
@@ -39,6 +43,7 @@ public class NOTWILLTELEOP extends OpMode {
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
         intake=new GlyphIntake2(servos);
+        gyro=new Gyro(hardwareMap);
     }
 
     @Override
@@ -51,6 +56,16 @@ public class NOTWILLTELEOP extends OpMode {
         double x = gamepad1.left_stick_x * pow;
         double y = -gamepad1.left_stick_y * pow;
         double turn = gamepad1.right_stick_x * pow;
+
+        if(gamepad1.a)
+        {
+            XY in=new XY(x,y);
+            Vector out=in.rotate(new Degrees(gyro.get()));
+            x=out.getX();
+            y=out.getY();
+        }
+        y*=0.5;
+
         frontRight.setPower(x - y + turn);
         backRight.setPower(-x - y + turn);
         backLeft.setPower(-x + y + turn);

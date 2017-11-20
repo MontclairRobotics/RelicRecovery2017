@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
-import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
+//import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
@@ -34,7 +34,7 @@ public class Auto extends DefaultAutoMode {
                 break;
 
             case 3:
-                nextState(driveTurn());
+                nextState(true);
                 break;
 
             case 4:
@@ -42,7 +42,7 @@ public class Auto extends DefaultAutoMode {
                 break;
 
             case 5:
-                nextState(cryptoBoxTurn());
+                nextState(true);
                 break;
 
             case 6:

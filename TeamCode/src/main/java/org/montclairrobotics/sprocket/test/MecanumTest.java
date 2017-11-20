@@ -92,7 +92,7 @@ public class MecanumTest extends TestRobot{
 	@Override
 	public void teleopInit() {
 		// TODO Auto-generated method stub
-		auto.start(true);
+		auto.start();
 	}
 
 	@Override

@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Auto.StateMachine.State;
-import org.firstinspires.ftc.teamcode.Auto.StateMachine.StateMachine;
+import org.firstinspires.ftc.teamcode.Components.DriveTrain;
+import org.firstinspires.ftc.teamcode.Debug;
 
 
 /**
@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Auto.StateMachine.StateMachine;
 public class StateMachineAuto extends OpMode {
 
     boolean running; // Keeps track of when the auto mode is running (True after started and before finished)
-    StateMachine auto; // The actual auto mode that should be instantiated in init()
+    public StateMachine auto; // The actual auto mode that should be instantiated in init()
 
     /**
      * User defined init method
@@ -36,6 +36,12 @@ public class StateMachineAuto extends OpMode {
      */
     @Override
     public void init() {
+
+    }
+
+    public void setup(){
+        DriveTrain dt = new DriveTrain(hardwareMap);
+        Debug d = new Debug(telemetry);
 
     }
 

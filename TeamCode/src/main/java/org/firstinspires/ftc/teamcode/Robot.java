@@ -40,7 +40,6 @@ import java.util.ArrayList;
 
 public class Robot extends FTCRobot {
     Gyro gyro;
-
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
     FTCMotor  liftLeft, liftRight;
     GlyphLift lift;
@@ -77,7 +76,7 @@ public class Robot extends FTCRobot {
         intake=new GlyphIntake2(servos);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
-        gyro = new Gyro();
+        gyro = new Gyro(hardwareMap);
         final DriveModule[] modules = new DriveModule[4];
 
         //Mecanum
