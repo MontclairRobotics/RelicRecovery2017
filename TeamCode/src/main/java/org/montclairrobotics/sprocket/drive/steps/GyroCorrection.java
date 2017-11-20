@@ -154,7 +154,7 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 		enabled=false;
 	}
 	public void setTargetAngle(Angle a,boolean relative) {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		if(relative)
 		{
 			setTargetAngleRelative(a);
@@ -166,12 +166,12 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 	}
 	@Override
 	public void enabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 	@Override
 	public void disabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 

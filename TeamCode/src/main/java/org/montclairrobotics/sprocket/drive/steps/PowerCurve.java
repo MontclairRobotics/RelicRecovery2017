@@ -16,25 +16,25 @@ public class PowerCurve implements Step<DTTarget>, Action{
 	
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		enabled=true;
 	}
 
 	@Override
 	public void enabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		enabled=false;
 	}
 
 	@Override
 	public void disabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 

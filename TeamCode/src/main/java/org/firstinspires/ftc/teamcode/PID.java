@@ -59,6 +59,11 @@ public class PID {
 
     private long lastUpdateTime;
 
+    /**
+     * @param p the proportionality constant.
+     * @param i the integral constant.
+     * @param d the derivative constant.
+     */
     public PID(double p, double i, double d) {
         this.P = p;
         this.I = i;
@@ -74,7 +79,10 @@ public class PID {
         update();
     }
 
-    public double getOutput(double newInput) {
+    public double getOutput() {
+        return output;
+    }
+    private double setOutput(double newInput) {
         error.current = target - newInput;
         double dInput = newInput - input;
 
@@ -146,22 +154,17 @@ public class PID {
     public Double getInput() {
         return input;
     }
-    /**
-     * Use this method to get a new output value;
-     */
+
+    /** Use this method to get a new output value. */
     public void setInput(double i) {
-        this.output = getOutput(i);
+        this.output = setOutput(i);
         this.input = i;
     }
 
     public double getTarget() {
         return target;
     }
-    public void setTarget(double t) { setTarget(t, false); }
-    public void setTarget(double t, boolean reset) {
-        this.target = target;
-        if (reset) error.reset();
-    }
+    public void setTarget(double t) { this.target = target; }
 
     /** @return the time difference from the last update. */
     public double dTime() {

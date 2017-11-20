@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,7 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by MHS Robotics on 11/12/2017.
  */
 
-@TeleOp(name="Servo tester")
+@TeleOp(name="Servo Arm tester")
+@Disabled
 public class ServoTester extends OpMode {
 
     Servo jewelArm;

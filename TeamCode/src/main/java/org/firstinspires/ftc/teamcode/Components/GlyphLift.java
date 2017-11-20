@@ -9,8 +9,9 @@ import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.utils.PID;
 
 /**
- * Created by thegb on 11/8/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Garrett
+ * */
 
 public class GlyphLift extends Module{
     FTCMotor rightMotor;

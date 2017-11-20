@@ -83,7 +83,7 @@ public class Polar implements Vector {
 	}
 	@Override
 	public Vector square() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		return new XY(getX()*Math.abs(getX()),getY()*Math.abs(getY()));
 	}
 }

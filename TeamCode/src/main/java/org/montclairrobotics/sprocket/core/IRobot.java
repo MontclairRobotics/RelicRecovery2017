@@ -8,7 +8,7 @@ public interface IRobot extends Updatable{
     public void setup();//Called ONCE when object is first created
     public void enableMode(Sprocket.MODE mode);//Called at any init, not including Disabled
     public void teleopInit();//Called when Teleop is enabled
-    public void autoInit();//Called when Auto is enabled
+    public void autoInit();//Called when DefaultAuto is enabled
     public void testInit();//Called when Test is enabled
     public void disable();//Called when Disabled (right after setup is called, and every time you disable
     public void update();//Called every enabled update loop
