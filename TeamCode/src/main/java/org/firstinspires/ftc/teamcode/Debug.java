@@ -26,7 +26,7 @@ public class Debug {
         log("Debug: ", msg);
     }
 
-    public Debug getInstance(){
+    public static Debug getInstance(){
         return instance;
     }
 }

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 
 /**
@@ -12,9 +9,6 @@ package org.firstinspires.ftc.teamcode.Auto.StateMachine;
  *
  * To create a state, create a new class and have it implement this interface
  * Implement all of the methods you wish to use for that state
-=======
- * The State class is designed to be passed in to a state machine.
->>>>>>> master
  *
  * Every state has methods that determines what to be run when the state is running
  * For each states you can define a start, stop, run, and isDone method to control how the state is run
@@ -23,11 +17,8 @@ package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 
 public abstract class State {
 
-<<<<<<< HEAD
     private Integer nextState;
-=======
-    Integer nextState;
->>>>>>> master
+
 
 
     /**
@@ -74,9 +65,4 @@ public abstract class State {
         }
         return currentState + 1;
     }
-
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> master

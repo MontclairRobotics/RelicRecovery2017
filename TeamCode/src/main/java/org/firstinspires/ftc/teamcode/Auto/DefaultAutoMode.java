@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
+import org.firstinspires.ftc.teamcode.Auto.Enums.Color;
 import org.firstinspires.ftc.teamcode.Auto.Enums.PictogramResults;
 import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 import org.firstinspires.ftc.teamcode.Gyro;
@@ -34,13 +34,13 @@ public class DefaultAutoMode extends OpMode{
 
     //Color Prox Vars
     ColorSensor sensorColor;
-    AllianceColor color;
+    Color color;
 
     //auto mode objects
     Gyro gyro;
     DefaultHardwareMap hardware;
     DefaultMecanumMapper mapper;
-    AllianceColor allianceColor;
+    Color color;
     StartPosition startPosition;
     ElapsedTime timer;
     double startTime;
@@ -127,9 +127,9 @@ public class DefaultAutoMode extends OpMode{
     //colorProx
     private boolean getJewelColor(){
         if(sensorColor.red() > sensorColor.blue()){
-            color = AllianceColor.RED;
+            color = Color.RED;
         }else if(sensorColor.blue()> sensorColor.red()){
-            color = AllianceColor.BLUE;
+            color = Color.BLUE;
         }else{
             telemetry.addData("INFO","ID FAILED");
             return false;
@@ -139,7 +139,7 @@ public class DefaultAutoMode extends OpMode{
     } //pt1
     private boolean moveJewel(){
         if(getJewelColor()){
-            if(color != allianceColor){
+            if(color != color){
                 return autoTurn(-30,0.5);
             } else {
                 return autoTurn(30,0.5);
@@ -158,7 +158,7 @@ public class DefaultAutoMode extends OpMode{
     } //pt3
     public boolean getJewel(){
         if(jewelArmUp()){
-            if(color != allianceColor){
+            if(color != color){
                 return autoTurn(30,0.5);
             } else {
                 return autoTurn(-30,0.5);
@@ -222,7 +222,7 @@ public class DefaultAutoMode extends OpMode{
         return false;
     }
     public boolean cryptoBoxTurn(){
-        switch(allianceColor){
+        switch(color){
             case RED:
                 switch (startPosition){
                     case CLOSE:

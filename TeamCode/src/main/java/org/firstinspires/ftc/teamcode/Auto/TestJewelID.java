@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
-import org.montclairrobotics.sprocket.actions.StateMachine;
-import org.montclairrobotics.sprocket.auto.states.DriveTime;
-import org.montclairrobotics.sprocket.geometry.XY;
+import org.firstinspires.ftc.teamcode.Auto.Enums.Color;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
@@ -17,8 +14,8 @@ public class TestJewelID extends DefaultAutoMode {
     @Override
     public void init() {
         autoInit();
-        allianceColor = AllianceColor.RED;
-        telemetry.addData("Alliance Color",allianceColor);
+        color = Color.RED;
+        telemetry.addData("Alliance Color", color);
     }
 
     @Override

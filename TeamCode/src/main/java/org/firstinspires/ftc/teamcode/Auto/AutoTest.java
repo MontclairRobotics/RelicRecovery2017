@@ -12,7 +12,8 @@ public class AutoTest extends StateMachineAuto {
 
     @Override
     public void init(){
-        auto = new StateMachine("Test", -1,  telemetry,
+        setup();
+        auto = new StateMachine("Test",
                 new Drive(10, 1.0f));
     }
 }

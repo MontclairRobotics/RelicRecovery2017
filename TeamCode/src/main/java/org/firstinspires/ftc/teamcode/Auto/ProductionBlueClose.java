@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
+import org.firstinspires.ftc.teamcode.Auto.Enums.Color;
 import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 
 /**
@@ -15,9 +15,9 @@ public class ProductionBlueClose extends DefaultAuto {
     @Override
     public void init() {
         super.init();
-        allianceColor = AllianceColor.BLUE;
+        color = Color.BLUE;
         startPosition = StartPosition.CLOSE;
-        telemetry.addData("Alliance Color" , allianceColor);
+        telemetry.addData("Alliance Color" , color);
         telemetry.addData("Start Position", startPosition);
     }
 }

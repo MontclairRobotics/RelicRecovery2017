@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.JewelArm;
 import org.firstinspires.ftc.teamcode.Debug;
+import org.firstinspires.ftc.teamcode.Gyro;
 
 
 /**
@@ -46,7 +47,7 @@ public class StateMachineAuto extends OpMode {
      * This method should be edited to fit the robots needs
      */
     public void setup(){
-        DriveTrain dt = new DriveTrain(hardwareMap); // set up a new drivetrain
+        DriveTrain dt = new DriveTrain(hardwareMap, new Gyro(hardwareMap)); // set up a new drivetrain
         JewelArm jewelArm = new JewelArm(hardwareMap); // set up a new jewel arm
         Debug d = new Debug(telemetry); // create a new debug with the telemetry
 

@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
 //import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 import org.montclairrobotics.sprocket.geometry.XY;
 

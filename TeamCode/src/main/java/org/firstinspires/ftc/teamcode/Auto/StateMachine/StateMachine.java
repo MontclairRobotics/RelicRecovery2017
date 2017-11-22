@@ -1,20 +1,13 @@
-<<<<<<< HEAD
 
 package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 
-=======
-package org.firstinspires.ftc.teamcode.Auto.StateMachine;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
->>>>>>> master
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Debug;
 
 /**
  * @author MHS Robotics
  *
  * State machines are designed to be run in a State Machine Auto
-<<<<<<< HEAD
  * @see StateMachineAuto
  *
  * StateMachine is a state itsef so State Machines can be run inside of other State Machines,
@@ -24,41 +17,35 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * The user should pass in the states that they want to run
  * The state machine will finish when it does not have a state to go to or if the final state is acheived
  * The Final state is defined by the user in the constructor
-=======
- * @see org.firstinspires.ftc.teamcode.Auto.StateMachineAuto
- *
- * StateMachine is a state itsef so State Machines can be run inside of other State Machines,
- * This allows the user to re-use code for actions that are run often in autonomous.
- *
- * @see #run()
->>>>>>> master
  */
 
 public class StateMachine extends State {
 
     State[] states;
-    Telemetry telemetry;
+    Debug d;
     String name;
     int state;
     boolean stateStarted = false;
     int finalState;
     boolean done = false;
-<<<<<<< HEAD
     private double startTime;
-=======
->>>>>>> master
 
 
-    public StateMachine(String name, int finalstate,  Telemetry telemetry, State ... states){
+
+    public StateMachine(String name, int finalstate, State ... states){
         this.states     = states;
-        this.telemetry  = telemetry;
         this.name       = name;
         this.finalState = finalstate;
+        d = Debug.getInstance();
+    }
+
+    public StateMachine(String name, State ... states){
+        this(name, -1, states);
     }
 
     @Override
     public void start() {
-        telemetry.addData("Running", name);
+        d.log("Running", name);
     }
 
     @Override
@@ -72,7 +59,6 @@ public class StateMachine extends State {
             stateStarted = true; // State has been started
         }
 
-<<<<<<< HEAD
         states[state].run(); //run the state
 
         if(currentState.isDone()){ //check if the state has finished
@@ -84,31 +70,17 @@ public class StateMachine extends State {
             if(currentState.getNextState(state) < states.length) { // make sure there is a next state to go to
                 state = currentState.getNextState(state); // go to the next state
             }else{
-                telemetry.addData("ERROR", "STATE MACHINE OUT OF BOUNDS"); // Give the user an error if there is no next state to go to
+                d.log("ERROR", "STATE MACHINE OUT OF BOUNDS"); // Give the user an error if there is no next state to go to
                 done = true; // stop the state machine
                 return; // exit the run method to ensure nothing else runs
             }
             stateStarted = false; // The next state has not started yet.
-=======
-        states[state].run();
-
-        if(currentState.isDone()){
-            currentState.stop();
-            if(currentState.getNextState(state) == finalState){
-                done = true;
-                return;
-            }
-            if(currentState.getNextState(state) < states.length) {
-                state = currentState.getNextState(state);
-            }
-            stateStarted = false;
->>>>>>> master
         }
     }
 
     @Override
     public void stop() {
-        telemetry.addData("Status", name + ", Finished ");
+        d.log("Status", name + ", Finished ");
     }
 
     @Override

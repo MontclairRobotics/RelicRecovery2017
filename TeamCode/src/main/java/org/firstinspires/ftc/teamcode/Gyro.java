@@ -13,23 +13,16 @@ import org.montclairrobotics.sprocket.utils.Input;
  * @Author:Jack
  * */
 
-public class Gyro {
+public class Gyro implements Input<Double>, Updatable {
     double x, y, z;
 
     private RRQuaternion quat; // An angle object to store the gyro angles
     private BNO055IMU imu; // Gyroscope
 
-<<<<<<< HEAD
-    public Gyro(HardwareMap hwMap) {
-        x = y = z = 0;
-
-        imu = hwMap.get(BNO055IMU.class, "gyro");
-=======
     public Gyro(HardwareMap map) {
         x = y = z = 0;
 
         imu = map.get(BNO055IMU.class, "gyro");
->>>>>>> master
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
@@ -38,26 +31,22 @@ public class Gyro {
         parameters.loggingTag           = "IMU"; // set the logging tag
 
         imu.initialize(parameters);
-        //imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG, 6);
+        imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG, 6);
 
-        //update();
-        //Updater.add(this, Priority.INPUT);
+        update();
+        Updater.add(this, Priority.INPUT);
     }
 
-    //@Override
-    public double get() {
+    @Override
+    public void update() {
         quat = new RRQuaternion(imu.getQuaternionOrientation());
-        //x = (double) ((int) (10*quat.getX())) / 10;
-        //y = (double) ((int) (10*quat.getY())) / 10;
-        //z = (double) ((int) (10*quat.getZ())) / 10;
-        return quat.getX();
+        x = (double) ((int) (10*quat.getX())) / 10;
+        y = (double) ((int) (10*quat.getY())) / 10;
+        z = (double) ((int) (10*quat.getZ())) / 10;
     }
 
-<<<<<<< HEAD
-=======
     @Override
     public Double get() {
         return quat.getX();
     }
->>>>>>> master
 }

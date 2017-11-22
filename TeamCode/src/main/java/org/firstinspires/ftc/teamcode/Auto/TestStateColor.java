@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Auto.StateMachine.States.SetJewelArm;
 public class TestStateColor extends StateMachineAuto {
     @Override
     public void init(){
-        auto = new StateMachine("Color State Test", -1, telemetry,
+        auto = new StateMachine("Color State Test",
                 new SetJewelArm(SetJewelArm.UP_POSITION));
     }
 }

@@ -93,7 +93,7 @@ public class DriveTrain {
         double x = g.left_stick_x * pow;
         double y = -g.left_stick_y * pow;
         double turn = g.right_stick_x * pow;
-
+        
         if (turn < TURN_ERROR) {
             lock.teleopLoop(g);
             turn = lock.correction();

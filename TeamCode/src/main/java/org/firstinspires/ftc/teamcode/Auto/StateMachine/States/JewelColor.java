@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.Auto.StateMachine.States;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
+import org.firstinspires.ftc.teamcode.Auto.Enums.Color;
 import org.firstinspires.ftc.teamcode.Auto.StateMachine.State;
+import org.firstinspires.ftc.teamcode.Components.JewelArm;
 
 
 /**
@@ -8,9 +12,17 @@ import org.firstinspires.ftc.teamcode.Auto.StateMachine.State;
  */
 
 public class JewelColor extends State {
-    
-    public JewelColor(){
 
+    ColorSensor sensor;
+    Color targetColor;
+    int state1;
+    int state2;
+
+
+    public JewelColor(Color targetColor, int state1, int state2){
+        this.targetColor = targetColor;
+        this.state1 = state1;
+        this.state2 = state2;
     }
 
     @Override
