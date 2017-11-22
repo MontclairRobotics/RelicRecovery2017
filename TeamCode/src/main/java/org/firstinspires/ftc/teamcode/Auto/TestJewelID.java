@@ -8,8 +8,9 @@ import org.montclairrobotics.sprocket.auto.states.DriveTime;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
- * Created by MHS Robotics on 11/12/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Will
+ * */
 @Autonomous(name = "Test: Jewel ID")
 public class TestJewelID extends DefaultAutoMode {
 
@@ -17,6 +18,7 @@ public class TestJewelID extends DefaultAutoMode {
     public void init() {
         autoInit();
         allianceColor = AllianceColor.RED;
+        telemetry.addData("Alliance Color",allianceColor);
     }
 
     @Override
@@ -24,57 +26,15 @@ public class TestJewelID extends DefaultAutoMode {
         switch (state) {
             case 0:
                 hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
-                nextState(pause(5));
+                nextState(pause(1));
                 break;
 
             case 1:
-                nextState(getJewelColor());
+                nextState(getJewel());
                 break;
 
             case 2:
-                if (allianceColor != color) {
-                    nextState(true,90);
-                } else{
-                    nextState(true,100);
-                }
-                break;
-
-
-            case 3:
-                hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
-                nextState(pause(5),4);
-                break;
-
-            case 4:
                 telemetry.addData("INFO",LSA);
-                break;
-
-            //allianceColor == color
-            case 90:
-
-                nextState(autoTurn(-30,1),91);
-                break;
-
-            case 91:
-                nextState(true);
-                break;
-
-            case 92:
-                nextState(true,3);
-                break;
-
-            //allianceColor != color
-            case 100:
-                nextState(autoTurn(30,1),101);
-                break;
-
-            case 101:
-                nextState(true);
-                break;
-
-            case 102:
-                nextState(true,3);
-                break;
         }
     }
 }

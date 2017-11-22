@@ -3,15 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.montclairrobotics.sprocket.ftc.FTCRobot;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
 /**
- * Created by Hymowitz on 11/9/2017.
- */
+ * Created by Montclair Robotics on 11/13/17.
+ * @Author:Jack
+ * */
 
 public class Gyro {
     double x, y, z;
@@ -19,10 +19,17 @@ public class Gyro {
     private RRQuaternion quat; // An angle object to store the gyro angles
     private BNO055IMU imu; // Gyroscope
 
+<<<<<<< HEAD
     public Gyro(HardwareMap hwMap) {
         x = y = z = 0;
 
         imu = hwMap.get(BNO055IMU.class, "gyro");
+=======
+    public Gyro(HardwareMap map) {
+        x = y = z = 0;
+
+        imu = map.get(BNO055IMU.class, "gyro");
+>>>>>>> master
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
@@ -46,4 +53,11 @@ public class Gyro {
         return quat.getX();
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public Double get() {
+        return quat.getX();
+    }
+>>>>>>> master
 }

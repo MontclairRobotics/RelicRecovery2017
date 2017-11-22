@@ -58,7 +58,7 @@ public class MyState {
 
 		@Override
 		public Vector get() {
-			// TODO Auto-generated method stub
+			// TODO DefaultAuto-generated method stub
 			return local.get().rotate(absAngle.get());
 		}
 	}

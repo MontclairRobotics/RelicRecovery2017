@@ -80,13 +80,13 @@ public class ControlledMotor implements Updatable,Action {
 
 	@Override
 	public void enabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void disabled() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 

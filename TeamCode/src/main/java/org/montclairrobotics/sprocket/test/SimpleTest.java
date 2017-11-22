@@ -27,31 +27,31 @@ public class SimpleTest extends TestRobot{
 
 	@Override
 	public void enableMode(MODE mode) {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void disable() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void disabledUpdate() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void debugs() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 	
@@ -63,19 +63,19 @@ public class SimpleTest extends TestRobot{
 
 	@Override
 	public void teleopInit() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void autoInit() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 
 	@Override
 	public void testInit() {
-		// TODO Auto-generated method stub
+		// TODO DefaultAuto-generated method stub
 		
 	}
 }

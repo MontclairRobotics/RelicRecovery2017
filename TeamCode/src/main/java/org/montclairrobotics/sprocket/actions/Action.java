@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.actions;
 
 /**
  * This is designed to be the main base for every "thing" or action the robot can do
- * This is extended by States, and consequently Auto Modes, 
+ * This is extended by States, and consequently DefaultAuto Modes,
  * 		so things that can be activated by entering "auto" mode, or "test" mode
  * Also, buttons should take these as their actions, 
  * 		so that you can make something happen if you press a button.
