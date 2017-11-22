@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import org.firstinspires.ftc.teamcode.Auto.StateMachine.Drive;
+import org.firstinspires.ftc.teamcode.Auto.StateMachine.States.Drive;
 import org.firstinspires.ftc.teamcode.Auto.StateMachine.StateMachine;
 import org.firstinspires.ftc.teamcode.Auto.StateMachine.StateMachineAuto;
-import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 
 /**
  * Created by Will on 11/13/17.

@@ -39,6 +39,45 @@ public class DriveTrain {
         backRight.setPower(0);
     }
 
+    public void setMode(DcMotor.RunMode mode){
+        frontLeft.setMode(mode);
+        frontRight.setMode(mode);
+        backLeft.setMode(mode);
+        backRight.setMode(mode);
+    }
+
+    public void setPower(double rightPower, double leftPower){
+        frontRight.setPower(rightPower);
+        backRight.setPower(rightPower);
+
+        frontLeft.setPower(leftPower);
+        backLeft.setPower(leftPower);
+    }
+
+    public void setPosition(int rightPosision, int leftPosition){
+        frontRight.setTargetPosition(rightPosision);
+        backRight.setTargetPosition(rightPosision);
+
+        frontLeft.setTargetPosition(leftPosition);
+        backLeft.setTargetPosition(rightPosision);
+    }
+
+    public void resetEncoders(){
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public int getAvgPos(){
+        int total = 0;
+        total += frontLeft.getCurrentPosition();
+        total += backLeft.getCurrentPosition();
+        total += frontRight.getCurrentPosition();
+        total += backRight.getCurrentPosition();
+        return total / 4;
+    }
+
     public void driveMechanum(Gamepad g) {
         double pow = 1.0;
 

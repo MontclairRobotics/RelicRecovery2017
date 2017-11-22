@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
+import org.firstinspires.ftc.teamcode.Components.JewelArm;
 import org.firstinspires.ftc.teamcode.Debug;
 
 
@@ -39,9 +40,15 @@ public class StateMachineAuto extends OpMode {
 
     }
 
+    /**
+     * The setup method needs to be run at the beginning of every auto mode
+     * This ensures that all of the OpMode Specific variables are available in all of the states
+     * This method should be edited to fit the robots needs
+     */
     public void setup(){
-        DriveTrain dt = new DriveTrain(hardwareMap);
-        Debug d = new Debug(telemetry);
+        DriveTrain dt = new DriveTrain(hardwareMap); // set up a new drivetrain
+        JewelArm jewelArm = new JewelArm(hardwareMap); // set up a new jewel arm
+        Debug d = new Debug(telemetry); // create a new debug with the telemetry
 
     }
 
@@ -52,8 +59,8 @@ public class StateMachineAuto extends OpMode {
      */
     @Override
     public void start(){
-        auto.start();
-        running = true;
+        auto.start(); // run the start method of the state machine
+        running = true; // the state machine has started running
     }
 
     /**
@@ -71,11 +78,11 @@ public class StateMachineAuto extends OpMode {
     @Override
     public void loop() {
         if(running){
-            auto.run();
+            auto.run(); // Run the state machine, which will in turn run the states
         }
-        if(auto.isDone()){
-            running = false;
-            auto.stop();
+        if(auto.isDone()){ // check if the state machine has finished (Last state achieved)
+            running = false; // stop the state machine
+            auto.stop(); // Finally stop the state machine
         }
     }
 }
