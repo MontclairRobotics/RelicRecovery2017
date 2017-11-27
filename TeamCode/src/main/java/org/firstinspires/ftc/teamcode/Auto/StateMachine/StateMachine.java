@@ -69,6 +69,7 @@ public class StateMachine extends State {
             }
             if(currentState.getNextState(state) < states.length) { // make sure there is a next state to go to
                 state = currentState.getNextState(state); // go to the next state
+                StateMachineAuto.timer.reset(); // reset the time
             }else{
                 d.log("ERROR", "STATE MACHINE OUT OF BOUNDS"); // Give the user an error if there is no next state to go to
                 done = true; // stop the state machine

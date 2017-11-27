@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 /**
  * @author MHS Robotics
  *
-<<<<<<< HEAD
  * The State class is designed to be passed in to a state machine
  *
  * To create a state, create a new class and have it implement this interface
@@ -17,7 +16,7 @@ package org.firstinspires.ftc.teamcode.Auto.StateMachine;
 
 public abstract class State {
 
-    private Integer nextState;
+    public Integer nextState;
 
 
 

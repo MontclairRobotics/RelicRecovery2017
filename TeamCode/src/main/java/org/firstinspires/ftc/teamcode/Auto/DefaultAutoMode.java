@@ -34,7 +34,6 @@ public class DefaultAutoMode extends OpMode{
 
     //Color Prox Vars
     ColorSensor sensorColor;
-    Color color;
 
     //auto mode objects
     Gyro gyro;

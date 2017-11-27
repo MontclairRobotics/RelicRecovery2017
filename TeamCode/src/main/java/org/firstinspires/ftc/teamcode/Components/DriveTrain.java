@@ -76,10 +76,10 @@ public class DriveTrain {
 
     public int getAvgPos(){
         int total = 0;
-        total += frontLeft.getCurrentPosition();
-        total += backLeft.getCurrentPosition();
-        total += frontRight.getCurrentPosition();
-        total += backRight.getCurrentPosition();
+        total += Math.abs(frontLeft.getCurrentPosition());
+        total += Math.abs(backLeft.getCurrentPosition());
+        total += Math.abs(frontRight.getCurrentPosition());
+        total += Math.abs(backRight.getCurrentPosition());
         return total / 4;
     }
 

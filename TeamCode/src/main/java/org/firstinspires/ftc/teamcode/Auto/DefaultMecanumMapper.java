@@ -11,9 +11,9 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 
 public class DefaultMecanumMapper {
 
-    private double maxTurn=0.1;
+    private static double maxTurn=0.1;
 
-    public void setup(DefaultFTCDriveModule[] defaultFTCDriveModules)
+    public static  void setup(DefaultFTCDriveModule[] defaultFTCDriveModules)
     {
         if(defaultFTCDriveModules.length==0)return;
         for(DefaultFTCDriveModule module: defaultFTCDriveModules)
@@ -26,7 +26,7 @@ public class DefaultMecanumMapper {
         }
     }
 
-    public void map(DTTarget driveTarget, DefaultFTCDriveModule[] defaultFTCDriveModules) {
+    public static void map(DTTarget driveTarget, DefaultFTCDriveModule[] defaultFTCDriveModules) {
         if(defaultFTCDriveModules.length==0) return;
         Vector dir=driveTarget.getDirection();
         double turn=driveTarget.getTurn();
