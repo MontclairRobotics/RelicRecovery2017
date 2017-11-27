@@ -285,9 +285,9 @@ public class Robot extends FTCRobot {
 
     @Override
     public void update() {
-        Debug.msg("X-angle", gyro.x);
-        Debug.msg("Y-angle", gyro.y);
-        Debug.msg("Z-angle", gyro.z);
+        Debug.msg("X-angle", gyro.getX());
+        Debug.msg("Y-angle", gyro.getY());
+        Debug.msg("Z-angle", gyro.getZ());
 
         //Debug.msg("Servo",intakeRightTop.getPosition());
         Debug.msg("Switch Value:", limitSwitch.getState());

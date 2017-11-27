@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.Gyro;
 import org.firstinspires.ftc.teamcode.GyroLock;
 import org.firstinspires.ftc.teamcode.PID;
-import org.firstinspires.ftc.teamcode.Gyro;
 
 /**
  * Created by Joshua Rapoport on 11/20/17.
@@ -39,6 +39,10 @@ public class DriveTrain {
         backRight.setPower(0);
     }
 
+    /**
+     * A single loop of teleop mode.
+     * @param g the controller for the drive train.
+     */
     public void driveMechanum(Gamepad g) {
         double pow = 1.0;
 
@@ -47,17 +51,41 @@ public class DriveTrain {
         }
 
         double x = g.left_stick_x * pow;
-        double y = -g.left_stick_y * pow;
+        double y = g.left_stick_y * pow;
         double turn = g.right_stick_x * pow;
 
-        if (turn < TURN_ERROR) {
-            lock.teleopLoop(g);
+        if (Math.abs(turn) < TURN_ERROR) {
+            lock.reactivate();
+            lock.update();
             turn = lock.correction();
+        } else {
+            lock.deactivate();
         }
 
-        frontRight.setPower(x - y + turn);
-        backRight.setPower(-x - y + turn);
-        backLeft.setPower(-x + y + turn);
-        frontLeft.setPower(x + y + turn);
+        frontRight.setPower(x + y + turn);
+        backRight.setPower(-x + y + turn);
+        backLeft.setPower(-x - y + turn);
+        frontLeft.setPower(x - y + turn);
+    }
+
+    /**
+     * A single loop of an auto mode
+     * @param x going along x-axis, from -1 to 1.
+     * @param y going along x-axis, from -1 to 1.
+     * @param turn rotating clockwise, from -1 to 1.
+     */
+    public void driveMechanum(double x, double y, double turn) {
+        if (turn == 0) {
+            lock.reactivate();
+            lock.update();
+            turn = lock.correction();
+        } else {
+            lock.deactivate();
+        }
+
+        frontRight.setPower(x + y + turn);
+        backRight.setPower(-x + y + turn);
+        backLeft.setPower(-x - y + turn);
+        frontLeft.setPower(x - y + turn);
     }
 }

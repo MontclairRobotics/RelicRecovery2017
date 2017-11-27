@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 /**
@@ -27,36 +24,25 @@ public class GyroLock {
         return pid.getOutput();
     }
 
-    public void teleopLoop(Gamepad g) {
-        if (Math.abs(g.right_stick_x) < DriveTrain.TURN_ERROR) {
-            // If the gyro-lock wasn't active before...
-            if (!active) {
-                // Reset the error record.
-                pid.error.reset();
-                // Set the target to the current trajectory.
-                pid.setTarget(gyro.get());
-            }
-
-            // It sure is active now.
-            active = true;
-            // Run update loop.
-            loop();
-        } else {
-            // DENIED!!!
-            active = false;
-        }
-    }
-
-    public void autoLoop() {
-        //...
-    }
-
-    public void loop() {
+    public void update() {
         gyro.update();
-        pid.setInput(gyro.get());
+        pid.setInput(gyro.getX());
         pid.update();
 
         Debug.msg("PID Input", pid.getInput().intValue() + "°");
         Debug.msg("PID Output", (int) (100 * pid.getOutput()) + "%");
+    }
+
+    public void reactivate() {
+        if (!active) {
+            pid.error.reset();
+            pid.setTarget(gyro.getX());
+        }
+
+        active = true;
+    }
+
+    public void deactivate() {
+        active = false;
     }
 }

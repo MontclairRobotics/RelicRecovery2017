@@ -21,7 +21,6 @@ public class CompTeleop extends OpMode {
 
     Gyro gyro;
 
-
     GlyphIntake2 intake;
     DcMotor liftA, liftB;
     DigitalChannel limitSwitch;
@@ -62,7 +61,7 @@ public class CompTeleop extends OpMode {
         liftA.setPower(gamepad2.left_stick_y);
         liftB.setPower(-gamepad2.left_stick_y);
 
-        telemetry.addData("Orientation", gyro.x + "°");
+        telemetry.addData("Orientation", gyro.getX() + "°");
         telemetry.addData("Limit Switch", limitSwitch);
     }
 }
