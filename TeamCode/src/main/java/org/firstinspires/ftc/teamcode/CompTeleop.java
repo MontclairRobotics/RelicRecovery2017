@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -27,8 +28,9 @@ public class CompTeleop extends OpMode {
 
     @Override
     public void init() {
-        gyro = new Gyro(hardwareMap);
-        this.driveTrain = new DriveTrain(hardwareMap, gyro);
+        gyro = new Gyro(hardwareMap.get(BNO055IMU.class, "gyro"));
+
+        this.driveTrain = new DriveTrain(hardwareMap);
 
         liftA = hardwareMap.get(DcMotor.class,"lift_left");
         liftB = hardwareMap.get(DcMotor.class,"lift_right");
@@ -39,13 +41,14 @@ public class CompTeleop extends OpMode {
         servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
-        intake = new GlyphIntake2(servos);
-        gyro = new Gyro(hardwareMap);
+        intake = new GlyphIntake2(servos);;
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
     @Override
     public void loop() {
+        gyro.update();
+
         driveTrain.driveMechanum(gamepad1);
 
         if (gamepad2.a)

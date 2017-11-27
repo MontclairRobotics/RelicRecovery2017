@@ -78,7 +78,7 @@ public class Robot extends FTCRobot {
         intake=new GlyphIntake2(servos);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
-        gyro = new Gyro(hardwareMap);
+//        gyro = new Gyro(hardwareMap);
         final DriveModule[] modules = new DriveModule[4];
 
         //Mecanum

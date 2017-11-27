@@ -11,8 +11,8 @@ public class GyroLock {
     private PID pid;
     private boolean active;
 
-    public GyroLock(PID pid, Gyro gyro) {
-        this.gyro = gyro;
+    public GyroLock(PID pid) {
+        this.gyro = Gyro.current;
         this.pid = pid;
         this.active = false;
 
@@ -25,12 +25,11 @@ public class GyroLock {
     }
 
     public void update() {
-        gyro.update();
         pid.setInput(gyro.getX());
         pid.update();
 
-        Debug.msg("PID Input", pid.getInput().intValue() + "°");
-        Debug.msg("PID Output", (int) (100 * pid.getOutput()) + "%");
+        Debug.msg("GyroLock: Input", pid.getInput().intValue() + "°");
+        Debug.msg("GyroLock: Output", (int) (100 * pid.getOutput()) + "%");
     }
 
     public void reactivate() {

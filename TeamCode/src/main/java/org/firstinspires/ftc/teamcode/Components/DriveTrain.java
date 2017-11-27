@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.Components;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Gyro;
 import org.firstinspires.ftc.teamcode.GyroLock;
 import org.firstinspires.ftc.teamcode.PID;
 
@@ -18,8 +18,8 @@ public class DriveTrain {
     GyroLock lock;
     DcMotor frontLeft, frontRight, backLeft, backRight;
 
-    public DriveTrain(HardwareMap map, Gyro gyro) {
-        lock = new GyroLock(new PID(0.01, 0, 0.005), gyro);
+    public DriveTrain(HardwareMap map) {
+        lock = new GyroLock(new PID(0.01, 0, 0.005));
 
         frontRight = map.get(DcMotor.class, "right_front");
         backRight = map.get(DcMotor.class, "right_back");
