@@ -16,6 +16,9 @@ public class GyroBalance {
         this.xPID = x;
         this.yPID = y;
 
+        xPID.setTarget(0.0);
+        yPID.setTarget(0.0);
+
         xPID.setInputRange(-45, 45);
         yPID.setInputRange(-45, 45);
 
@@ -35,18 +38,5 @@ public class GyroBalance {
 
         Debug.msg("GyroBalance: Input", xPID.getInput().intValue() + "°, " + xPID.getInput().intValue() + "°");
         Debug.msg("GyroBalance: Output", (int) (100 * xPID.getOutput()) + "%, " + (int) (100 * xPID.getOutput()) + "%");
-    }
-
-    public void reactivate() {
-        if (!active) {
-            xPID.error.reset();
-            xPID.setTarget(gyro.getX());
-        }
-
-        active = true;
-    }
-
-    public void deactivate() {
-        active = false;
     }
 }
