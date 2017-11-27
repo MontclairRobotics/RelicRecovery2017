@@ -24,31 +24,31 @@ public class DriveEncoderGyro extends StateMachine{
 
 				@Override
 				public void start() {
-					// TODO DefaultAuto-generated method stub
+					// TODO Auto-generated method stub
 					gcFinal.setTargetAngle(new Degrees(angleFinal.doubleValue()),relativeFinal.compareTo(true)==0);
 				}
 
 				@Override
 				public void enabled() {
-					// TODO DefaultAuto-generated method stub
+					// TODO Auto-generated method stub
 					gcFinal.use();
 				}
 
 				@Override
 				public void stop() {
-					// TODO DefaultAuto-generated method stub
+					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
 				public void disabled() {
-					// TODO DefaultAuto-generated method stub
+					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
 				public boolean isDone() {
-					// TODO DefaultAuto-generated method stub
+					// TODO Auto-generated method stub
 					return false;
 				}
 			}

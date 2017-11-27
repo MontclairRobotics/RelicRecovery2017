@@ -23,7 +23,7 @@ public class Delay extends AutoState{
 
 	@Override
 	public void enabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -36,7 +36,7 @@ public class Delay extends AutoState{
 
 	@Override
 	public void disabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 	

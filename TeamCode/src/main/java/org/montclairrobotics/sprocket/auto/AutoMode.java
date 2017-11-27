@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.auto;
 
-		import org.montclairrobotics.sprocket.actions.State;
-		import org.montclairrobotics.sprocket.actions.StateMachine;
-		import org.montclairrobotics.sprocket.core.Sprocket;
-		import org.montclairrobotics.sprocket.utils.Debug;
+import org.montclairrobotics.sprocket.actions.State;
+import org.montclairrobotics.sprocket.actions.StateMachine;
+import org.montclairrobotics.sprocket.core.Sprocket;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 
 /**
@@ -14,7 +14,7 @@ package org.montclairrobotics.sprocket.auto;
  * will automatically be sent to a SmartDashboard chooser.
  */
 public class AutoMode extends StateMachine{
-
+	
 	private String name;
 
 	/**
@@ -29,8 +29,8 @@ public class AutoMode extends StateMachine{
 	}
 	public void start()
 	{
-		super.start();
-		Debug.msg("DefaultAuto Mode Running:",name);
+		super.start(true);
+		Debug.msg("Auto Mode Running:",name);
 	}
 	public void stop()
 	{

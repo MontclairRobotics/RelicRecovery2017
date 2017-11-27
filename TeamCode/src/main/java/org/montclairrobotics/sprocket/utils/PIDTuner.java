@@ -32,19 +32,19 @@ public class PIDTuner extends PID
 
 			@Override
 			public void enabled() {
-				// TODO DefaultAuto-generated method stub
+				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void stop() {
-				// TODO DefaultAuto-generated method stub
+				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void disabled() {
-				// TODO DefaultAuto-generated method stub
+				// TODO Auto-generated method stub
 				
 			}});
 		

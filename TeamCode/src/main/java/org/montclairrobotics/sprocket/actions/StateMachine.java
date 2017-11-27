@@ -5,7 +5,7 @@ import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 
 
-public class StateMachine implements State{
+public class StateMachine implements State, Updatable{
 
 	private State[] states;
 	private int index;
@@ -15,13 +15,18 @@ public class StateMachine implements State{
 	{
 		this.states=s;
 		index=-1;
+		Updater.add(this, Priority.AUTO);
 	}
-	public void start()
+	public void start(boolean top)
 	{
+		this.top=top;
 		index=0;
 		states[index].start();
 	}
-
+	@Override
+	public void start() {
+		start(false);
+	}
 
 	@Override
 	public void stop() {
@@ -57,10 +62,16 @@ public class StateMachine implements State{
 	{
 		return states;
 	}
-
+	@Override
+	public void update() {
+		if(top)
+		{
+			enabled();
+		}
+	}
 	@Override
 	public void disabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 }

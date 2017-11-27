@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 import org.firstinspires.ftc.teamcode.Components.GlyphLift;
 import org.montclairrobotics.sprocket.actions.Action;
@@ -19,6 +21,7 @@ import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.NewMecanum;
+import org.montclairrobotics.sprocket.drive.UniversalMapper;
 import org.montclairrobotics.sprocket.drive.steps.Deadzone;
 import org.montclairrobotics.sprocket.drive.steps.Sensitivity;
 import org.montclairrobotics.sprocket.drive.steps.Squared;
@@ -39,8 +42,10 @@ import java.util.ArrayList;
 
 @TeleOp(name="Sprocket Teleop", group="147")
 @Disabled
-public class Robot extends FTCRobot {
-    Gyro gyro;
+public class Robot extends FTCRobot{
+    Orientation angles; // An angle object to store the gyro angles
+    //BNO055IMU imu; // Gyroscope
+    AngularVelocity angleRates;
 
     FTCMotor  frontRight, backRight, frontLeft, backLeft;
     FTCMotor  liftLeft, liftRight;
@@ -48,11 +53,11 @@ public class Robot extends FTCRobot {
     GlyphIntake2 intake;
     DigitalChannel limitSwitch;
     Servo[] servos;
-
     public static int RIGHT_TOP=0;
-    public static int LEFT_TOP = 1;
-    public static int RIGHT_BOTTOM = 2;
+    public static int LEFT_TOP=1;
+    public static int RIGHT_BOTTOM=2;
     public static int LEFT_BOTTOM=3;
+
 
     @Override
     public void setup() {
@@ -78,14 +83,22 @@ public class Robot extends FTCRobot {
         intake=new GlyphIntake2(servos);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
-        gyro = new Gyro(hardwareMap);
+        //imu = hardwareMap.get(BNO055IMU.class, "gyro");
+
+        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
+        parameters.calibrationDataFile = "gyroData.json"; // specify the gyro calibration file, see @GyroCalibration
+        parameters.loggingEnabled      = true; // enable logging
+        parameters.loggingTag          = "IMU"; // set the logging tag
+        //imu.initialize(parameters);
+        //imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG,6);*/
         final DriveModule[] modules = new DriveModule[4];
 
         //Mecanum
-        modules[0] = new DriveModule(new XY(1, 1),    new XY(1,-1),  frontRight);
-        modules[1] = new DriveModule(new XY(1, -1),   new XY(-1,-1), backRight );
-        modules[2] = new DriveModule(new XY(-1, -1),  new XY(-1,1),  backLeft  );
-        modules[3] = new DriveModule(new XY(-1, 1),   new XY(1,1),   frontLeft );
+        modules[0] = new DriveModule(new XY(1,1),    new XY(1,-1),  frontRight);
+        modules[1] = new DriveModule(new XY(1,-1),   new XY(-1,-1), backRight );
+        modules[2] = new DriveModule(new XY(-1,-1),  new XY(-1,1),  backLeft  );
+        modules[3] = new DriveModule(new XY(-1,1),   new XY(1,1),   frontLeft );
 
 
         DriveTrain driveTrain = new DriveTrain(modules);
@@ -249,6 +262,7 @@ public class Robot extends FTCRobot {
             public void stop() {
                 sensitivity.dirScale=1;
                 sensitivity.turnScale=0.6;
+
             }
 
             @Override
@@ -285,10 +299,16 @@ public class Robot extends FTCRobot {
 
     @Override
     public void update() {
-        Debug.msg("X-angle", gyro.x);
-        Debug.msg("Y-angle", gyro.y);
-        Debug.msg("Z-angle", gyro.z);
+        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+        //angleRates = imu.getAngularVelocity();
+
+        /*Debug.msg("First angle Z", angles.firstAngle);// X
+        Debug.msg("Second angle Y", angles.secondAngle); // Y
+        Debug.msg("Third angle X",  angles.thirdAngle);// Negative heading (Z)
+
+         Debug.msg("Z rotation rate", angleRates.zRotationRate);
+        Debug.msg("X rotation rate", angleRates.xRotationRate);*/
         //Debug.msg("Servo",intakeRightTop.getPosition());
         Debug.msg("Switch Value:", limitSwitch.getState());
     }

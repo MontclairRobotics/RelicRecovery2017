@@ -76,12 +76,12 @@ public class AccelLimit implements Step<DTTarget>,Action{
 	}
 	@Override
 	public void enabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void disabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 

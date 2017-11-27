@@ -95,12 +95,12 @@ public class FieldCentricDriveInput implements DTInput,Action,Updatable{
 	}
 	@Override
 	public void enabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void disabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -22,24 +22,24 @@ public class TestMotor implements IMotor{
 		this.distance+=power*Updater.getLoopTime();
 	}
 	public SEncoder getEncoder() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		return new SEncoder(new IEncoder(){
 
 			@Override
 			public double getSpeed() {
-				// TODO DefaultAuto-generated method stub
+				// TODO Auto-generated method stub
 				return power;
 			}
 
 			@Override
 			public double getDistance() {
-				// TODO DefaultAuto-generated method stub
+				// TODO Auto-generated method stub
 				return distance;
 			}
 
 			@Override
 			public void reset() {
-				// TODO DefaultAuto-generated method stub
+				// TODO Auto-generated method stub
 				distance=0;
 			}},1);
 	}

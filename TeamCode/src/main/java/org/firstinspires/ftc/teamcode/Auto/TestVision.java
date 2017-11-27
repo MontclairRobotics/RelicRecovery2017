@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /**
- * Created by Montclair Robotics on 11/13/17.
- * @Author:Will
- * */
+ * Created by MHS Robotics on 11/8/2017.
+ */
 @Autonomous(name = "Test: Vision")
-public class TestVuforia extends DefaultAutoMode {
+@Disabled
+public class TestVision extends DefaultAutoMode {
     @Override
     public void init() {
         autoInit();
@@ -17,16 +17,16 @@ public class TestVuforia extends DefaultAutoMode {
     @Override
     public void loop() {
         switch (state){
-
             case 0:
-                nextState(getPictogram());
+//                nextState(getPictogram());
                 break;
 
             case 1:
+                telemetry.addData("Vision",pictogram);
                 pictogramDrive(pictogram);
                 break;
 
-            case 2:
+            case 4:
                 telemetry.addData("INFO","Last State Achieved");
                 break;
         }

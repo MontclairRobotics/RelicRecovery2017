@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Auto;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,10 +11,8 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
- * Created by Montclair Robotics on 11/13/17.
- * @Author:Will
- * */
-
+ * Created by MHS Robotics on 11/9/2017.
+ */
 
 public class DefaultHardwareMap {
 
@@ -38,7 +35,6 @@ public class DefaultHardwareMap {
 
     GlyphIntake2 lift;
     ColorSensor sensorColor;
-    DigitalChannel limitSwitch;
 
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
@@ -76,7 +72,6 @@ public class DefaultHardwareMap {
 
         lift=new GlyphIntake2(servos);
         sensorColor = hwMap.get(ColorSensor.class, "colorSensor");
-        limitSwitch = hwMap.get(DigitalChannel.class, "limit_switch_1");
 
 
 

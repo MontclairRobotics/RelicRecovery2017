@@ -47,7 +47,7 @@ public class DriveDistance extends AutoState{
 	}
 	@Override
 	public boolean userIsDone() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		return myState.getRelPos().subtract(distance).getMagnitude()<TOLERENCE;
 	}
 }
