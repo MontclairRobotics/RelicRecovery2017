@@ -4,7 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Jack
+ * @Author: Jack
  * */
 
 public class Gyro {
@@ -13,7 +13,7 @@ public class Gyro {
     public static Gyro current;
 
     public Gyro(BNO055IMU imu) {
-        imu = imu;
+        this.imu = imu;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
@@ -23,7 +23,6 @@ public class Gyro {
 
         imu.initialize(parameters);
 
-        update();
         current = this;
     }
 

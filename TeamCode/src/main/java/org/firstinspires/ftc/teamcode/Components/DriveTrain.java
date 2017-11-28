@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.GyroBalance;
 import org.firstinspires.ftc.teamcode.GyroLock;
 import org.firstinspires.ftc.teamcode.PID;
 
@@ -16,13 +15,13 @@ public class DriveTrain {
     public static final double TURN_ERROR = 0.1;
 
     GyroLock lock;
-    GyroBalance balance;
+//    GyroBalance balance;
 
     DcMotor frontLeft, frontRight, backLeft, backRight;
 
     public DriveTrain(HardwareMap map) {
         this.lock = new GyroLock(new PID(0.01, 0, 0.005)); // TODO: Test GyroLock
-        this.balance = new GyroBalance(new PID(0,0,0), new PID(0,0,0)); // TODO: Test GyroBalance
+//        this.balance = new GyroBalance(new PID(0,0,0), new PID(0,0,0)); // TODO: Test GyroBalance
 
         frontRight = map.get(DcMotor.class, "right_front");
         backRight = map.get(DcMotor.class, "right_back");
@@ -71,10 +70,10 @@ public class DriveTrain {
         frontLeft.setPower(x - y + turn);
     }
 
-    public void autoBalance() {
-        balance.update();
-        driveMechanum(balance.correctionX(), balance.correctionY(), 0);
-    }
+//    public void autoBalance() {
+//        balance.update();
+//        driveMechanum(balance.correctionX(), balance.correctionY(), 0);
+//    }
 
     /**
      * A single loop of an auto mode

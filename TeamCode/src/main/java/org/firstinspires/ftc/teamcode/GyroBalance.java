@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.montclairrobotics.sprocket.utils.Debug;
-
 /**
  * Created by Joshua Rapoport on 11/27/17.
  */
@@ -35,8 +33,5 @@ public class GyroBalance {
 
         xPID.update();
         yPID.update();
-
-        Debug.msg("GyroBalance: Input", xPID.getInput().intValue() + "°, " + xPID.getInput().intValue() + "°");
-        Debug.msg("GyroBalance: Output", (int) (100 * xPID.getOutput()) + "%, " + (int) (100 * xPID.getOutput()) + "%");
     }
 }
