@@ -7,7 +7,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * @Author:Will
  * */
 
-//85 pts auto
+//possible 85 pts auto
 public class DefaultAuto extends DefaultAutoMode {
     @Override
     public void init() {
@@ -25,39 +25,53 @@ public class DefaultAuto extends DefaultAutoMode {
                 break;
 
             case 1: // raise glyph
+                hardware.lift.closeAll();
                 nextState(setGlyphLiftPos(5,1));
                 break;
 
             case 2: //get jewel
+                hardware.lift.closeAll();
                 nextState(getJewel());
                 break;
 
+            case 3: //drive forward or backward 24 + 2(to get off balancing stone)
+                hardware.lift.closeAll();
+                switch (allianceColor){
+                    case RED:
+                        nextState(autoDrive(new XY(0,26),1));
 
-            case 3: // drive forward 24 + 2 (to get off balancing stone)
-                nextState(autoDrive(new XY(0,26),1));
+                    case BLUE:
+                        nextState(autoDrive(new XY(0,-26),1));
+                }
                 break;
 
-            case 4: //turn based on position
+            case 4: // turn based on color
+                hardware.lift.closeAll();
                 nextState(driveTurn());
                 break;
 
-            case 5: //drive forward 12
-                nextState(autoDrive(new XY(0,12),1));
+            case 5: // drive to safezone
+                hardware.lift.closeAll();
+                nextState(safeZoneDrive());
                 break;
 
-            case 6: //2nd turn based on position
+            case 6: // turn at cryptobox
+                hardware.lift.closeAll();
                 nextState(cryptoBoxTurn());
                 break;
 
-            case 7: // move to the correct cryptobox slot
+            case 7: //pictogram drive
+                hardware.lift.closeAll();
                 nextState(pictogramDrive(pictogram));
                 break;
 
-            case 8: // drive into crypto box slot slowly
-                nextState(autoDrive(new XY(0,12),0.25));
+            case 8: //input glyph
+                hardware.lift.closeAll();
+                nextState(autoDrive(new XY(0,6),1));
                 break;
 
             case 9: // lower glyph
+                hardware.lift.closeAll();
                 nextState(setGlyphLiftPos(-5,1));
                 break;
 
@@ -66,11 +80,11 @@ public class DefaultAuto extends DefaultAutoMode {
                 nextState(pause(1));
                 break;
 
-            case 11: // back away from glyph
-                nextState(autoDrive(new XY(0,-2),1));
+            case 11: //back away
+                nextState(autoDrive(new XY(0,2),1));
                 break;
 
-            case 12: // telemetry
+            case 12: //Telemetry
                 telemetry.addData("INFO",LSA);
                 break;
 

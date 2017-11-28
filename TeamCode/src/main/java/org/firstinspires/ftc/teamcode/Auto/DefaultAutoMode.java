@@ -33,7 +33,7 @@ public class DefaultAutoMode extends OpMode{
     PictogramResults pictogram;
 
     //Color Prox Vars
-    ColorSensor sensorColor;
+    ColorSensor colorSensor;
     AllianceColor color;
 
     //auto mode objects
@@ -62,7 +62,7 @@ public class DefaultAutoMode extends OpMode{
 //        gyro = new Gyro(); //uncomment once josh makes it work
         telemetry.addData("INFO","Hardware Map Init");
         mapper = new DefaultMecanumMapper();
-        sensorColor = hardware.sensorColor;
+        colorSensor = hardware.colorSensor;
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
@@ -125,10 +125,10 @@ public class DefaultAutoMode extends OpMode{
     }
 
     //colorProx
-    private boolean getJewelColor(){
-        if(sensorColor.red() > sensorColor.blue()){
+    public boolean getJewelColor(){
+        if(colorSensor.red() > colorSensor.blue()){
             color = AllianceColor.RED;
-        }else if(sensorColor.blue()> sensorColor.red()){
+        }else if(colorSensor.blue()> colorSensor.red()){
             color = AllianceColor.BLUE;
         }else{
             telemetry.addData("INFO","ID FAILED");
@@ -175,7 +175,6 @@ public class DefaultAutoMode extends OpMode{
     public void drive(Vector v, double turn) {
         mapper.map(new DTTarget(v, turn), hardware.driveModules);
     }
-
     public boolean autoDrive(Vector v, double speed) {
         if(Math.abs(hardware.getTicks()) < v.getMagnitude()*TICKS_PER_INCH) {
             drive(v.normalize().scale(speed), 0);
@@ -186,7 +185,6 @@ public class DefaultAutoMode extends OpMode{
         }
         return false;
     }
-
     public boolean autoTurn(double degrees, double speed) {
         int ticks = Math.abs(hardware.frontLeft.getCurrentPosition());
         if(degrees < 0) {
@@ -208,7 +206,6 @@ public class DefaultAutoMode extends OpMode{
         }
         return false;
     }
-
     public boolean driveTurn(){
         switch (startPosition){
             case CLOSE:
@@ -217,8 +214,16 @@ public class DefaultAutoMode extends OpMode{
             case FAR:
                 return autoTurn(-90,0.5);
         }
+        return false;
+    }
+    public boolean safeZoneDrive(){
+        switch (startPosition){
+            case CLOSE:
+                return true;
 
-        telemetry.addData("INFO","Alliance Color or Start Position NOT defined");
+            case FAR:
+                return autoDrive(new XY(0,12),0.5);
+        }
         return false;
     }
     public boolean cryptoBoxTurn(){
@@ -243,7 +248,6 @@ public class DefaultAutoMode extends OpMode{
                 }
                 break;
         }
-        telemetry.addData("INFO","Alliance Color or Start Position NOT defined");
         return false;
     }
 

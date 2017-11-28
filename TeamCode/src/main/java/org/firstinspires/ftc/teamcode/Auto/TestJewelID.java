@@ -25,16 +25,8 @@ public class TestJewelID extends DefaultAutoMode {
     public void loop() {
         switch (state) {
             case 0:
-                hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
-                nextState(pause(1));
-                break;
-
-            case 1:
                 nextState(getJewel());
                 break;
-
-            case 2:
-                telemetry.addData("INFO",LSA);
         }
     }
 }
