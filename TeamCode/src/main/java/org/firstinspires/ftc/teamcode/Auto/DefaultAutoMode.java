@@ -59,7 +59,6 @@ public class DefaultAutoMode extends OpMode{
         hardware = new DefaultHardwareMap();
         hardware.init(hardwareMap);
         hardware.lift.closeAll();
-//        gyro = new Gyro(); //uncomment once josh makes it work
         telemetry.addData("INFO","Hardware Map Init");
         mapper = new DefaultMecanumMapper();
         colorSensor = hardware.colorSensor;
@@ -134,6 +133,9 @@ public class DefaultAutoMode extends OpMode{
             telemetry.addData("INFO","ID FAILED");
             return false;
         }
+        telemetry.addData("RED",colorSensor.red());
+        telemetry.addData("BLUE",colorSensor.blue());
+        telemetry.addData("BLUE MINUS RED",colorSensor.blue()-colorSensor.red());
         telemetry.addData("Jewel Color", color);
         return true;
     } //pt1
@@ -257,7 +259,7 @@ public class DefaultAutoMode extends OpMode{
         hardware.glyphRight.setPower(power);
     }
 
-    public boolean setGlyphLiftPos(double inch, double power){
+    private boolean setGlyphLiftPos(double inch, double power){
         if(inch>0){
             if (hardware.getLiftTicks()<inch*TICKS_PER_LIFT_INCH){
                 glyphLiftPower(power);
@@ -278,6 +280,14 @@ public class DefaultAutoMode extends OpMode{
             }
         }
 
+    }
+
+    public boolean raiseGlyph(){
+        return setGlyphLiftPos(2,1);
+    }
+
+    public boolean lowerGlyph(){
+        return setGlyphLiftPos(-2,1);
     }
 
     //State Machine

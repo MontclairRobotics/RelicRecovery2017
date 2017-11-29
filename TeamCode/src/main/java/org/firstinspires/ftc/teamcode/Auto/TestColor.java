@@ -14,7 +14,7 @@ public class TestColor extends DefaultAutoMode {
 
     @Override
     public void init() {
-        colorSensor.enableLed(false);
+        autoInit();
     }
 
     @Override

@@ -28,7 +28,6 @@ public class CompTeleop extends OpMode {
 
     @Override
     public void init() {
-        gyro = new Gyro(hardwareMap);
         this.driveTrain = new DriveTrain(hardwareMap, gyro);
 
         liftA = hardwareMap.get(DcMotor.class,"lift_left");
@@ -41,7 +40,7 @@ public class CompTeleop extends OpMode {
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
         intake = new GlyphIntake2(servos);
-        gyro = new Gyro(hardwareMap);
+//        gyro = new Gyro(hardwareMap);
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
@@ -62,7 +61,7 @@ public class CompTeleop extends OpMode {
         liftA.setPower(gamepad2.left_stick_y);
         liftB.setPower(-gamepad2.left_stick_y);
 
-        telemetry.addData("Orientation", gyro.x + "°");
+//        telemetry.addData("Orientation", gyro.x + "°");
         telemetry.addData("Limit Switch", limitSwitch);
     }
 }
