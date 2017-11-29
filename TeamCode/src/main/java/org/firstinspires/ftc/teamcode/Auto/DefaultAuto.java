@@ -9,10 +9,6 @@ import org.montclairrobotics.sprocket.geometry.XY;
 
 //possible 85 pts auto
 public class DefaultAuto extends DefaultAutoMode {
-    @Override
-    public void init() {
-        autoInit();
-    }
 
     @Override
     public void loop() {
@@ -26,7 +22,7 @@ public class DefaultAuto extends DefaultAutoMode {
 
             case 1: // raise glyph
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(5,1));
+                nextState(raiseGlyph());
                 break;
 
             case 2: //get jewel
@@ -72,7 +68,7 @@ public class DefaultAuto extends DefaultAutoMode {
 
             case 9: // lower glyph
                 hardware.lift.closeAll();
-                nextState(setGlyphLiftPos(-5,1));
+                nextState(lowerGlyph());
                 break;
 
             case 10: //release glyph

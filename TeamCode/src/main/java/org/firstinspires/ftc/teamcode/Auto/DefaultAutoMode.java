@@ -59,10 +59,10 @@ public class DefaultAutoMode extends OpMode{
         hardware = new DefaultHardwareMap();
         hardware.init(hardwareMap);
         hardware.lift.closeAll();
-//        gyro = new Gyro(); //uncomment once josh makes it work
         telemetry.addData("INFO","Hardware Map Init");
         mapper = new DefaultMecanumMapper();
         colorSensor = hardware.colorSensor;
+        colorSensor.enableLed(true);
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
@@ -70,14 +70,6 @@ public class DefaultAutoMode extends OpMode{
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");
-    }
-
-    @Override
-    public void start() {
-        super.start();
-        startTime = timer.milliseconds();
-        hardware.resetDriveEncoders();
-        hardware.resetLiftEncoders();
     }
 
     //vision
@@ -95,7 +87,7 @@ public class DefaultAutoMode extends OpMode{
     public boolean getPictogram(){
         vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            telemetry.addData("VuMark", "not visible");
+            telemetry.addData("VuMark", "UNKNOWN");
             return false;
         } else {
             pictogram = PictogramResults.valueOf(vuMark.toString());
@@ -104,6 +96,7 @@ public class DefaultAutoMode extends OpMode{
             return true;
         }
     }
+
     public boolean pictogramDrive(PictogramResults image){
         telemetry.addData("Pictogram",pictogram);
         switch (image){
@@ -256,8 +249,7 @@ public class DefaultAutoMode extends OpMode{
         hardware.glyphLeft.setPower(power);
         hardware.glyphRight.setPower(power);
     }
-
-    public boolean setGlyphLiftPos(double inch, double power){
+    private boolean setGlyphLiftPos(double inch, double power){
         if(inch>0){
             if (hardware.getLiftTicks()<inch*TICKS_PER_LIFT_INCH){
                 glyphLiftPower(power);
@@ -280,14 +272,18 @@ public class DefaultAutoMode extends OpMode{
 
     }
 
+    public boolean raiseGlyph(){
+        return setGlyphLiftPos(5,1);
+    }
+    public boolean lowerGlyph(){
+        return setGlyphLiftPos(-5,1);
+    }
+
     //State Machine
     public int state = 0;
     public void setState(int state){
         this.state = state;
     }
-
-
-
     public void nextState(boolean nextState, int nextStateNumber){
         if(nextState){
             state = nextStateNumber;
@@ -297,7 +293,6 @@ public class DefaultAutoMode extends OpMode{
         }
 
     }
-
     public void nextState(boolean nextState) {
         nextState(nextState, state + 1);
     }
@@ -310,18 +305,24 @@ public class DefaultAutoMode extends OpMode{
         }
         return false;
     }
-
     public double getMillis(){
         return timer.milliseconds() - startTime;
     }
-
     public double getSeconds(){
         return getMillis()/1000.0;
     }
 
     @Override
     public void init() {
+        autoInit();
+    }
 
+    @Override
+    public void start() {
+        super.start();
+        startTime = timer.milliseconds();
+        hardware.resetDriveEncoders();
+        hardware.resetLiftEncoders();
     }
 
     @Override
