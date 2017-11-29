@@ -2,15 +2,18 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
+import org.montclairrobotics.sprocket.utils.Debug;
+
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @Author: Jack
  * */
 
 public class Gyro {
+    public static Gyro current;
+
     private RRQuaternion quat; // An angle object to store the gyro angles
     private BNO055IMU imu; // Gyroscope
-    public static Gyro current;
 
     public Gyro(BNO055IMU imu) {
         this.imu = imu;
@@ -27,7 +30,9 @@ public class Gyro {
     }
 
     public void update() {
+        Debug.msg("Gyro", "update in progress...");
         quat = new RRQuaternion(imu.getQuaternionOrientation());
+        Debug.msg("Gyro", "update complete");
     }
 
     public Double getX() {

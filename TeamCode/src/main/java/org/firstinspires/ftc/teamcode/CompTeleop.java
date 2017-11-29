@@ -16,8 +16,7 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
  * */
 @TeleOp(name="Teleop: PLEASE DON'T DELETE THIS WILL")
 public class CompTeleop extends OpMode {
-    public DriveTrain driveTrain;
-    DcMotor frontRight, backRight, frontLeft, backLeft;
+    DriveTrain driveTrain;
     Servo[] servos;
 
     Gyro gyro;
@@ -28,7 +27,8 @@ public class CompTeleop extends OpMode {
 
     @Override
     public void init() {
-        gyro = new Gyro(hardwareMap.get(BNO055IMU.class, "gyro"));
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "gyro");
+        this.gyro = new Gyro(imu);
 
         this.driveTrain = new DriveTrain(hardwareMap);
 
@@ -41,7 +41,7 @@ public class CompTeleop extends OpMode {
         servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
-        intake = new GlyphIntake2(servos);;
+        intake = new GlyphIntake2(servos);
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
@@ -65,5 +65,11 @@ public class CompTeleop extends OpMode {
 
         telemetry.addData("Orientation", gyro.getX() + "°");
         telemetry.addData("Limit Switch", limitSwitch);
+    }
+
+
+    @Override
+    public void stop() {
+        driveTrain.stop();
     }
 }

@@ -106,8 +106,6 @@ public class PID {
 
         double out = (P * error.current * dTime()) + (I * error.total) + (D * -dInput / dTime());
 
-        setInput(newInput);
-
         if (outRange.compareTo(out) > 0)
             out = outRange.max;
         else if (outRange.compareTo(out) < 0)

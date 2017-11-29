@@ -6,9 +6,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GyroLock;
 import org.firstinspires.ftc.teamcode.PID;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 /**
- * Created by Joshua Rapoport on 11/20/17.
+ * @author Joshua Rapoport
+ * @version 11/27/17.
  */
 
 public class DriveTrain {
@@ -21,6 +23,7 @@ public class DriveTrain {
 
     public DriveTrain(HardwareMap map) {
         this.lock = new GyroLock(new PID(0.01, 0, 0.005)); // TODO: Test GyroLock
+
 //        this.balance = new GyroBalance(new PID(0,0,0), new PID(0,0,0)); // TODO: Test GyroBalance
 
         frontRight = map.get(DcMotor.class, "right_front");
@@ -46,6 +49,8 @@ public class DriveTrain {
      * @param g the controller for the drive train.
      */
     public void driveMechanum(Gamepad g) {
+        Debug.msg("DriveTrain", "update in progress...");
+
         double pow = 1.0;
 
         if (g.left_bumper) {
@@ -68,6 +73,8 @@ public class DriveTrain {
         backRight.setPower(-x + y + turn);
         backLeft.setPower(-x - y + turn);
         frontLeft.setPower(x - y + turn);
+
+        Debug.msg("DriveTrain", "update complete");
     }
 
 //    public void autoBalance() {

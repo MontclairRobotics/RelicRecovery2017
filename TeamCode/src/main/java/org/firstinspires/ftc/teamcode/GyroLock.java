@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 /**
- * Created by Joshua Rapoport on 11/16/17.
+ * @author Joshua Rapoport
+ * @version 11/27/17.
  */
 
 public class GyroLock {
@@ -25,8 +26,12 @@ public class GyroLock {
     }
 
     public void update() {
+        Debug.msg("GyroLock", "update in progress...");
+
         pid.setInput(gyro.getX());
         pid.update();
+
+        Debug.msg("GyroLock", "update complete");
 
         Debug.msg("GyroLock: Input", pid.getInput().intValue() + "°");
         Debug.msg("GyroLock: Output", (int) (100 * pid.getOutput()) + "%");
@@ -42,6 +47,6 @@ public class GyroLock {
     }
 
     public void deactivate() {
-        active = false;
+        if (active) active = false;
     }
 }

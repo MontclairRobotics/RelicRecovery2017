@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 /**
- * Created by Joshua Rapoport on 11/27/17.
+ * @author Joshua Rapoport
+ * @version 11/27/17.
  */
 
 public class GyroBalance {
     private Gyro gyro;
     private PID xPID, yPID;
-    private boolean active;
 
     public GyroBalance(PID x, PID y) {
         this.gyro = Gyro.current;
