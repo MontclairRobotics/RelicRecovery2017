@@ -15,11 +15,11 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
  * */
 @TeleOp(name="Teleop: PLEASE DON'T DELETE THIS WILL")
 public class CompTeleop extends OpMode {
-    public DriveTrain driveTrain;
+    //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
 
-    Gyro gyro;
+//    Gyro gyro;
 
 
     GlyphIntake2 intake;
@@ -28,7 +28,7 @@ public class CompTeleop extends OpMode {
 
     @Override
     public void init() {
-        this.driveTrain = new DriveTrain(hardwareMap, gyro);
+        //this.driveTrain = new DriveTrain(hardwareMap);
 
         liftA = hardwareMap.get(DcMotor.class,"lift_left");
         liftB = hardwareMap.get(DcMotor.class,"lift_right");
@@ -46,7 +46,24 @@ public class CompTeleop extends OpMode {
 
     @Override
     public void loop() {
-        driveTrain.driveMechanum(gamepad1);
+        //driveTrain.driveMechanum(gamepad1);
+
+
+        double pow = 1.0;
+
+        if (gamepad1.left_bumper) {
+            pow = 0.5;
+        }
+
+        double x = gamepad1.left_stick_x * pow;
+        double y = -gamepad1.left_stick_y * pow;
+        double turn = gamepad1.right_stick_x * pow;
+
+        frontRight.setPower(x - y + turn);
+        backRight.setPower(-x - y + turn);
+        backLeft.setPower(-x + y + turn);
+        frontLeft.setPower(x + y + turn);
+
 
         if (gamepad2.a)
             intake.openBottom();
