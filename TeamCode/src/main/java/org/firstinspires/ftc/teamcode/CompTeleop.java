@@ -30,6 +30,16 @@ public class CompTeleop extends OpMode {
     public void init() {
         //this.driveTrain = new DriveTrain(hardwareMap);
 
+        frontRight = hardwareMap.get(DcMotor.class, "right_front");
+        backRight = hardwareMap.get(DcMotor.class, "right_back");
+        backLeft = hardwareMap.get(DcMotor.class, "left_back");
+        frontLeft = hardwareMap.get(DcMotor.class, "left_front");
+
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
         liftA = hardwareMap.get(DcMotor.class,"lift_left");
         liftB = hardwareMap.get(DcMotor.class,"lift_right");
 

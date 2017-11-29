@@ -15,10 +15,10 @@ import org.firstinspires.ftc.teamcode.Auto.Enums.JewelColor;
 public class IHAteLIFE extends OpMode {
     ColorSensor colorSensor;
     Servo jewelArm;
-    DefaultAutoMode autoMode;
 
     JewelColor jewelColor;
     int x = 0;
+    int colorSum;
     int y = 0;
     boolean done = false;
     double startTime;
@@ -33,8 +33,8 @@ public class IHAteLIFE extends OpMode {
     public void loop() {
         switch(x){
             case 0:
-                jewelArm.setPosition(autoMode.JEWEL_ARM_DOWN_POS);
-                if(jewelArm.getPosition()==autoMode.JEWEL_ARM_DOWN_POS){
+                jewelArm.setPosition(1);
+                if(jewelArm.getPosition()==1){
                     x++;
                     startTime=System.currentTimeMillis();
                 }
@@ -58,19 +58,8 @@ public class IHAteLIFE extends OpMode {
                 break;
 
             case 2:
-                switch (jewelColor){
-                    case UNKNOWN:
-                        jewelArm.setPosition(autoMode.JEWEL_ARM_UP_POS);
-                        break;
+                telemetry.addData("COLOR",jewelColor);
 
-                    case BLUE:
-                        telemetry.addData("COLOR",jewelColor);
-                        break;
-
-                    case RED:
-                        telemetry.addData("COLOR",jewelColor);
-                        break;
-                }
         }
 
 

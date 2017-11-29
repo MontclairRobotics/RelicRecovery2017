@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
+import org.firstinspires.ftc.teamcode.Auto.Enums.JewelColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.PictogramResults;
 import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
 import org.firstinspires.ftc.teamcode.Gyro;
@@ -125,14 +126,12 @@ public class DefaultAutoMode extends OpMode{
 
     //colorProx
     public boolean getJewelColor(){
-        if(colorSensor.red() > colorSensor.blue()){
-            color = AllianceColor.RED;
+        /*if(colorSensor.red() > colorSensor.blue()){
+            jewelColor = JewelColor.RED;
         }else if(colorSensor.blue()> colorSensor.red()){
-            color = AllianceColor.BLUE;
+            jewelColor = JewelColor.BLUE;
         }else{
-            telemetry.addData("INFO","ID FAILED");
-            return false;
-        }
+            jewelColor = JewelColor.UNKNOWN;*/
         telemetry.addData("RED",colorSensor.red());
         telemetry.addData("BLUE",colorSensor.blue());
         telemetry.addData("BLUE MINUS RED",colorSensor.blue()-colorSensor.red());
