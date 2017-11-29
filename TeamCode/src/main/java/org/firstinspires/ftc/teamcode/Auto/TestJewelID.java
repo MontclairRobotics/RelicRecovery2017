@@ -8,9 +8,8 @@ import org.montclairrobotics.sprocket.auto.states.DriveTime;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
- * Created by Montclair Robotics on 11/13/17.
- * @Author:Will
- * */
+ * Created by MHS Robotics on 11/12/2017.
+ */
 @Autonomous(name = "Test: Jewel ID")
 public class TestJewelID extends DefaultAutoMode {
 
@@ -18,14 +17,13 @@ public class TestJewelID extends DefaultAutoMode {
     public void init() {
         autoInit();
         allianceColor = AllianceColor.RED;
-        telemetry.addData("Alliance Color",allianceColor);
     }
 
     @Override
     public void loop() {
         switch (state) {
             case 0:
-                nextState(getJewel());
+                nextState(getJewelColor());
                 break;
         }
     }

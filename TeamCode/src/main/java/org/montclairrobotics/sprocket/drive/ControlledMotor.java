@@ -15,7 +15,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  * forwards and backwards depending on which button is pressed. One likely use 
  * case for a ControlledMotor would be if you just want to quickly debug a motor
  * using Joystick inputs. If you're using button pairs, you could also use
- * ControlledMotor to run a shooter FORWARD and backward using the button pair.
+ * ControlledMotor to run a shooter forward and backward using the button pair.
  */
 public class ControlledMotor implements Updatable,Action {
 	
@@ -80,13 +80,13 @@ public class ControlledMotor implements Updatable,Action {
 
 	@Override
 	public void enabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void disabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 

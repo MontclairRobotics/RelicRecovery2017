@@ -5,10 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
 /**
- * Created by Montclair Robotics on 11/13/17.
- * @Author:Rafi
- * */
-
+ * Created by Rafi on 11/9/2017.
+ */
 
 public class DefaultFTCDriveModule {
 

@@ -31,7 +31,7 @@ public class DefaultAuto extends DefaultAutoMode {
 
             case 2: //get jewel
                 hardware.lift.closeAll();
-                nextState(getJewel());
+                nextState(getJewelColor());
                 break;
 
             case 3: //drive forward or backward 24 + 2(to get off balancing stone)

@@ -6,6 +6,6 @@ public class WrappedDegrees extends Degrees{
 
 	public WrappedDegrees(double angle) {
 		super(Utils.wrap(angle,-180,180));
-		// TODO DefaultAuto-generated constructor stub
+		// TODO Auto-generated constructor stub
 	}
 }

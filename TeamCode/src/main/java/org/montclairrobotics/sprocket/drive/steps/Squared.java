@@ -10,25 +10,25 @@ public class Squared implements Step<DTTarget>, Action{
 	
 	@Override
 	public void start() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		enabled=true;
 	}
 
 	@Override
 	public void enabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void stop() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		enabled=false;
 	}
 
 	@Override
 	public void disabled() {
-		// TODO DefaultAuto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 

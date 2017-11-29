@@ -12,10 +12,8 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
- * Created by Montclair Robotics on 11/13/17.
- * @Author:Will
- * */
-
+ * Created by MHS Robotics on 11/9/2017.
+ */
 
 public class DefaultHardwareMap {
 
@@ -77,6 +75,7 @@ public class DefaultHardwareMap {
         lift=new GlyphIntake2(servos);
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color");
         limitSwitch = hwMap.get(DigitalChannel.class, "limit_switch_1");
+
 
 
 

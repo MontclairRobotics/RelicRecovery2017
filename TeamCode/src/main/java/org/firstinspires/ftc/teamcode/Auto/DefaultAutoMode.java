@@ -12,16 +12,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.Auto.Enums.PictogramResults;
 import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
-import org.firstinspires.ftc.teamcode.Gyro;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
- * Created by Montclair Robotics on 11/13/17.
- * @Author:Will
- * */
-
+ * Created by MHS Robotics on 11/6/2017.
+ */
 
 public class DefaultAutoMode extends OpMode{
 
@@ -35,17 +32,18 @@ public class DefaultAutoMode extends OpMode{
     //Color Prox Vars
     ColorSensor colorSensor;
     AllianceColor color;
+    StartPosition startPosition;
+
 
     //auto mode objects
-    Gyro gyro;
     DefaultHardwareMap hardware;
     DefaultMecanumMapper mapper;
     AllianceColor allianceColor;
-    StartPosition startPosition;
     ElapsedTime timer;
     double startTime;
 
     //final
+    //TODO: Get measurement @ MAX POWER
     public final double JEWEL_ARM_DOWN_POS = 1;
     public final double JEWEL_ARM_UP_POS = 0;
     public final String LSA = "LAST STATE ACHIEVED";
@@ -59,14 +57,14 @@ public class DefaultAutoMode extends OpMode{
         hardware = new DefaultHardwareMap();
         hardware.init(hardwareMap);
         hardware.lift.closeAll();
-//        gyro = new Gyro(); //uncomment once josh makes it work
+//        hardware.jewelArm.setPosition(0);
         telemetry.addData("INFO","Hardware Map Init");
         mapper = new DefaultMecanumMapper();
         colorSensor = hardware.colorSensor;
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
-        visionInit();
+//        visionInit();  //TODO: uncomment one is mounted on other side
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");
@@ -83,7 +81,7 @@ public class DefaultAutoMode extends OpMode{
     //vision
     public void visionInit(){
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId); //comment cameraMonitorViewID for competition
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(/*cameraMonitorViewId*/);
         parameters.vuforiaLicenseKey = "AVhGMov/////AAAAGUk16JthIkWst4BeQ3creo+NTUF+BxVD6iSoptSHES0tn3qxxl8EoEMBtZfR9lS5zeb8wa5m+susmQEk+ELlMZvkhfCo5hwgtQVQo95VhTaduQjLatwooAcigCDfAK19KDQPw7O4/Q0p0G79ni5UlnYrw/lF1ZC2iv+41EGTjOTT8yC6wWMzzi2ugWGtIYs9Qy62b9S+Jr2/JjoqtzoaeUX7cmshji5IRmPojALj71tKJb1Gay4XcCb7fMMkO10SDaY84E66Vt0aEhgyA4VY/ASABIEEBlpDoq7N/tTSMxDfahX0xP76BXUSNEug7Y378HPg9siRGv5AQns3Y44RfPqBu6kQN1yDXb+43Zl3ZkzF";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
@@ -104,12 +102,11 @@ public class DefaultAutoMode extends OpMode{
             return true;
         }
     }
-    public boolean pictogramDrive(PictogramResults image){
-        telemetry.addData("Pictogram",pictogram);
-        switch (image){
+    public boolean pictogramDrive(PictogramResults result){
+        switch (result){
             case LEFT:
                 telemetry.addData("Moving","LEFT");
-                return autoDrive(new XY(-7.5,0),1);
+                return autoDrive(new XY(-5,0),0.5);
 
             case CENTER:
                 telemetry.addData("Moving","CENTER");
@@ -117,7 +114,8 @@ public class DefaultAutoMode extends OpMode{
 
             case RIGHT:
                 telemetry.addData("Moving","Right");
-                return autoDrive(new XY(7.5,0),1);
+                return autoDrive(new XY(5,0),0.5);
+
 
         }
         telemetry.addData("INFO","FAILED");
@@ -136,37 +134,7 @@ public class DefaultAutoMode extends OpMode{
         }
         telemetry.addData("Jewel Color", color);
         return true;
-    } //pt1
-    private boolean moveJewel(){
-        if(getJewelColor()){
-            if(color != allianceColor){
-                return autoTurn(-30,0.5);
-            } else {
-                return autoTurn(30,0.5);
-            }
-        } else {
-            return false;
-        }
-    } //pt2
-    private boolean jewelArmUp(){
-        if(moveJewel()){
-            hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
-            return (pause(2));
-        } else {
-            return false;
-        }
-    } //pt3
-    public boolean getJewel(){
-        if(jewelArmUp()){
-            if(color != allianceColor){
-                return autoTurn(30,0.5);
-            } else {
-                return autoTurn(-30,0.5);
-            }
-        } else {
-            return false;
-        }
-    } //pt4
+    }
 
     //driving
     /*
@@ -206,6 +174,7 @@ public class DefaultAutoMode extends OpMode{
         }
         return false;
     }
+
     public boolean driveTurn(){
         switch (startPosition){
             case CLOSE:
@@ -285,14 +254,10 @@ public class DefaultAutoMode extends OpMode{
     public void setState(int state){
         this.state = state;
     }
-
-
-
-    public void nextState(boolean nextState, int nextStateNumber){
+    public void nextState(boolean nextState,int nextStateNumber){
         if(nextState){
             state = nextStateNumber;
             telemetry.addData("Info","State "+state+" Achieved");
-            telemetry.addData("Time Elapsed",getRuntime());
             startTime = timer.milliseconds();
         }
 
