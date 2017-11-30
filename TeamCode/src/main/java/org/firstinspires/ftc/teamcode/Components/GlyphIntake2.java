@@ -24,15 +24,15 @@ public class GlyphIntake2 {
         servoOpen=new double[4];
         servoClose=new double[4];
 
-        servoOpen[Robot.RIGHT_TOP]     = 0.573;
-        servoOpen[Robot.LEFT_TOP]      = 0.449;
-        servoOpen[Robot.RIGHT_BOTTOM]  = 0.450;
-        servoOpen[Robot.LEFT_BOTTOM]   = 0.600;
+        servoOpen[Robot.RIGHT_TOP]     = 0.650; //from 11/30
+        servoOpen[Robot.LEFT_TOP]      = 0.440; //from 11/30
+        servoOpen[Robot.RIGHT_BOTTOM]  = 0.400; //from 11/30
+        servoOpen[Robot.LEFT_BOTTOM]   = 0.460; //from 11/30
 
-        servoClose[Robot.RIGHT_TOP]    = 0.440;
-        servoClose[Robot.LEFT_TOP]     = 0.560;
-        servoClose[Robot.RIGHT_BOTTOM] = 0.560;
-        servoClose[Robot.LEFT_BOTTOM]  = 0.530;
+        servoClose[Robot.RIGHT_TOP]    = 0.470; //from 11/30
+        servoClose[Robot.LEFT_TOP]     = 0.520; //from 11/30
+        servoClose[Robot.RIGHT_BOTTOM] = 0.500; //from 11/30
+        servoClose[Robot.LEFT_BOTTOM]  = 0.370; //from 11/30
     }
 
     public void closeTop() {
