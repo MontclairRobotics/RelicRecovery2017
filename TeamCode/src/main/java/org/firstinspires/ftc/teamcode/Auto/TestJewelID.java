@@ -27,6 +27,10 @@ public class TestJewelID extends DefaultAutoMode {
             case 0:
                 nextState(getJewel());
                 break;
+
+            case 1:
+                telemetry.addData("INFO",LSA);
+                break;
         }
     }
 }

@@ -35,7 +35,7 @@ public class DefaultAutoMode extends OpMode{
 
     //Color Prox Vars
     ColorSensor colorSensor;
-    AllianceColor color;
+    JewelColor jewelColor;
 
     //auto mode objects
     Gyro gyro;
@@ -126,48 +126,140 @@ public class DefaultAutoMode extends OpMode{
 
     //colorProx
     public boolean getJewelColor(){
-        /*if(colorSensor.red() > colorSensor.blue()){
+        if(colorSensor.red() > colorSensor.blue()){
             jewelColor = JewelColor.RED;
         }else if(colorSensor.blue()> colorSensor.red()){
             jewelColor = JewelColor.BLUE;
-        }else{
-            jewelColor = JewelColor.UNKNOWN;*/
-        telemetry.addData("RED",colorSensor.red());
-        telemetry.addData("BLUE",colorSensor.blue());
-        telemetry.addData("BLUE MINUS RED",colorSensor.blue()-colorSensor.red());
-        telemetry.addData("Jewel Color", color);
+        }else {
+            jewelColor = JewelColor.UNKNOWN;
+        }
+        telemetry.addData("Jewel Color", jewelColor);
         return true;
-    } //pt1
-    private boolean moveJewel(){
-        if(getJewelColor()){
-            if(color != allianceColor){
-                return autoTurn(-30,0.5);
-            } else {
-                return autoTurn(30,0.5);
-            }
-        } else {
-            return false;
-        }
-    } //pt2
-    private boolean jewelArmUp(){
-        if(moveJewel()){
-            hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
-            return (pause(2));
-        } else {
-            return false;
-        }
-    } //pt3
+    }
+
+    int jewelState = 0;
     public boolean getJewel(){
-        if(jewelArmUp()){
-            if(color != allianceColor){
-                return autoTurn(30,0.5);
-            } else {
-                return autoTurn(-30,0.5);
-            }
-        } else {
-            return false;
+        switch (jewelState){
+            case 0: //lower arm
+                hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
+                if(hardware.jewelArm.getPosition()==JEWEL_ARM_DOWN_POS){
+                    jewelState++;
+                }
+                break;
+
+            case 1: // get reading
+                if(getJewelColor()){
+                    jewelState++;
+                }
+                break;
+
+            case 2: // raise arm
+                hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
+                if(hardware.jewelArm.getPosition() == JEWEL_ARM_UP_POS){
+                    jewelState++;
+                }
+                break;
+
+            case 3: //react accordingly
+                switch (allianceColor){
+                    case RED:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(90,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(-90,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
+
+                    case BLUE:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(-90,1)){
+
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(90,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
+                }
+                break;
+
+            case 4: //reset encoders
+                hardware.resetDriveEncoders();
+                jewelState++;
+                break;
+
+            case 5: //reset robot accordingly
+                switch (allianceColor){
+                    case RED:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(-90,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(90,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
+
+                    case BLUE:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(90,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(-90,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
+                }
+                break;
+
+            case 6: // return true
+                return true;
         }
-    } //pt4
+        return false;
+    }
+
 
     //driving
     /*
@@ -257,7 +349,6 @@ public class DefaultAutoMode extends OpMode{
         hardware.glyphLeft.setPower(power);
         hardware.glyphRight.setPower(power);
     }
-
     private boolean setGlyphLiftPos(double inch, double power){
         if(inch>0){
             if (hardware.getLiftTicks()<inch*TICKS_PER_LIFT_INCH){
@@ -280,11 +371,9 @@ public class DefaultAutoMode extends OpMode{
         }
 
     }
-
     public boolean raiseGlyph(){
         return setGlyphLiftPos(2,1);
     }
-
     public boolean lowerGlyph(){
         return setGlyphLiftPos(-2,1);
     }
@@ -294,9 +383,6 @@ public class DefaultAutoMode extends OpMode{
     public void setState(int state){
         this.state = state;
     }
-
-
-
     public void nextState(boolean nextState, int nextStateNumber){
         if(nextState){
             state = nextStateNumber;
@@ -306,7 +392,6 @@ public class DefaultAutoMode extends OpMode{
         }
 
     }
-
     public void nextState(boolean nextState) {
         nextState(nextState, state + 1);
     }
@@ -319,11 +404,9 @@ public class DefaultAutoMode extends OpMode{
         }
         return false;
     }
-
     public double getMillis(){
         return timer.milliseconds() - startTime;
     }
-
     public double getSeconds(){
         return getMillis()/1000.0;
     }

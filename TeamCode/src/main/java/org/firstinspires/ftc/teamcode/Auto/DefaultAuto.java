@@ -18,9 +18,8 @@ public class DefaultAuto extends DefaultAutoMode {
     public void loop() {
         switch (state){
 
-            case 0: //grab glyph, lower arm and get pictogram
+            case 0: //grab glyph and get pictogram
                 hardware.lift.closeAll();
-                hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
                 nextState(getPictogram());
                 break;
 
