@@ -37,7 +37,16 @@ public class PID {
         public Error() {
             reset();
         }
-        public void update() {
+        public void updateCurrent() {
+            if (Math.abs(target - input) <= 180) {
+                current = target - input;
+            } else if (target > input) {
+                current = 360 - Math.abs(target) - Math.abs(input);
+            } else {
+                current = Math.abs(target) - Math.abs(input) - 360;
+            }
+        }
+        public void updateTotal() {
             total += current * dTime();
         }
         public void reset() { current = total = 0; }
@@ -83,7 +92,7 @@ public class PID {
         return output;
     }
     private double setOutput(double newInput) {
-        error.current = target - newInput;
+        error.updateCurrent();
         double dInput = newInput - input;
 
         double diff = inRange.distance();
@@ -92,7 +101,7 @@ public class PID {
             dInput = ((dInput - inRange.min) % diff + diff) % diff + inRange.min;
         }
 
-        error.update();
+        error.updateTotal();
 
         if (I != 0) {
             double potentialI = (error.current + error.total) * I;

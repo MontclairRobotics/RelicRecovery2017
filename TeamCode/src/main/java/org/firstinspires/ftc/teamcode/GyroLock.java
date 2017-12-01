@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.montclairrobotics.sprocket.utils.Debug;
-
 /**
  * @author Joshua Rapoport
  * @version 11/27/17.
@@ -17,6 +15,8 @@ public class GyroLock {
         this.pid = pid;
         this.active = false;
 
+        pid.setTarget(gyro.getX());
+
         pid.setInputRange(-180, 180);
         pid.setOutputRange(-1.0, 1.0);
     }
@@ -26,15 +26,11 @@ public class GyroLock {
     }
 
     public void update() {
-        Debug.msg("GyroLock", "update in progress...");
-
         pid.setInput(gyro.getX());
         pid.update();
 
-        Debug.msg("GyroLock", "update complete");
-
-        Debug.msg("GyroLock: Input", pid.getInput().intValue() + "°");
-        Debug.msg("GyroLock: Output", (int) (100 * pid.getOutput()) + "%");
+//        Debug.msg("GyroLock: Input", pid.getInput().intValue() + "°");
+//        Debug.msg("GyroLock: Output", (int) (100 * pid.getOutput()) + "%");
     }
 
     public void reactivate() {
