@@ -48,6 +48,11 @@ public class DefaultAutoMode extends OpMode{
     ElapsedTime timer;
     double startTime;
 
+    private int redOverBlue;
+    private boolean averaging=false;
+    private long avgTimeout;
+
+
     //final
     public final double JEWEL_ARM_DOWN_POS = 1;
     public final double JEWEL_ARM_UP_POS = 0;
@@ -127,16 +132,38 @@ public class DefaultAutoMode extends OpMode{
     }
 
     //colorProx
-    public boolean getJewelColor(){
-        if(colorSensor.red() > colorSensor.blue()){
-            jewelColor = JewelColor.RED;
-        }else if(colorSensor.blue()> colorSensor.red()){
-            jewelColor = BLUE;
-        }else {
-            jewelColor = JewelColor.UNKNOWN;
+    public boolean getJewelColorAvg()
+    {
+        if(!averaging) {
+            averaging=true;
+            avgTimeout=System.currentTimeMillis()+3000;
+            redOverBlue=0;
         }
-        telemetry.addData("Jewel Color", jewelColor);
-        return true;
+        int red=colorSensor.red();
+        int blue=colorSensor.blue();
+        if(red>blue) {
+            redOverBlue++;
+        }
+        if(blue>red) {
+            redOverBlue--;
+        }
+        if(Math.abs(redOverBlue)>10) {
+            if(redOverBlue>0) {
+                jewelColor=JewelColor.RED;
+            } else {
+                jewelColor=JewelColor.BLUE;
+            }
+            telemetry.addData("Jewel Color", jewelColor);
+            averaging=false;
+            return true;
+        }
+        if(System.currentTimeMillis()>avgTimeout) {
+            jewelColor=JewelColor.UNKNOWN;
+            telemetry.addData("Jewel Color", jewelColor);
+            averaging=false;
+            return true;
+        }
+        return false;
     }
 
     int jewelState = 0;
@@ -150,55 +177,19 @@ public class DefaultAutoMode extends OpMode{
                 break;
 
             case 1: // get reading
-                if(getJewelColor()){
+                if(getJewelColorAvg()){
                     jewelState++;
                 }
                 break;
 
             case 2: //react accordingly
-
-                switch (allianceColor){
-
-                    case RED:
-                        switch (jewelColor){
-                            case RED:
-                                if(autoTurn(30,1)){
-                                    jewelState++;
-                                }
-                                break;
-
-                            case BLUE:
-                                if(autoTurn(-30,1)){
-                                    jewelState++;
-                                }
-                                break;
-
-                            case UNKNOWN:
-                                jewelState++;
-                                break;
-                        }
-                        break;
-
-                    case BLUE:
-                        switch (jewelColor){
-                            case RED:
-                                if(autoTurn(-30,1)){
-
-                                    jewelState++;
-                                }
-                                break;
-
-                            case BLUE:
-                                if(autoTurn(30,1)){
-                                    jewelState++;
-                                }
-                                break;
-
-                            case UNKNOWN:
-                                jewelState++;
-                                break;
-                        }
-                        break;
+                double reactDegrees=(allianceColor==AllianceColor.RED)?30:-30;
+                if(jewelColor==BLUE)
+                {
+                    reactDegrees*=-1;
+                }
+                if(autoTurn(reactDegrees,1)){
+                    jewelState++;
                 }
                 break;
 
@@ -215,46 +206,13 @@ public class DefaultAutoMode extends OpMode{
                 break;
 
             case 5: //reset robot accordingly
-                switch (allianceColor){
-                    case RED:
-                        switch (jewelColor){
-                            case RED:
-                                if(autoTurn(-30,1)){
-                                    jewelState++;
-                                }
-                                break;
-
-                            case BLUE:
-                                if(autoTurn(30,1)){
-                                    jewelState++;
-                                }
-                                break;
-
-                            case UNKNOWN:
-                                jewelState++;
-                                break;
-                        }
-                        break;
-
-                    case BLUE:
-                        switch (jewelColor){
-                            case RED:
-                                if(autoTurn(30,1)){
-                                    jewelState++;
-                                }
-                                break;
-
-                            case BLUE:
-                                if(autoTurn(-30,1)){
-                                    jewelState++;
-                                }
-                                break;
-
-                            case UNKNOWN:
-                                jewelState++;
-                                break;
-                        }
-                        break;
+                double resetDegrees=(allianceColor==AllianceColor.RED)?-30:30;
+                if(jewelColor==BLUE)
+                {
+                    resetDegrees*=-1;
+                }
+                if(autoTurn(resetDegrees,1)){
+                    jewelState++;
                 }
                 break;
 
