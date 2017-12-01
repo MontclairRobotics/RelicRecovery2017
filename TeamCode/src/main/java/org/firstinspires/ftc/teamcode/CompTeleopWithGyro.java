@@ -9,19 +9,27 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Auto.DefaultAutoMode;
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
+import org.montclairrobotics.sprocket.geometry.Degrees;
+import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Garrett
  * */
-@TeleOp(name="Teleop: PLEASE DON'T DELETE THIS WILL")
-public class CompTeleop extends OpMode {
+@TeleOp(name="Teleop: Gyro Enabled")
+public class CompTeleopWithGyro extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
 
-//    Gyro gyro;
+    Gyro gyro;
+    PID gyroLock;
+    double zeroAngle;
 
+    enum CTRL_MODE {ROBOT,FIELD};
+
+    CTRL_MODE myCtrlMode;
 
     GlyphIntake2 intake;
     DcMotor liftA, liftB;
@@ -51,7 +59,10 @@ public class CompTeleop extends OpMode {
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
         intake = new GlyphIntake2(servos);
-//        gyro = new Gyro(hardwareMap);
+        gyro = new Gyro(hardwareMap);
+        myCtrlMode=CTRL_MODE.ROBOT;
+        gyroLock=new PID(.1,0,.1);
+        zeroAngle=gyro.get().getX();
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
@@ -67,6 +78,33 @@ public class CompTeleop extends OpMode {
         double x = gamepad1.left_stick_x * pow;
         double y = -gamepad1.left_stick_y * pow;
         double turn = gamepad1.right_stick_x * pow;
+
+        if(gamepad1.x)
+        {
+            zeroAngle=gyro.get().getX();
+        }
+
+        if(/*Math.abs(turn)<0.1 || */gamepad1.a)
+        {
+            turn=gyroLock.get(gyro.get().getX());
+        }
+
+        if(gamepad1.left_trigger>0.5)
+        {
+            myCtrlMode=CTRL_MODE.ROBOT;
+        }
+        if(gamepad1.right_trigger>0.5)
+        {
+            myCtrlMode=CTRL_MODE.FIELD;
+        }
+
+        if(myCtrlMode==CTRL_MODE.FIELD)
+        {
+            Vector ctrl=new XY(x,y);
+            ctrl.rotate(new Degrees(gyro.get().getX()-zeroAngle));
+            x=ctrl.getX();
+            y=ctrl.getY();
+        }
 
         frontRight.setPower(x - y + turn);
         backRight.setPower(-x - y + turn);

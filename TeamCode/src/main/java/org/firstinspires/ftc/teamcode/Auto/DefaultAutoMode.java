@@ -18,6 +18,8 @@ import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
+import static org.firstinspires.ftc.teamcode.Enums.JewelColor.BLUE;
+
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Will
@@ -129,7 +131,7 @@ public class DefaultAutoMode extends OpMode{
         if(colorSensor.red() > colorSensor.blue()){
             jewelColor = JewelColor.RED;
         }else if(colorSensor.blue()> colorSensor.red()){
-            jewelColor = JewelColor.BLUE;
+            jewelColor = BLUE;
         }else {
             jewelColor = JewelColor.UNKNOWN;
         }
@@ -153,15 +155,10 @@ public class DefaultAutoMode extends OpMode{
                 }
                 break;
 
-            case 2: // raise arm
-                hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
-                if(pause(2)){
-                    jewelState++;
-                }
-                break;
+            case 2: //react accordingly
 
-            case 3: //react accordingly
                 switch (allianceColor){
+
                     case RED:
                         switch (jewelColor){
                             case RED:
@@ -205,9 +202,16 @@ public class DefaultAutoMode extends OpMode{
                 }
                 break;
 
-            case 4: //reset encoders
+            case 3: //reset encoders
                 hardware.resetDriveEncoders();
                 jewelState++;
+                break;
+
+            case 4: // raise arm
+                hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
+                if(pause(2)){
+                    jewelState++;
+                }
                 break;
 
             case 5: //reset robot accordingly

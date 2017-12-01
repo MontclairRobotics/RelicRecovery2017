@@ -34,7 +34,7 @@ public class GyroLock {
                 // Reset the error record.
                 pid.error.reset();
                 // Set the target to the current trajectory.
-                pid.setTarget(gyro.get());
+                pid.setTarget(gyro.get().getX());
             }
 
             // It sure is active now.
@@ -52,8 +52,7 @@ public class GyroLock {
     }
 
     public void loop() {
-        gyro.update();
-        pid.setInput(gyro.get());
+        pid.setInput(gyro.get().getX());
         pid.update();
 
         Debug.msg("PID Input", pid.getInput().intValue() + "°");

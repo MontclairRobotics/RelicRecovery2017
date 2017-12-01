@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Robot;
-
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Rafi

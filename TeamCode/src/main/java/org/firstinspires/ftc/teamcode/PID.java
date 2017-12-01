@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.montclairrobotics.sprocket.utils.Input;
+
 /**
  * Created by Joshua Rapoport on 11/14/17.
  */
@@ -52,7 +54,7 @@ public class PID {
     protected Error error;
 
     /** The input from the robot, to be compared with the target. */
-    private Double input;
+    private double input;
     /** The robot's target, to be compared with the input. */
     private double target;
     private double output;
@@ -77,6 +79,7 @@ public class PID {
         this.input = this.target = this.output = 0.0;
 
         update();
+        lastUpdateTime=System.currentTimeMillis();
     }
 
     public double getOutput() {
@@ -104,9 +107,16 @@ public class PID {
                 error.total += error.current;
         }
 
-        double out = (P * error.current * dTime()) + (I * error.total) + (D * -dInput / dTime());
+        double dTime=dTime();
+        double dChg=0;
+        if(dTime>0)
+        {
+            dChg=D * -dInput / dTime;
+        }
 
-        setInput(newInput);
+        double out = (P * error.current * dTime()) + (I * error.total) + dChg;
+
+        input=newInput;
 
         if (outRange.compareTo(out) > 0)
             out = outRange.max;
@@ -173,5 +183,12 @@ public class PID {
 
     public void update() {
         lastUpdateTime = System.currentTimeMillis();
+    }
+
+    public double get(double in)
+    {
+        setInput(in);
+        lastUpdateTime=System.currentTimeMillis();
+        return output;
     }
 }
