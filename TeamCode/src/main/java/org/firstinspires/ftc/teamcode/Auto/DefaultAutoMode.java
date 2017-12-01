@@ -9,10 +9,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
-import org.firstinspires.ftc.teamcode.Auto.Enums.JewelColor;
-import org.firstinspires.ftc.teamcode.Auto.Enums.PictogramResults;
-import org.firstinspires.ftc.teamcode.Auto.Enums.StartPosition;
+import org.firstinspires.ftc.teamcode.Enums.AllianceColor;
+import org.firstinspires.ftc.teamcode.Enums.JewelColor;
+import org.firstinspires.ftc.teamcode.Enums.PictogramResults;
+import org.firstinspires.ftc.teamcode.Enums.StartPosition;
 import org.firstinspires.ftc.teamcode.Gyro;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -142,7 +142,7 @@ public class DefaultAutoMode extends OpMode{
         switch (jewelState){
             case 0: //lower arm
                 hardware.jewelArm.setPosition(JEWEL_ARM_DOWN_POS);
-                if(hardware.jewelArm.getPosition()==JEWEL_ARM_DOWN_POS){
+                if(pause(2)){
                     jewelState++;
                 }
                 break;
@@ -155,7 +155,7 @@ public class DefaultAutoMode extends OpMode{
 
             case 2: // raise arm
                 hardware.jewelArm.setPosition(JEWEL_ARM_UP_POS);
-                if(hardware.jewelArm.getPosition() == JEWEL_ARM_UP_POS){
+                if(pause(2)){
                     jewelState++;
                 }
                 break;
@@ -165,13 +165,13 @@ public class DefaultAutoMode extends OpMode{
                     case RED:
                         switch (jewelColor){
                             case RED:
-                                if(autoTurn(90,1)){
+                                if(autoTurn(30,1)){
                                     jewelState++;
                                 }
                                 break;
 
                             case BLUE:
-                                if(autoTurn(-90,1)){
+                                if(autoTurn(-30,1)){
                                     jewelState++;
                                 }
                                 break;
@@ -185,14 +185,14 @@ public class DefaultAutoMode extends OpMode{
                     case BLUE:
                         switch (jewelColor){
                             case RED:
-                                if(autoTurn(-90,1)){
+                                if(autoTurn(-30,1)){
 
                                     jewelState++;
                                 }
                                 break;
 
                             case BLUE:
-                                if(autoTurn(90,1)){
+                                if(autoTurn(30,1)){
                                     jewelState++;
                                 }
                                 break;
@@ -215,13 +215,13 @@ public class DefaultAutoMode extends OpMode{
                     case RED:
                         switch (jewelColor){
                             case RED:
-                                if(autoTurn(-90,1)){
+                                if(autoTurn(-30,1)){
                                     jewelState++;
                                 }
                                 break;
 
                             case BLUE:
-                                if(autoTurn(90,1)){
+                                if(autoTurn(30,1)){
                                     jewelState++;
                                 }
                                 break;
@@ -235,13 +235,13 @@ public class DefaultAutoMode extends OpMode{
                     case BLUE:
                         switch (jewelColor){
                             case RED:
-                                if(autoTurn(90,1)){
+                                if(autoTurn(30,1)){
                                     jewelState++;
                                 }
                                 break;
 
                             case BLUE:
-                                if(autoTurn(-90,1)){
+                                if(autoTurn(-30,1)){
                                     jewelState++;
                                 }
                                 break;

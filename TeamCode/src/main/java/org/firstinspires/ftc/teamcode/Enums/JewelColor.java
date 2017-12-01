@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto.Enums;
+package org.firstinspires.ftc.teamcode.Enums;
 
 /**
  * Created by Montclair Robotics on 11/29/2017.

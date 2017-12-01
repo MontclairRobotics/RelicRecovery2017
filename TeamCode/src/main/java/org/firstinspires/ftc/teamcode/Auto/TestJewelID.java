@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Auto.Enums.AllianceColor;
-import org.montclairrobotics.sprocket.actions.StateMachine;
-import org.montclairrobotics.sprocket.auto.states.DriveTime;
-import org.montclairrobotics.sprocket.geometry.XY;
+import org.firstinspires.ftc.teamcode.Enums.AllianceColor;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
