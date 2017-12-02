@@ -71,59 +71,54 @@ public class CompTeleopWithGyro extends OpMode {
 
     @Override
     public void loop(){
-
         double pow = 1;
 
         if (gamepad1.left_bumper) {
-            pow = 0.5;//maybe lower
+            pow = 0.5; //maybe lower
         }
 
-        double x = gamepad1.left_stick_x * pow;
-        double y = -gamepad1.left_stick_y * pow;
+        double x = 0.0;
+        double y = 0.0;
         double turn = gamepad1.right_stick_x * pow;
 
-        if(gamepad1.dpad_up) {
-            y=pow;
-        }
-        if(gamepad1.dpad_left) {
-            x=-pow;
-        }
-        if(gamepad1.dpad_down) {
-            y=-pow;
-        }
-        if(gamepad1.dpad_right) {
+        if (gamepad1.dpad_up)
+            y = pow;
+        else if (gamepad1.dpad_down)
+            y = -pow;
+        else
+            y = -gamepad1.left_stick_y * pow;
+
+        if (gamepad1.dpad_left)
+            x = -pow;
+        else if (gamepad1.dpad_right)
             x=pow;
-        }
+        else
+            x = gamepad1.left_stick_x * pow;
 
         if(gamepad1.x) {
-            zeroAngle=gyro.get().getX();
+            zeroAngle = gyro.get().getX();
+        }
+//
+//        if (gamepad1.a && !lastEnabled) {
+//            gyroLock.setTarget(-gyro.get().getX());
+//            turn = gyroLock.get(-gyro.get().getX());
+//        }
+//
+//        lastEnabled = gamepad1.a;
+
+        if (gamepad1.left_trigger > 0.5) {
+            myCtrlMode = CTRL_MODE.ROBOT;
         }
 
-        if(Math.abs(turn)<0.1 || gamepad1.a) {
-            if (!lastEnabled) {
-                gyroLock.setTarget(-gyro.get().getX());
-            }
-
-            turn = gyroLock.get(-gyro.get().getX());
-        } else {
-            gyroLock.get(-gyro.get().getX());
+        if (gamepad1.right_trigger > 0.5) {
+            myCtrlMode = CTRL_MODE.FIELD;
         }
 
-        lastEnabled = gamepad1.a;
-
-        if(gamepad1.left_trigger>0.5) {
-            myCtrlMode=CTRL_MODE.ROBOT;
-        }
-
-        if(gamepad1.right_trigger>0.5) {
-            myCtrlMode=CTRL_MODE.FIELD;
-        }
-
-        if(myCtrlMode==CTRL_MODE.FIELD) {
-            Vector ctrl=new XY(x,y);
-            ctrl.rotate(new Degrees(gyro.get().getX()-zeroAngle));
-            x=ctrl.getX();
-            y=ctrl.getY();
+        if(myCtrlMode == CTRL_MODE.FIELD) {
+            Vector ctrl = new XY(x,y);
+            ctrl.rotate(new Degrees(gyro.get().getX() - zeroAngle));
+            x = ctrl.getX();
+            y = ctrl.getY();
         }
 
         double fr =  x - y + turn;
@@ -133,12 +128,12 @@ public class CompTeleopWithGyro extends OpMode {
 
         double max = Math.max(1.0, Math.max(Math.max(Math.abs(fr), Math.abs(br)), Math.max(Math.abs(bl), Math.abs(fl))));
 
-        frontRight.setPower(fr/max);
-        backRight.setPower(br/max);
+        frontRight.setPower(fr / max);
+        backRight.setPower(br / max);
         backLeft.setPower(bl/max);
         frontLeft.setPower(fr/max);
 
-        if (gamepad2.a||gamepad2.x)
+        if (gamepad2.a || gamepad2.x)
             intake.openBottom();
         else
             intake.closeBottom();
@@ -153,7 +148,7 @@ public class CompTeleopWithGyro extends OpMode {
 
         telemetry.addData("Limit Switch", limitSwitch);
         telemetry.addData("Control Mode",myCtrlMode);
-        telemetry.addData("Gyro Angle", gyro.get().getX() + " deg");
+        telemetry.addData("Gyro Angle",  (int) gyro.get().getX() + " deg");
         telemetry.addData("Turn: ", turn);
         telemetry.update();
     }
