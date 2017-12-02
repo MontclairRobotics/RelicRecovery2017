@@ -26,7 +26,7 @@ public class Gyro {
         parameters.loggingTag           = "IMU"; // set the logging tag
 
         imu.initialize(parameters);
-        imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG, 6);
+        //imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG, 6);
 
     }
 

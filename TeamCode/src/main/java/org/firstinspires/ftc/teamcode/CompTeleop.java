@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Garrett
  * */
-@TeleOp(name="Teleop: Competition")
+@TeleOp(name="ANNEEKAH Teleop: Competition")
 public class CompTeleop extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;

@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.CompTeleop;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Rafi
+ * @author Rafi
  * */
 
 public class GlyphIntake2 {
