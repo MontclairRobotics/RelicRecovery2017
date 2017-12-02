@@ -48,7 +48,8 @@ public class CompTeleop extends OpMode {
     @Override
     public void loop() {
         gyro.update();
-        driveTrain.driveMechanum(gamepad1);
+        driveTrain.halfPower(gamepad1.left_bumper);
+        driveTrain.driveMechanum(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
         if (gamepad2.a)
             intake.openBottom();
