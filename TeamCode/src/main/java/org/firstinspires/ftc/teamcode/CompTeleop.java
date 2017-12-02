@@ -7,14 +7,14 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Auto.DefaultAutoMode;
-import org.firstinspires.ftc.teamcode.Components.DriveTrain;
+//import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Garrett
  * */
-@TeleOp(name="ANNEEKAH Teleop: Competition")
+@TeleOp(name="ANEEKAH Teleop: Competition")
 public class CompTeleop extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
@@ -66,7 +66,7 @@ public class CompTeleop extends OpMode {
             pow = 0.5;
         }
 
-        double x = gamepad1.left_stick_x * pow;
+        double x = gamepad1.left_stick_x * pow * 2;
         double y = -gamepad1.left_stick_y * pow;
         double turn = gamepad1.right_stick_x * pow;
 

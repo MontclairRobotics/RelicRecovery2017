@@ -26,7 +26,7 @@ import static org.firstinspires.ftc.teamcode.Enums.JewelColor.BLUE;
  * */
 
 
-public class DefaultAutoMode extends OpMode{
+public class DefaultAutoMode extends OpMode {
 
     //Vuforia Vars
     VuforiaLocalizer vuforia;

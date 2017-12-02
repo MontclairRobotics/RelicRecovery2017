@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Enums.AllianceColor;
 /**
  * Created by Montclair Robotics on 12/1/2017.
  */
-@Autonomous(name = "Production: Red")
+@Autonomous(name = "Production: Red Jewel")
 public class ProductionRed extends DefaultAutoMode{
     @Override
     public void init() {

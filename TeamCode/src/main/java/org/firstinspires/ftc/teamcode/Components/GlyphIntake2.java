@@ -27,7 +27,7 @@ public class GlyphIntake2 {
         servoOpen[CompTeleop.SERVORT]     = 0.78; //from 11/30
         servoOpen[CompTeleop.SERVOLT]      = 0.4; //from 11/30
         servoOpen[CompTeleop.SERVORB]  = 0.44; //from 11/30
-        servoOpen[CompTeleop.SERVOLB]   = 0.446; //from 11/30
+        servoOpen[CompTeleop.SERVOLB]   = 0.5; //from 11/30
 
         servoClose[CompTeleop.SERVORT]    = 0.45; //from 11/30
         servoClose[CompTeleop.SERVOLT]     = 0.5; //from 11/30

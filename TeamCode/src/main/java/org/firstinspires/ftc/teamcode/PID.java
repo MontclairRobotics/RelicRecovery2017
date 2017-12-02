@@ -7,188 +7,54 @@ import org.montclairrobotics.sprocket.utils.Input;
  */
 
 public class PID {
-    public class Range {
-        double min, max;
+    double P,I,D;
+    double minIn,maxIn;
+    double minOut,maxOut;
 
-        public Range() {
-            this.min = this.max = 0;
-        }
-        public Range(double a, double b) {
-            this.min = a;
-            this.max = b;
-        }
+    double target;
+    double lastError;
+    double currentError;
+    double rateError;
+    double totalError;
+    long lastUpdateTimeMillis;
 
-        public double distance() {
-            return Math.abs(max - min);
-        }
-        public boolean contains(double x) {
-            return x >= min && x <= max;
-        }
-        public int compareTo(double x) {
-            if (contains(x))
-                return 0;
-            else if (x < min)
-                return -1;
-            else
-                return 1;
-        }
+    public PID(double p,double i, double d,double minIn,double maxIn, double minOut,double maxOut)
+    {
+        P=p;
+        I=i;
+        D=d;
+        this.minIn=minIn; this.maxIn = maxIn;
+        this.minOut=minOut; this.maxOut = maxOut;
+        target=0.0;
+        totalError=currentError = rateError= 0.0;
+        lastUpdateTimeMillis=System.currentTimeMillis();
     }
 
-    public class Error {
-        double current, total;
-        public Error() {
-            reset();
-        }
-        public void update() {
-            total += current * dTime();
-        }
-        public void reset() { current = total = 0; }
+    public void setTarget(double t)
+    {
+        target=t;
     }
 
-    private double P, I, D;
-    /** The acceptable range of input. */
-    protected Range inRange;
-    /** The acceptable range of output. */
-    protected Range outRange;
-    /** An object that handles error due to input-target difference. */
-    protected Error error;
+    public double get(double in) {
+        double dt = System.currentTimeMillis() - lastUpdateTimeMillis;
+        lastUpdateTimeMillis = System.currentTimeMillis();
 
-    /** The input from the robot, to be compared with the target. */
-    private double input;
-    /** The robot's target, to be compared with the input. */
-    private double target;
-    private double output;
 
-    private long lastUpdateTime;
-
-    /**
-     * @param p the proportionality constant.
-     * @param i the integral constant.
-     * @param d the derivative constant.
-     */
-    public PID(double p, double i, double d) {
-        this.P = p;
-        this.I = i;
-        this.D = d;
-
-        this.inRange = new Range();
-        this.outRange = new Range();
-
-        this.error = new Error();
-
-        this.input = this.target = this.output = 0.0;
-
-        update();
-        lastUpdateTime=System.currentTimeMillis();
-    }
-
-    public double getOutput() {
-        return output;
-    }
-    private double setOutput(double newInput) {
-        error.current = target - newInput;
-        double dInput = newInput - input;
-
-        double diff = inRange.distance();
-        if (diff != 0) {
-            error.current = ((error.current - inRange.min) % diff + diff) % diff + inRange.min;
-            dInput = ((dInput - inRange.min) % diff + diff) % diff + inRange.min;
-        }
-
-        error.update();
+        double diff=maxIn-minIn;
+        double currentError = ((target-in-minIn)%diff+diff)%diff+minIn;
+        double rateError = (dt > 0) ? (lastError - currentError) / dt : 0;
+        lastError=currentError;
 
         if (I != 0) {
-            double potentialI = (error.current + error.total) * I;
-            if (outRange.compareTo(potentialI) > 0)
-                error.total = outRange.max / I;
-            else if (outRange.compareTo(potentialI) < 0)
-                error.total = outRange.min / I;
+            double potentialI = (totalError + lastError) * I;
+            if (potentialI > maxOut)
+                totalError = maxOut / I;
+            else if (potentialI < minOut)
+                totalError = minOut / I;
             else
-                error.total += error.current;
+                totalError += currentError * dt;
         }
 
-        double dTime=dTime();
-        double dChg=0;
-        if(dTime>0)
-        {
-            dChg=D * -dInput / dTime;
-        }
-
-        double out = (P * error.current * dTime()) + (I * error.total) + dChg;
-
-        input=newInput;
-
-        if (outRange.compareTo(out) > 0)
-            out = outRange.max;
-        else if (outRange.compareTo(out) < 0)
-            out = outRange.min;
-
-        return out;
-    }
-
-    /** @return a reference to a different PID object with identical properties */
-    public PID copy() {
-        PID c = new PID(P, I, D);
-        c.setInputRange(inRange.min, inRange.max);
-        c.setOutputRange(outRange.min, outRange.max);
-        c.setTarget(target);
-
-        return c;
-    }
-
-    public void setPID(double p, double i, double d) {
-        P = p;
-        I = i;
-        D = d;
-    }
-    /** @return P, the proportional constant. */
-    public double getP() {
-        return P;
-    }
-    /** @return I, the integral constant. */
-    public double getI() {
-        return I;
-    }
-    /** @return D, the derivative constant. */
-    public double getD() {
-        return D;
-    }
-
-    public void setInputRange(double a, double b) {
-        this.inRange = new Range(a, b);
-    }
-    public void setOutputRange(double a, double b) {
-        this.outRange = new Range(a, b);
-    }
-
-    public Double getInput() {
-        return input;
-    }
-
-    /** Use this method to get a new output value. */
-    public void setInput(double i) {
-        this.output = setOutput(i);
-        this.input = i;
-    }
-
-    public double getTarget() {
-        return target;
-    }
-    public void setTarget(double t) { this.target = target; }
-
-    /** @return the time difference from the last update. */
-    public double dTime() {
-        return System.currentTimeMillis() - lastUpdateTime;
-    }
-
-    public void update() {
-        lastUpdateTime = System.currentTimeMillis();
-    }
-
-    public double get(double in)
-    {
-        setInput(in);
-        lastUpdateTime=System.currentTimeMillis();
-        return output;
+        return (P * currentError) + (I * totalError) + (D * rateError);
     }
 }

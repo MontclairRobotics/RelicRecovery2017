@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.teamcode.Enums.AllianceColor;
 
 /**
  * Created by Montclair Robotics on 12/1/2017.
  */
-
+@Autonomous(name="Production Red Jewel")
 public class ProductionBlue extends DefaultAutoMode {
     @Override
     public void init() {

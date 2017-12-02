@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Auto.DefaultAutoMode;
-import org.firstinspires.ftc.teamcode.Components.DriveTrain;
+//import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -27,6 +27,7 @@ public class CompTeleopWithGyro extends OpMode {
 
     Gyro gyro;
     PID gyroLock;
+    boolean lastEnabled;
     double zeroAngle;
 
     enum CTRL_MODE {ROBOT,FIELD};
@@ -63,7 +64,7 @@ public class CompTeleopWithGyro extends OpMode {
         intake = new GlyphIntake2(servos);
         gyro = new Gyro(hardwareMap);
         myCtrlMode=CTRL_MODE.ROBOT;
-        gyroLock=new PID(.1,0,.1);
+        gyroLock=new PID(.04,0,0.4, -180, 180, -1.0, 1.0);
         zeroAngle=gyro.get().getX();
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
@@ -71,65 +72,71 @@ public class CompTeleopWithGyro extends OpMode {
     @Override
     public void loop(){
 
-        double pow = 1.0;
+        double pow = 1;
 
         if (gamepad1.left_bumper) {
-            pow = 0.5;
+            pow = 0.5;//maybe lower
         }
 
         double x = gamepad1.left_stick_x * pow;
         double y = -gamepad1.left_stick_y * pow;
         double turn = gamepad1.right_stick_x * pow;
 
-        if(gamepad1.dpad_up)
-        {
+        if(gamepad1.dpad_up) {
             y=pow;
         }
-        if(gamepad1.dpad_left)
-        {
+        if(gamepad1.dpad_left) {
             x=-pow;
         }
-        if(gamepad1.dpad_down)
-        {
+        if(gamepad1.dpad_down) {
             y=-pow;
         }
-        if(gamepad1.dpad_right)
-        {
+        if(gamepad1.dpad_right) {
             x=pow;
         }
 
-        if(gamepad1.x)
-        {
+        if(gamepad1.x) {
             zeroAngle=gyro.get().getX();
         }
 
-        if(/*Math.abs(turn)<0.1 || */gamepad1.a)
-        {
-            turn=gyroLock.get(gyro.get().getX());
+        if(Math.abs(turn)<0.1 || gamepad1.a) {
+            if (!lastEnabled) {
+                gyroLock.setTarget(-gyro.get().getX());
+            }
+
+            turn = gyroLock.get(-gyro.get().getX());
+        } else {
+            gyroLock.get(-gyro.get().getX());
         }
 
-        if(gamepad1.left_trigger>0.5)
-        {
+        lastEnabled = gamepad1.a;
+
+        if(gamepad1.left_trigger>0.5) {
             myCtrlMode=CTRL_MODE.ROBOT;
         }
-        if(gamepad1.right_trigger>0.5)
-        {
+
+        if(gamepad1.right_trigger>0.5) {
             myCtrlMode=CTRL_MODE.FIELD;
         }
 
-        if(myCtrlMode==CTRL_MODE.FIELD)
-        {
+        if(myCtrlMode==CTRL_MODE.FIELD) {
             Vector ctrl=new XY(x,y);
             ctrl.rotate(new Degrees(gyro.get().getX()-zeroAngle));
             x=ctrl.getX();
             y=ctrl.getY();
         }
 
-        frontRight.setPower(x - y + turn);
-        backRight.setPower(-x - y + turn);
-        backLeft.setPower(-x + y + turn);
-        frontLeft.setPower(x + y + turn);
+        double fr =  x - y + turn;
+        double br = -x - y + turn;
+        double bl = -x + y + turn;
+        double fl =  x + y + turn;
 
+        double max = Math.max(1.0, Math.max(Math.max(Math.abs(fr), Math.abs(br)), Math.max(Math.abs(bl), Math.abs(fl))));
+
+        frontRight.setPower(fr/max);
+        backRight.setPower(br/max);
+        backLeft.setPower(bl/max);
+        frontLeft.setPower(fr/max);
 
         if (gamepad2.a||gamepad2.x)
             intake.openBottom();
@@ -146,6 +153,8 @@ public class CompTeleopWithGyro extends OpMode {
 
         telemetry.addData("Limit Switch", limitSwitch);
         telemetry.addData("Control Mode",myCtrlMode);
-        telemetry.addData("Gyro Angle",gyro.get().getX());
+        telemetry.addData("Gyro Angle", gyro.get().getX() + " deg");
+        telemetry.addData("Turn: ", turn);
+        telemetry.update();
     }
 }

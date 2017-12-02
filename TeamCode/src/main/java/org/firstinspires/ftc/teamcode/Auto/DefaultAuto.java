@@ -17,18 +17,21 @@ public class DefaultAuto extends DefaultAutoMode {
     @Override
     public void loop() {
         switch (state){
-
-            case 0: // raise glyph
+            case 0:
                 hardware.lift.closeAll();
+                nextState(pause(0.5));
+                break;
+            case 1: // raise glyph
+                hardware.lift.closeAll();
+
                 nextState(raiseGlyph());
                 break;
-
-            case 1: //get jewel
+            case 2: //get jewel
                 hardware.lift.closeAll();
                 nextState(/*getJewel()*/true);
                 break;
 
-            case 2: //drive forward or backward 24 + 2(to get off balancing stone)
+            case 3: //drive forward or backward 24 + 2(to get off balancing stone)
                 hardware.lift.closeAll();
                 switch (allianceColor){
                     case RED:
@@ -41,44 +44,43 @@ public class DefaultAuto extends DefaultAutoMode {
                 }
                 break;
 
-            case 3: // turn based on color
+            case 4: // turn based on color
                 hardware.lift.closeAll();
                 nextState(driveTurn());
                 break;
 
-            case 4: // drive to safezone
+            case 5: // drive to safezone
                 hardware.lift.closeAll();
                 nextState(safeZoneDrive());
                 break;
 
-            case 5: // turn at cryptobox
+            case 6: // turn at cryptobox
                 hardware.lift.closeAll();
                 nextState(cryptoBoxTurn());
                 break;
 
-            case 6: //input glyph
+            case 7: //input glyph
                 hardware.lift.closeAll();
                 nextState(autoDrive(new XY(0,6),1));
                 break;
 
-            case 7: // lower glyph
+            case 8: // lower glyph
                 hardware.lift.closeAll();
                 nextState(lowerGlyph());
                 break;
 
-            case 8: //release glyph
+            case 9: //release glyph
                 hardware.lift.openAll();
                 nextState(pause(1));
                 break;
 
-            case 9: //back away
-                nextState(autoDrive(new XY(0,-4),1));
+            case 10: //back away
+                nextState(autoDrive(new XY(0,-2),1));
                 break;
 
-            case 10   : //Telemetry
+            case 11   : //Telemetry
                 telemetry.addData("INFO",LSA);
                 break;
-
         }
     }
 }
