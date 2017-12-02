@@ -64,7 +64,8 @@ public class CompTeleop extends OpMode {
         liftB.setPower(-gamepad2.left_stick_y);
 
         telemetry.addData("Orientation", gyro.getX() + "°");
-        telemetry.addData("Limit Switch", limitSwitch);
+//        telemetry.addData("Limit Switch", limitSwitch);
+        telemetry.update();
     }
 
 

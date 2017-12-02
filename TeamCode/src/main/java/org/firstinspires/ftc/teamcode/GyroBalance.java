@@ -30,8 +30,5 @@ public class GyroBalance {
     public void update() {
         xPID.setInput(gyro.getY()); // TODO: double check please
         yPID.setInput(gyro.getZ()); // TODO: double check please
-
-        xPID.update();
-        yPID.update();
     }
 }

@@ -21,9 +21,9 @@ public class DriveTrain {
     DcMotor frontLeft, frontRight, backLeft, backRight;
 
     public DriveTrain(HardwareMap map) {
-        this.lock = new GyroLock(new PID(0.01, 0, 0.01)); // TODO: Test GyroLock
+        this.lock = new GyroLock(new PID(0.02, 0, 0.01)); // TODO: Calibrate GyroLock
 
-//        this.balance = new GyroBalance(new PID(0,0,0), new PID(0,0,0)); // TODO: Test GyroBalance
+//        this.balance = new GyroBalance(new PID(0, 0, 0), new PID(0, 0, 0)); // TODO: Calibrate GyroBalance
 
         frontRight = map.get(DcMotor.class, "right_front");
         backRight = map.get(DcMotor.class, "right_back");
@@ -58,10 +58,11 @@ public class DriveTrain {
         double y = g.left_stick_y * pow;
         double turn = g.right_stick_x * pow;
 
-        if (Math.abs(turn) < TURN_ERROR) {
+        //TODO: Press and hold `A` to use GyroLock
+        if (g.a && Math.abs(turn) < TURN_ERROR) {
             lock.reactivate();
             lock.update();
-            turn = lock.correction();
+            turn = lock.correction() * pow;
         } else {
             lock.deactivate();
         }

@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 /**
- * Created by Joshua Rapoport on 11/14/17.
+ * @author Joshua Rapoport
+ * @version 12/1/2017
  */
 
 public class PID {
@@ -19,37 +20,34 @@ public class PID {
         public double distance() {
             return Math.abs(max - min);
         }
-        public boolean contains(double x) {
-            return x >= min && x <= max;
-        }
         public int compareTo(double x) {
-            if (contains(x))
-                return 0;
-            else if (x < min)
+            if (x < min)
                 return -1;
-            else
+            else if (x > max)
                 return 1;
+            else
+                return 0;
         }
     }
 
     public class Error {
-        double current, total;
+        double current, rate, total;
+
         public Error() {
             reset();
         }
-        public void updateCurrent() {
-            if (Math.abs(target - input) <= 180) {
-                current = target - input;
-            } else if (target > input) {
-                current = 360 - Math.abs(target) - Math.abs(input);
-            } else {
-                current = Math.abs(target) - Math.abs(input) - 360;
-            }
-        }
-        public void updateTotal() {
+
+        /**
+         * Update the current error, error rate, and total error.
+         * @param i new input with which to update.
+         */
+        public void update(double i) {
+            rate = ((target - i) - current) / dTime();
+            current = target - i;
             total += current * dTime();
         }
-        public void reset() { current = total = 0; }
+
+        public void reset() { current = rate = total = 0; }
     }
 
     private double P, I, D;
@@ -57,6 +55,7 @@ public class PID {
     protected Range inRange;
     /** The acceptable range of output. */
     protected Range outRange;
+
     /** An object that handles error due to input-target difference. */
     protected Error error;
 
@@ -64,6 +63,7 @@ public class PID {
     private Double input;
     /** The robot's target, to be compared with the input. */
     private double target;
+    /** The calculated output to correct the error. */
     private double output;
 
     private long lastUpdateTime;
@@ -85,52 +85,57 @@ public class PID {
 
         this.input = this.target = this.output = 0.0;
 
-        update();
+        this.lastUpdateTime = System.currentTimeMillis() / 1000;
     }
 
-    public double getOutput() {
-        return output;
-    }
-    private double setOutput(double newInput) {
-        error.updateCurrent();
-        double dInput = newInput - input;
+    /** Create a copy of a PID object with identical properties */
+    public PID(PID pid) {
+        this.P = pid.P;
+        this.I = pid.I;
+        this.D = pid.D;
 
-        double diff = inRange.distance();
-        if (diff != 0) {
-            error.current = ((error.current - inRange.min) % diff + diff) % diff + inRange.min;
-            dInput = ((dInput - inRange.min) % diff + diff) % diff + inRange.min;
+        this.inRange = pid.inRange;
+        this.outRange = pid.outRange;
+
+        this.error = pid.error;
+
+        this.input = pid.input;
+        this.target = pid.target;
+        this.output = pid.output;
+
+        this.lastUpdateTime = pid.lastUpdateTime;
+    }
+
+    /** Use this method to get a new output value. */
+    public void setInput(double i) {
+        error.update(i);
+        this.updateOutput();
+        this.input = i;
+    }
+
+    private void updateOutput() {
+        double d = inRange.distance();
+        if (d != 0) {
+            error.current = ((error.current - inRange.min) % d + d) % d + inRange.min;
         }
 
-        error.updateTotal();
-
         if (I != 0) {
-            double potentialI = (error.current + error.total) * I;
+            double potentialI = I * error.total;
+
             if (outRange.compareTo(potentialI) > 0)
                 error.total = outRange.max / I;
             else if (outRange.compareTo(potentialI) < 0)
                 error.total = outRange.min / I;
-            else
-                error.total += error.current;
         }
 
-        double out = (P * error.current * dTime()) + (I * error.total) + (D * -dInput / dTime());
+        this.output = (P * error.current) + (I * error.total) + (D * error.rate);
 
-        if (outRange.compareTo(out) > 0)
-            out = outRange.max;
-        else if (outRange.compareTo(out) < 0)
-            out = outRange.min;
+        if (outRange.compareTo(output) > 0)
+            this.output = outRange.max;
+        else if (outRange.compareTo(output) < 0)
+            this.output = outRange.min;
 
-        return out;
-    }
-
-    /** @return a reference to a different PID object with identical properties */
-    public PID copy() {
-        PID c = new PID(P, I, D);
-        c.setInputRange(inRange.min, inRange.max);
-        c.setOutputRange(outRange.min, outRange.max);
-        c.setTarget(target);
-
-        return c;
+        lastUpdateTime = System.currentTimeMillis() / 1000;
     }
 
     public void setPID(double p, double i, double d) {
@@ -161,24 +166,17 @@ public class PID {
     public Double getInput() {
         return input;
     }
-
-    /** Use this method to get a new output value. */
-    public void setInput(double i) {
-        this.output = setOutput(i);
-        this.input = i;
-    }
-
     public double getTarget() {
         return target;
     }
-    public void setTarget(double t) { this.target = target; }
+    public double getOutput() {
+        return output;
+    }
+
+    public void setTarget(double t) { this.target = t; }
 
     /** @return the time difference from the last update. */
     public double dTime() {
-        return System.currentTimeMillis() - lastUpdateTime;
-    }
-
-    public void update() {
-        lastUpdateTime = System.currentTimeMillis();
+        return (System.currentTimeMillis() / 1000) - lastUpdateTime;
     }
 }

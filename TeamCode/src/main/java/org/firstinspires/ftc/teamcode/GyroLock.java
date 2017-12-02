@@ -27,7 +27,6 @@ public class GyroLock {
 
     public void update() {
         pid.setInput(gyro.getX());
-        pid.update();
 
 //        Debug.msg("GyroLock: Input", pid.getInput().intValue() + "°");
 //        Debug.msg("GyroLock: Output", (int) (100 * pid.getOutput()) + "%");
