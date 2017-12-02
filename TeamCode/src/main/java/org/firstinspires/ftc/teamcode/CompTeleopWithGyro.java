@@ -126,12 +126,12 @@ public class CompTeleopWithGyro extends OpMode {
         double bl = -x + y + turn;
         double fl =  x + y + turn;
 
-        double max = Math.max(1.0, Math.max(Math.max(Math.abs(fr), Math.abs(br)), Math.max(Math.abs(bl), Math.abs(fl))));
+        double max = (1/Math.sqrt(2) + 1);
 
         frontRight.setPower(fr / max);
         backRight.setPower(br / max);
-        backLeft.setPower(bl/max);
-        frontLeft.setPower(fr/max);
+        backLeft.setPower(bl / max);
+        frontLeft.setPower(fr / max);
 
         if (gamepad2.a || gamepad2.x)
             intake.openBottom();
