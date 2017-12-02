@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.montclairrobotics.sprocket.geometry.XY;
+
 /**
  * Created by Montclair Robotics on 11/30/2017.
  */
@@ -22,7 +24,7 @@ public class ProductionSafeZone extends DefaultAutoMode {
 
             case 1:
                 hardware.lift.closeAll();
-                nextState(safeZoneDrive());
+                nextState(autoDrive(new XY(0,26),1));
                 break;
 
             case 2:

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Garrett
  * */
-@TeleOp(name="Teleop: PLEASE DON'T DELETE THIS WILL")
+@TeleOp(name="Teleop: Competition")
 public class CompTeleop extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
@@ -72,7 +72,6 @@ public class CompTeleop extends OpMode {
         backRight.setPower(-x - y + turn);
         backLeft.setPower(-x + y + turn);
         frontLeft.setPower(x + y + turn);
-
 
         if (gamepad2.a)
             intake.openBottom();

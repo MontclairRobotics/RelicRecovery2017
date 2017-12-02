@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,6 +19,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * @Author:Garrett
  * */
 @TeleOp(name="Teleop: Gyro Enabled")
+@Disabled
 public class CompTeleopWithGyro extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
@@ -126,5 +128,6 @@ public class CompTeleopWithGyro extends OpMode {
         liftB.setPower(-gamepad2.left_stick_y);
 
         telemetry.addData("Limit Switch", limitSwitch);
+        telemetry.addData("Control Mode",myCtrlMode);
     }
 }

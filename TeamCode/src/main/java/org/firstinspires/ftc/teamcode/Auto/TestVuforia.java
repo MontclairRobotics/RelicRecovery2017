@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
  * @Author:Will
  * */
 @Autonomous(name = "Test: Vision")
+@Disabled
 public class TestVuforia extends DefaultAutoMode {
     @Override
     public void init() {

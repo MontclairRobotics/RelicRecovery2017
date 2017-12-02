@@ -60,6 +60,7 @@ public class DefaultAutoMode extends OpMode{
     public final double TICKS_PER_INCH = 1500/42.3;
     public final double TICKS_PER_DEGREE = (43.23/360)*TICKS_PER_INCH*2.5;
     public final double TICKS_PER_LIFT_INCH = 1400/6.5;
+    public final double autoTurnSpeed = 0.75;
 
 
 
@@ -73,7 +74,7 @@ public class DefaultAutoMode extends OpMode{
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
-        visionInit();
+//        visionInit();
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");
@@ -132,6 +133,19 @@ public class DefaultAutoMode extends OpMode{
     }
 
     //colorProx
+    public boolean getJewelColor(){
+        if(colorSensor.red() > colorSensor.blue()){
+            jewelColor = JewelColor.RED;
+
+        }else if(colorSensor.blue()> colorSensor.red()){
+            jewelColor = JewelColor.BLUE;
+        }else {
+            jewelColor = JewelColor.UNKNOWN;
+        }
+        telemetry.addData("Color",jewelColor);
+        return true;
+    }
+
     public boolean getJewelColorAvg()
     {
         if(!averaging) {
@@ -177,19 +191,61 @@ public class DefaultAutoMode extends OpMode{
                 break;
 
             case 1: // get reading
-                if(getJewelColorAvg()){
+                if(getJewelColor()){
                     jewelState++;
                 }
                 break;
 
             case 2: //react accordingly
-                double reactDegrees=(allianceColor==AllianceColor.RED)?30:-30;
-                if(jewelColor==BLUE)
-                {
-                    reactDegrees*=-1;
-                }
-                if(autoTurn(reactDegrees,1)){
-                    jewelState++;
+//                double reactDegrees=(allianceColor==AllianceColor.RED)?-30:30;
+//                if(jewelColor==BLUE) {
+//                    reactDegrees*=-1;
+//                }
+//                if(autoTurn(reactDegrees,autoTurnSpeed)){
+//                    jewelState++;
+//                }
+                switch (allianceColor){
+
+                    case RED:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(30,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(-30,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
+
+                    case BLUE:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(-30,1)){
+
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(30,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
                 }
                 break;
 
@@ -206,13 +262,54 @@ public class DefaultAutoMode extends OpMode{
                 break;
 
             case 5: //reset robot accordingly
-                double resetDegrees=(allianceColor==AllianceColor.RED)?-30:30;
-                if(jewelColor==BLUE)
-                {
-                    resetDegrees*=-1;
-                }
-                if(autoTurn(resetDegrees,1)){
-                    jewelState++;
+//                double resetDegrees=(allianceColor==AllianceColor.RED)?30:-30;
+//                if(jewelColor==BLUE)
+//                {
+//                    resetDegrees*=-1;
+//                }
+//                if(autoTurn(resetDegrees,autoTurnSpeed)){
+//                    jewelState++;
+//                }
+                switch (allianceColor){
+                    case RED:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(-30,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(30,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
+
+                    case BLUE:
+                        switch (jewelColor){
+                            case RED:
+                                if(autoTurn(30,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case BLUE:
+                                if(autoTurn(-30,1)){
+                                    jewelState++;
+                                }
+                                break;
+
+                            case UNKNOWN:
+                                jewelState++;
+                                break;
+                        }
+                        break;
                 }
                 break;
 
@@ -264,10 +361,10 @@ public class DefaultAutoMode extends OpMode{
     public boolean driveTurn(){
         switch (startPosition){
             case CLOSE:
-                return autoTurn(90,0.5);
+                return autoTurn(90,autoTurnSpeed);
 
             case FAR:
-                return autoTurn(-90,0.5);
+                return autoTurn(-90,autoTurnSpeed);
         }
         return false;
     }
@@ -277,7 +374,7 @@ public class DefaultAutoMode extends OpMode{
                 return true;
 
             case FAR:
-                return autoDrive(new XY(0,12),0.5);
+                return autoDrive(new XY(0,12),1);
         }
         return false;
     }
@@ -289,7 +386,7 @@ public class DefaultAutoMode extends OpMode{
                         return true;
 
                     case FAR:
-                        return autoTurn(90,0.5);
+                        return autoTurn(90,autoTurnSpeed);
                 }
                 break;
 
@@ -299,7 +396,7 @@ public class DefaultAutoMode extends OpMode{
                         return true;
 
                     case FAR:
-                        return autoTurn(-90,0.5);
+                        return autoTurn(-90,autoTurnSpeed);
                 }
                 break;
         }
