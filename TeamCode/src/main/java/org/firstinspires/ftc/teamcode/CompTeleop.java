@@ -22,6 +22,7 @@ public class CompTeleop extends OpMode {
 
 //    Gyro gyro;
 
+    public static final int SERVORT=0,SERVOLT=1,SERVORB=2,SERVOLB=3;
 
     GlyphIntake2 intake;
     DcMotor liftA, liftB;
@@ -43,6 +44,7 @@ public class CompTeleop extends OpMode {
 
         liftA = hardwareMap.get(DcMotor.class,"lift_left");
         liftB = hardwareMap.get(DcMotor.class,"lift_right");
+
 
         servos = new Servo[4];
         servos[0] = hardwareMap.get(Servo.class, "intake_right_top");

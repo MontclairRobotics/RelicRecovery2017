@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.CompTeleop;
+
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Rafi
@@ -22,15 +24,15 @@ public class GlyphIntake2 {
         servoOpen=new double[4];
         servoClose=new double[4];
 
-        servoOpen[0]     = 0.650; //from 11/30
-        servoOpen[1]      = 0.440; //from 11/30
-        servoOpen[2]  = 0.400; //from 11/30
-        servoOpen[3]   = 0.460; //from 11/30
+        servoOpen[CompTeleop.SERVORT]     = 0.78; //from 11/30
+        servoOpen[CompTeleop.SERVOLT]      = 0.4; //from 11/30
+        servoOpen[CompTeleop.SERVORB]  = 0.44; //from 11/30
+        servoOpen[CompTeleop.SERVOLB]   = 0.446; //from 11/30
 
-        servoClose[0]    = 0.470; //from 11/30
-        servoClose[1]     = 0.520; //from 11/30
-        servoClose[2] = 0.500; //from 11/30
-        servoClose[3]  = 0.370; //from 11/30
+        servoClose[CompTeleop.SERVORT]    = 0.45; //from 11/30
+        servoClose[CompTeleop.SERVOLT]     = 0.5; //from 11/30
+        servoClose[CompTeleop.SERVORB] = 0.55; //from 11/30
+        servoClose[CompTeleop.SERVOLB]  = 0.37; //from 11/30
     }
 
     public void closeTop() {
