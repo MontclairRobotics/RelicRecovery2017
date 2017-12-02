@@ -19,7 +19,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * @Author:Garrett
  * */
 @TeleOp(name="Teleop: Gyro Enabled")
-@Disabled
+//@Disabled
 public class CompTeleopWithGyro extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
@@ -129,5 +129,6 @@ public class CompTeleopWithGyro extends OpMode {
 
         telemetry.addData("Limit Switch", limitSwitch);
         telemetry.addData("Control Mode",myCtrlMode);
+        telemetry.addData("Gyro Angle",gyro.get().getX());
     }
 }

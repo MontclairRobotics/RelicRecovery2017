@@ -72,7 +72,7 @@ public class DefaultAuto extends DefaultAutoMode {
                 break;
 
             case 9: //back away
-                nextState(autoDrive(new XY(0,2),1));
+                nextState(autoDrive(new XY(0,-4),1));
                 break;
 
             case 10   : //Telemetry
