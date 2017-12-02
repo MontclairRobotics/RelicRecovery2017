@@ -1,26 +1,27 @@
 package org.firstinspires.ftc.teamcode;
 
 /**
+ * Created by Montclair Robotics on 11/10/2017
  * @author Joshua Rapoport
- * @version 12/1/2017
+ * @version 12/2/2017
  */
 
 public class PID {
-    public class Range {
+    class Range {
         double min, max;
 
-        public Range() {
+        Range() {
             this.min = this.max = 0;
         }
-        public Range(double a, double b) {
+        Range(double a, double b) {
             this.min = a;
             this.max = b;
         }
 
-        public double distance() {
+        double distance() {
             return Math.abs(max - min);
         }
-        public int compareTo(double x) {
+        int compareTo(double x) {
             if (x < min)
                 return -1;
             else if (x > max)
@@ -30,24 +31,13 @@ public class PID {
         }
     }
 
-    public class Error {
+    class Error {
         double current, rate, total;
 
-        public Error() {
+        Error() {
             reset();
         }
-
-        /**
-         * Update the current error, error rate, and total error.
-         * @param i new input with which to update.
-         */
-        public void update(double i) {
-            rate = ((target - i) - current) / dTime();
-            current = target - i;
-            total += current * dTime();
-        }
-
-        public void reset() { current = rate = total = 0; }
+        void reset() { current = rate = total = 0; }
     }
 
     private double P, I, D;
@@ -88,36 +78,16 @@ public class PID {
         this.lastUpdateTime = System.currentTimeMillis() / 1000;
     }
 
-    /** Create a copy of a PID object with identical properties */
-    public PID(PID pid) {
-        this.P = pid.P;
-        this.I = pid.I;
-        this.D = pid.D;
-
-        this.inRange = pid.inRange;
-        this.outRange = pid.outRange;
-
-        this.error = pid.error;
-
-        this.input = pid.input;
-        this.target = pid.target;
-        this.output = pid.output;
-
-        this.lastUpdateTime = pid.lastUpdateTime;
-    }
-
     /** Use this method to get a new output value. */
     public void setInput(double i) {
-        error.update(i);
-        this.updateOutput();
+        this.updateOutput(i);
         this.input = i;
     }
 
-    private void updateOutput() {
+    private void updateOutput(double i) {
         double d = inRange.distance();
-        if (d != 0) {
-            error.current = ((error.current - inRange.min) % d + d) % d + inRange.min;
-        }
+        error.current = ((target - i - d / 2) % d + d) % d + d / 2;
+        error.rate = (dTime() > 0) ? ((target - i) - error.current) / dTime() : 0;
 
         if (I != 0) {
             double potentialI = I * error.total;
@@ -126,34 +96,18 @@ public class PID {
                 error.total = outRange.max / I;
             else if (outRange.compareTo(potentialI) < 0)
                 error.total = outRange.min / I;
+            else
+                error.total += error.current * dTime();
         }
 
-        this.output = (P * error.current) + (I * error.total) + (D * error.rate);
+        lastUpdateTime = System.currentTimeMillis();
 
         if (outRange.compareTo(output) > 0)
             this.output = outRange.max;
         else if (outRange.compareTo(output) < 0)
             this.output = outRange.min;
-
-        lastUpdateTime = System.currentTimeMillis() / 1000;
-    }
-
-    public void setPID(double p, double i, double d) {
-        P = p;
-        I = i;
-        D = d;
-    }
-    /** @return P, the proportional constant. */
-    public double getP() {
-        return P;
-    }
-    /** @return I, the integral constant. */
-    public double getI() {
-        return I;
-    }
-    /** @return D, the derivative constant. */
-    public double getD() {
-        return D;
+        else
+            this.output = (P * error.current) + (I * error.total) + (D * error.rate);
     }
 
     public void setInputRange(double a, double b) {
@@ -166,9 +120,6 @@ public class PID {
     public Double getInput() {
         return input;
     }
-    public double getTarget() {
-        return target;
-    }
     public double getOutput() {
         return output;
     }
@@ -177,6 +128,6 @@ public class PID {
 
     /** @return the time difference from the last update. */
     public double dTime() {
-        return (System.currentTimeMillis() / 1000) - lastUpdateTime;
+        return (System.currentTimeMillis()) - lastUpdateTime;
     }
 }

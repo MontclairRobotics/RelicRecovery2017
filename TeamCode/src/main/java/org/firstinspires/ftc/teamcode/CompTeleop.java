@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
@@ -17,8 +16,6 @@ import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
 @TeleOp(name="Teleop: PLEASE DON'T DELETE THIS WILL")
 public class CompTeleop extends OpMode {
     DriveTrain driveTrain;
-    Servo[] servos;
-
     Gyro gyro;
 
     GlyphIntake2 intake;
@@ -27,21 +24,15 @@ public class CompTeleop extends OpMode {
 
     @Override
     public void init() {
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "gyro");
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, Name.SENSOR_GYRO);
         this.gyro = new Gyro(imu);
 
         this.driveTrain = new DriveTrain(hardwareMap);
 
-        liftA = hardwareMap.get(DcMotor.class,"lift_left");
-        liftB = hardwareMap.get(DcMotor.class,"lift_right");
+        liftA = hardwareMap.get(DcMotor.class, Name.LIFT_L);
+        liftB = hardwareMap.get(DcMotor.class, Name.LIFT_R);
 
-        servos = new Servo[4];
-        servos[0] = hardwareMap.get(Servo.class, "intake_right_top");
-        servos[1] = hardwareMap.get(Servo.class, "intake_left_top");
-        servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
-        servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
-
-        intake = new GlyphIntake2(servos);
+        intake = new GlyphIntake2(hardwareMap);
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
@@ -51,21 +42,23 @@ public class CompTeleop extends OpMode {
         driveTrain.halfPower(gamepad1.left_bumper);
         driveTrain.driveMechanum(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-        if (gamepad2.a)
+        if (gamepad2.a) {
             intake.openBottom();
-        else
+        } else {
             intake.closeBottom();
+        }
 
-        if (gamepad2.b)
+        if (gamepad2.b) {
             intake.openTop();
-        else
+        } else {
             intake.closeTop();
+        }
 
         liftA.setPower(gamepad2.left_stick_y);
         liftB.setPower(-gamepad2.left_stick_y);
 
-        telemetry.addData("Orientation", gyro.getX() + "°");
-//        telemetry.addData("Limit Switch", limitSwitch);
+        telemetry.addData("Gyroscope", gyro);
+        telemetry.addData("Limit Switch", limitSwitch);
         telemetry.update();
     }
 

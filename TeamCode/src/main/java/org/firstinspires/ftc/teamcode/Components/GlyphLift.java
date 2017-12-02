@@ -2,15 +2,12 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.ftc.FTCMotor;
 import org.montclairrobotics.sprocket.motors.Module;
-import org.montclairrobotics.sprocket.motors.SEncoder;
-import org.montclairrobotics.sprocket.utils.PID;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Garrett
+ * @author Garrett
  * */
 
 public class GlyphLift extends Module{

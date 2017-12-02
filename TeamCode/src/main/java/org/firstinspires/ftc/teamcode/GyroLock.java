@@ -25,23 +25,34 @@ public class GyroLock {
         return pid.getOutput();
     }
 
-    public void update() {
-        pid.setInput(gyro.getX());
-
-//        Debug.msg("GyroLock: Input", pid.getInput().intValue() + "°");
-//        Debug.msg("GyroLock: Output", (int) (100 * pid.getOutput()) + "%");
+    public void setTarget() {
+        setTarget(gyro.getX());
     }
 
-    public void reactivate() {
+    public void setTarget(double t) {
+        pid.setTarget(t);
+    }
+
+    public void setInput() {
+        pid.setInput(gyro.getX());
+    }
+
+    public boolean init() {
         if (!active) {
             pid.error.reset();
-            pid.setTarget(gyro.getX());
+            active = true;
+            return true;
         }
 
-        active = true;
+        return false;
     }
 
-    public void deactivate() {
-        if (active) active = false;
+    public boolean stop() {
+        if (active) {
+            active = false;
+            return true;
+        }
+
+        return false;
     }
 }

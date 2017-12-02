@@ -74,7 +74,7 @@ public class DefaultHardwareMap {
         servos[2] = ahwMap.get(Servo.class, "intake_right_bottom");
         servos[3] = ahwMap.get(Servo.class, "intake_left_bottom");
 
-        lift=new GlyphIntake2(servos);
+        lift=new GlyphIntake2(ahwMap);
         sensorColor = hwMap.get(ColorSensor.class, "colorSensor");
         limitSwitch = hwMap.get(DigitalChannel.class, "limit_switch_1");
 

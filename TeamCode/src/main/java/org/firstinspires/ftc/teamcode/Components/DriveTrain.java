@@ -4,11 +4,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GyroLock;
+import org.firstinspires.ftc.teamcode.Name;
 import org.firstinspires.ftc.teamcode.PID;
 
 /**
+ * Created by Montclair Robotics on 11/27/17
  * @author Joshua Rapoport
- * @version 11/27/17.
+ * @version 12/2/17.
  */
 
 public class DriveTrain {
@@ -21,16 +23,16 @@ public class DriveTrain {
     DcMotor frontLeft, frontRight, backLeft, backRight;
 
     public DriveTrain(HardwareMap map) {
-        this.lock = new GyroLock(new PID(0.01, 0, 0.005)); // TODO: Calibrate GyroLock
+        this.lock = new GyroLock(new PID(0.04, 0, 0.02)); // TODO: Calibrate GyroLock
 
 //        this.balance = new GyroBalance(new PID(0, 0, 0), new PID(0, 0, 0)); // TODO: Calibrate GyroBalance
 
         this.power = 0;
 
-        frontRight = map.get(DcMotor.class, "right_front");
-        backRight = map.get(DcMotor.class, "right_back");
-        backLeft = map.get(DcMotor.class, "left_back");
-        frontLeft = map.get(DcMotor.class, "left_front");
+        frontRight = map.get(DcMotor.class, Name.DRIVETRAIN_FR);
+        backRight = map.get(DcMotor.class, Name.DRIVETRAIN_BR);
+        backLeft = map.get(DcMotor.class, Name.DRIVETRAIN_BL);
+        frontLeft = map.get(DcMotor.class, Name.DRIVETRAIN_FL);
 
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -39,17 +41,14 @@ public class DriveTrain {
     }
 
     public void stop() {
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        driveMechanum(0, 0, 0);
     }
 
     public void halfPower(boolean h) {
+        power = 0.8;
+
         if (h) {
-            power = 0.5;
-        } else {
-            power = 1.0;
+            power = 0.4;
         }
     }
 
@@ -61,11 +60,14 @@ public class DriveTrain {
      */
     public void driveMechanum(double x, double y, double turn) {
         if (Math.abs(turn) < TURN_ERROR) {
-            lock.reactivate();
-            lock.update();
+            if (lock.init()) {
+                lock.setTarget();
+            }
+
+            lock.setInput();
             turn = lock.correction();
         } else {
-            lock.deactivate();
+            lock.stop();
         }
 
         frontRight.setPower(power * (x + y + turn));
@@ -73,9 +75,4 @@ public class DriveTrain {
         backLeft.setPower(power * (-x - y + turn));
         frontLeft.setPower(power * (x - y + turn));
     }
-
-//    public void autoBalance() {
-//        balance.update();
-//        driveMechanum(balance.correctionX(), balance.correctionY(), 0);
-//    }
 }

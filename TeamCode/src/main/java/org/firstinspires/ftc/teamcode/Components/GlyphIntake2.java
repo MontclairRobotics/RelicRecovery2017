@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Components;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Name;
 import org.firstinspires.ftc.teamcode.Robot;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Rafi
+ * @author Rafi
  * */
 
 public class GlyphIntake2 {
@@ -19,8 +21,14 @@ public class GlyphIntake2 {
 
     private Servo[] servos;
 
-    public GlyphIntake2(Servo... servos) {
-        this.servos = servos;
+    public GlyphIntake2(HardwareMap map) {
+        this.servos = new Servo[] {
+                map.get(Servo.class, Name.INTAKE_TR),
+                map.get(Servo.class, Name.INTAKE_TL),
+                map.get(Servo.class, Name.INTAKE_BR),
+                map.get(Servo.class, Name.INTAKE_BL)
+        };
+
         servoOpen=new double[4];
         servoClose=new double[4];
 

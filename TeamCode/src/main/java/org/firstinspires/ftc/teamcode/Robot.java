@@ -66,16 +66,10 @@ public class Robot extends FTCRobot {
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         limitSwitch       = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
 
-        servos = new Servo[4];
-        servos[0] = hardwareMap.get(Servo.class, "intake_right_top");
-        servos[1] = hardwareMap.get(Servo.class, "intake_left_top");
-        servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
-        servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
-
         liftLeft = new FTCMotor("lift_left");
         liftRight = new FTCMotor("lift_right");
         lift = new GlyphLift(liftLeft, liftRight);
-        intake=new GlyphIntake2(servos);
+        intake=new GlyphIntake2(hardwareMap);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
 
 //        gyro = new Gyro(hardwareMap);

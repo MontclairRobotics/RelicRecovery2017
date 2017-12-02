@@ -26,6 +26,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 public class RRQuaternion {
     public double w, x, y, z;
 
+    public RRQuaternion() {
+        w = x = y = z = 0.0;
+    }
+
     public RRQuaternion(double w, double x, double y, double z) {
         this.w = w;
         this.x = x;
