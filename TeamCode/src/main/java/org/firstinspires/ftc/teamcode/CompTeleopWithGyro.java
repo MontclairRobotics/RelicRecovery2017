@@ -81,6 +81,23 @@ public class CompTeleopWithGyro extends OpMode {
         double y = -gamepad1.left_stick_y * pow;
         double turn = gamepad1.right_stick_x * pow;
 
+        if(gamepad1.dpad_up)
+        {
+            y=pow;
+        }
+        if(gamepad1.dpad_left)
+        {
+            x=-pow;
+        }
+        if(gamepad1.dpad_down)
+        {
+            y=-pow;
+        }
+        if(gamepad1.dpad_right)
+        {
+            x=pow;
+        }
+
         if(gamepad1.x)
         {
             zeroAngle=gyro.get().getX();
@@ -114,12 +131,12 @@ public class CompTeleopWithGyro extends OpMode {
         frontLeft.setPower(x + y + turn);
 
 
-        if (gamepad2.a)
+        if (gamepad2.a||gamepad2.x)
             intake.openBottom();
         else
             intake.closeBottom();
 
-        if (gamepad2.b)
+        if (gamepad2.b||gamepad2.x)
             intake.openTop();
         else
             intake.closeTop();
