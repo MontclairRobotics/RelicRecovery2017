@@ -3,18 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updatable;
-import org.montclairrobotics.sprocket.loop.Updater;
-import org.montclairrobotics.sprocket.utils.Input;
-
 /**
  * Created by Montclair Robotics on 11/13/17.
- * */
+ * @author Joshua Rapoport
+ * @version 12/4/17
+ */
 
 public class Gyro {
-    private RRQuaternion quat; // An angle object to store the gyro angles
     private BNO055IMU imu; // Gyroscope
+    private RRQuaternion quat; // An angle object to store the gyro angles
 
     public Gyro(HardwareMap map) {
         imu = map.get(BNO055IMU.class, "gyro");
@@ -28,9 +25,25 @@ public class Gyro {
         imu.initialize(parameters);
         //imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG, 6);
 
+        quat = new RRQuaternion(imu.getQuaternionOrientation());
     }
 
-    public RRQuaternion get() {
-        return new RRQuaternion(imu.getQuaternionOrientation());
+    public void update() {
+        quat.set(imu.getQuaternionOrientation());
+    }
+
+    public double getX() {
+        return -quat.getX();
+    }
+    public double getY() {
+        return -quat.getY();
+    }
+    public double getZ() {
+        return -quat.getZ();
+    }
+
+    @Override
+    public String toString() {
+        return "{x: " + (int) getX() + "°, y: " + (int) getY() + "°, z: " + (int) getZ() + "°}";
     }
 }

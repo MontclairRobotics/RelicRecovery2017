@@ -1,18 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Auto.DefaultAutoMode;
-//import org.firstinspires.ftc.teamcode.Components.DriveTrain;
+import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
-import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
@@ -21,13 +16,12 @@ import org.montclairrobotics.sprocket.geometry.XY;
 @TeleOp(name="Teleop: Gyro Enabled")
 //@Disabled
 public class CompTeleopWithGyro extends OpMode {
-    //public DriveTrain driveTrain;
+    public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
 
     Gyro gyro;
     PID gyroLock;
-    boolean lastEnabled;
 
     double lastTime;
 
@@ -43,17 +37,8 @@ public class CompTeleopWithGyro extends OpMode {
 
     @Override
     public void init() {
-        //this.driveTrain = new DriveTrain(hardwareMap);
-
-        frontRight = hardwareMap.get(DcMotor.class, "right_front");
-        backRight = hardwareMap.get(DcMotor.class, "right_back");
-        backLeft = hardwareMap.get(DcMotor.class, "left_back");
-        frontLeft = hardwareMap.get(DcMotor.class, "left_front");
-
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        gyro = new Gyro(hardwareMap);
+        driveTrain = new DriveTrain(hardwareMap, gyro);
 
         liftA = hardwareMap.get(DcMotor.class,"lift_left");
         liftB = hardwareMap.get(DcMotor.class,"lift_right");
@@ -65,110 +50,43 @@ public class CompTeleopWithGyro extends OpMode {
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
         intake = new GlyphIntake2(servos);
-        gyro = new Gyro(hardwareMap);
-        myCtrlMode=CTRL_MODE.ROBOT;
-        gyroLock=new PID(.06,0,0, -180, 180, -1.0, 1.0);
-        zeroAngle=gyro.get().getX();
+
+//        myCtrlMode = CTRL_MODE.ROBOT;
+//        gyroLock = new PID(.06,0,0).setInputRange(-180, 180).setOutputRange(-1, 1);
+//        zeroAngle = gyro.getX();
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
-        lastTime=System.currentTimeMillis();
     }
 
     @Override
-    public void loop(){
-        double pow = 1;
+    public void loop() {
+        gyro.update();
+        driveTrain.driveMecanum(gamepad1);
 
-        if (gamepad1.left_bumper) {
-            pow = 0.5; //maybe lower
-        }
-
-        double x = 0.0;
-        double y = 0.0;
-        double turn = gamepad1.right_stick_x * pow;
-
-        if (gamepad1.dpad_up)
-            y = pow;
-        else if (gamepad1.dpad_down)
-            y = -pow;
-        else
-            y = -gamepad1.left_stick_y * pow;
-
-        if (gamepad1.dpad_left)
-            x = -pow;
-        else if (gamepad1.dpad_right)
-            x=pow;
-        else
-            x = gamepad1.left_stick_x * pow;
-
-        if(gamepad1.x) {
-            zeroAngle = gyro.get().getX();
-        }
-        double dt=(System.currentTimeMillis()-lastTime)/1000.0;
-        lastTime=System.currentTimeMillis();
-
-        if(gamepad2.dpad_right)
-        {
-            gyroLock.P+=0.2*dt;
-        }
-        if(gamepad2.dpad_left)
-        {
-            gyroLock.P-=0.2*dt;
-        }
-        if(gamepad2.dpad_up)
-        {
-            gyroLock.D+=0.2*dt;
-        }
-        if(gamepad2.dpad_down)
-        {
-            gyroLock.D-=0.2*dt;
-        }
-
-        if (gamepad1.a) {
-            if(!lastEnabled) {
-                gyroLock.setTarget(-gyro.get().getX());
-            }
-
-            turn = gyroLock.get(-gyro.get().getX());
-        }
-        else
-        {
-            gyroLock.get(-gyro.get().getX());
-        }
-
-        lastEnabled = gamepad1.a;
-
-        if (gamepad1.left_trigger > 0.5) {
-            myCtrlMode = CTRL_MODE.ROBOT;
-        }
-
-        if (gamepad1.right_trigger > 0.5) {
-            myCtrlMode = CTRL_MODE.FIELD;
-        }
-
-        if(myCtrlMode == CTRL_MODE.FIELD) {
-            Vector ctrl = new XY(x,y);
-            ctrl.rotate(new Degrees(gyro.get().getX() - zeroAngle));
-            x = ctrl.getX();
-            y = ctrl.getY();
-        }
-
-        double fr =  x - y + turn;
-        double br = -x - y + turn;
-        double bl = -x + y + turn;
-        double fl =  x + y + turn;
-
-        double max = Math.max(1.0, Math.max(Math.max(Math.abs(fr), Math.abs(br)), Math.max(Math.abs(bl), Math.abs(fl))));
-
-        frontRight.setPower(fr / max);
-        backRight.setPower(br / max);
-        backLeft.setPower(bl / max);
-        frontLeft.setPower(fl / max);
+//        if(gamepad1.x) {
+//            zeroAngle = gyro.getX();
+//        }
+//
+//        if (gamepad1.left_trigger > 0.5) {
+//            myCtrlMode = CTRL_MODE.ROBOT;
+//        }
+//
+//        if (gamepad1.right_trigger > 0.5) {
+//            myCtrlMode = CTRL_MODE.FIELD;
+//        }
+//
+//        if(myCtrlMode == CTRL_MODE.FIELD) {
+//            Vector ctrl = new XY(x,y);
+//            ctrl.rotate(new Degrees(gyro.getX() - zeroAngle));
+//            x = ctrl.getX();
+//            y = ctrl.getY();
+//        }
 
         if (gamepad2.a || gamepad2.x)
             intake.openBottom();
         else
             intake.closeBottom();
 
-        if (gamepad2.b||gamepad2.x)
+        if (gamepad2.b || gamepad2.x)
             intake.openTop();
         else
             intake.closeTop();
@@ -178,12 +96,10 @@ public class CompTeleopWithGyro extends OpMode {
 
         telemetry.addData("Limit Switch", limitSwitch);
         telemetry.addData("Control Mode",myCtrlMode);
-        telemetry.addData("Gyro Angle",  (int) gyro.get().getX() + " deg");
-        telemetry.addData("Turn: ", turn);
-        telemetry.addData("target",gyroLock.target);
-        telemetry.addData("P",gyroLock.P);
-        telemetry.addData("D",gyroLock.D);
-        telemetry.addData("Error",gyroLock.lastError);
+        telemetry.addData("Gyroscope", gyro);
+        telemetry.addData("Target", driveTrain.lock.pid.target);
+        telemetry.addData("PID", driveTrain.lock);
+        telemetry.addData("Error", driveTrain.lock.pid.error.last);
         telemetry.update();
     }
 }

@@ -1,33 +1,85 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.montclairrobotics.sprocket.utils.Input;
-
 /**
- * Created by Joshua Rapoport on 11/14/17.
+ * Created by Montclair Robotics on 11/14/17.
+ * @author Joshua Rapoport
+ * @version 12/4/17
+ * @see GyroLock
  */
 
 public class PID {
+    public class Error {
+        double last, current, rate, total;
+        public Error () { reset(); }
+        public void reset() { last = current = rate = total = 0; }
+        public void updateWith(double i) {
+            double d = in.diff();
+            current = ((target - i - d/2) % d + d) % d + d/2;
+            rate = (dt() > 0) ? (last - current) / dt() : 0;
+            last = current;
+
+            if (I != 0) {
+                double potentialI = (total + last) * I;
+                if (out.compareTo(potentialI) > 0)
+                    total = out.max / I;
+                else if (out.compareTo(potentialI) < 0)
+                    total = out.min / I;
+                else
+                    total += current * dt();
+            }
+        }
+    }
+
+    public class Range {
+        double min, max;
+        public Range() { min = max = 0; }
+        public Range(double i, double f) {
+            this.min = i;
+            this.max = f;
+        }
+        public int compareTo(double d) {
+            if (d <= min)
+                return -1;
+            else if (d >= max)
+                return +1;
+            else
+                return 0;
+        }
+        public double diff() {
+            return max - min;
+        }
+    }
+
     double P,I,D;
-    double minIn,maxIn;
-    double minOut,maxOut;
+    Range in;
+    Range out;
 
     double target;
-    double lastError;
-    double currentError;
-    double rateError;
-    double totalError;
-    long lastUpdateTimeMillis;
+    long lastUpdateTime;
 
-    public PID(double p,double i, double d,double minIn,double maxIn, double minOut,double maxOut)
-    {
-        P=p;
-        I=i;
-        D=d;
-        this.minIn=minIn; this.maxIn = maxIn;
-        this.minOut=minOut; this.maxOut = maxOut;
-        target=0.0;
-        totalError=currentError = rateError= 0.0;
-        lastUpdateTimeMillis=System.currentTimeMillis();
+    Error error;
+
+    public PID(double p,double i, double d) {
+        this.P = p;
+        this.I = i;
+        this.D = d;
+
+        this.in = new Range();
+        this.out = new Range();
+
+        this.target = 0.0;
+        this.error = new Error();
+        this.lastUpdateTime = System.currentTimeMillis();
+    }
+
+    public PID setInRange(double i, double f) {
+        in = new Range(i, f);
+        return this;
+    }
+
+    public PID setOutRange(double i, double f) {
+        out = new Range(i, f);
+        return this;
     }
 
     public void setTarget(double t)
@@ -35,26 +87,20 @@ public class PID {
         target=t;
     }
 
-    public double get(double in) {
-        double dt = System.currentTimeMillis() - lastUpdateTimeMillis;
-        lastUpdateTimeMillis = System.currentTimeMillis();
+    public double get(double input) {
+        error.updateWith(input);
 
+        lastUpdateTime = System.currentTimeMillis();
 
-        double diff=maxIn-minIn;
-        double currentError = ((target-in-minIn)%diff+diff)%diff+minIn;
-        double rateError = (dt > 0) ? (lastError - currentError) / dt : 0;
-        lastError=currentError;
+        return (P * error.current) + (I * error.total) + (D * error.rate);
+    }
 
-        if (I != 0) {
-            double potentialI = (totalError + lastError) * I;
-            if (potentialI > maxOut)
-                totalError = maxOut / I;
-            else if (potentialI < minOut)
-                totalError = minOut / I;
-            else
-                totalError += currentError * dt;
-        }
+    public double dt() {
+        return System.currentTimeMillis() - lastUpdateTime;
+    }
 
-        return (P * currentError) + (I * totalError) + (D * rateError);
+    @Override
+    public String toString() {
+        return "{" + P + ", " + I + ", " + D + "}";
     }
 }

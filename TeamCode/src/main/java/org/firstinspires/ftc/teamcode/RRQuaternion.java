@@ -33,6 +33,10 @@ public class RRQuaternion {
         this.z = z;
     }
     public RRQuaternion(Quaternion q) {
+        set(q);
+    }
+
+    public void set(Quaternion q) {
         this.w = q.w;
         this.x = q.x;
         this.y = q.y;
