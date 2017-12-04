@@ -16,7 +16,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Garrett
+ * @author Garrett
  * */
 @TeleOp(name="Teleop: Gyro Enabled")
 //@Disabled
@@ -28,6 +28,9 @@ public class CompTeleopWithGyro extends OpMode {
     Gyro gyro;
     PID gyroLock;
     boolean lastEnabled;
+
+    double lastTime;
+
     double zeroAngle;
 
     enum CTRL_MODE {ROBOT,FIELD};
@@ -64,9 +67,10 @@ public class CompTeleopWithGyro extends OpMode {
         intake = new GlyphIntake2(servos);
         gyro = new Gyro(hardwareMap);
         myCtrlMode=CTRL_MODE.ROBOT;
-        gyroLock=new PID(.04,0,0.4, -180, 180, -1.0, 1.0);
+        gyroLock=new PID(.06,0,0, -180, 180, -1.0, 1.0);
         zeroAngle=gyro.get().getX();
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
+        lastTime=System.currentTimeMillis();
     }
 
     @Override
@@ -98,13 +102,39 @@ public class CompTeleopWithGyro extends OpMode {
         if(gamepad1.x) {
             zeroAngle = gyro.get().getX();
         }
-//
-//        if (gamepad1.a && !lastEnabled) {
-//            gyroLock.setTarget(-gyro.get().getX());
-//            turn = gyroLock.get(-gyro.get().getX());
-//        }
-//
-//        lastEnabled = gamepad1.a;
+        double dt=(System.currentTimeMillis()-lastTime)/1000.0;
+        lastTime=System.currentTimeMillis();
+
+        if(gamepad2.dpad_right)
+        {
+            gyroLock.P+=0.2*dt;
+        }
+        if(gamepad2.dpad_left)
+        {
+            gyroLock.P-=0.2*dt;
+        }
+        if(gamepad2.dpad_up)
+        {
+            gyroLock.D+=0.2*dt;
+        }
+        if(gamepad2.dpad_down)
+        {
+            gyroLock.D-=0.2*dt;
+        }
+
+        if (gamepad1.a) {
+            if(!lastEnabled) {
+                gyroLock.setTarget(-gyro.get().getX());
+            }
+
+            turn = gyroLock.get(-gyro.get().getX());
+        }
+        else
+        {
+            gyroLock.get(-gyro.get().getX());
+        }
+
+        lastEnabled = gamepad1.a;
 
         if (gamepad1.left_trigger > 0.5) {
             myCtrlMode = CTRL_MODE.ROBOT;
@@ -126,12 +156,12 @@ public class CompTeleopWithGyro extends OpMode {
         double bl = -x + y + turn;
         double fl =  x + y + turn;
 
-        double max = (1/Math.sqrt(2) + 1);
+        double max = Math.max(1.0, Math.max(Math.max(Math.abs(fr), Math.abs(br)), Math.max(Math.abs(bl), Math.abs(fl))));
 
         frontRight.setPower(fr / max);
         backRight.setPower(br / max);
         backLeft.setPower(bl / max);
-        frontLeft.setPower(fr / max);
+        frontLeft.setPower(fl / max);
 
         if (gamepad2.a || gamepad2.x)
             intake.openBottom();
@@ -150,6 +180,10 @@ public class CompTeleopWithGyro extends OpMode {
         telemetry.addData("Control Mode",myCtrlMode);
         telemetry.addData("Gyro Angle",  (int) gyro.get().getX() + " deg");
         telemetry.addData("Turn: ", turn);
+        telemetry.addData("target",gyroLock.target);
+        telemetry.addData("P",gyroLock.P);
+        telemetry.addData("D",gyroLock.D);
+        telemetry.addData("Error",gyroLock.lastError);
         telemetry.update();
     }
 }
