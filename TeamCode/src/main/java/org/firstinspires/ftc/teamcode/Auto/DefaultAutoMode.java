@@ -74,7 +74,7 @@ public class DefaultAutoMode extends OpMode {
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
-//        visionInit();
+//        visionInit(); //TODO: uncomment once phone has been remounted
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");
@@ -197,13 +197,6 @@ public class DefaultAutoMode extends OpMode {
                 break;
 
             case 2: //react accordingly
-//                double reactDegrees=(allianceColor==AllianceColor.RED)?-30:30;
-//                if(jewelColor==BLUE) {
-//                    reactDegrees*=-1;
-//                }
-//                if(autoTurn(reactDegrees,autoTurnSpeed)){
-//                    jewelState++;
-//                }
                 switch (allianceColor){
 
                     case RED:
@@ -262,14 +255,6 @@ public class DefaultAutoMode extends OpMode {
                 break;
 
             case 5: //reset robot accordingly
-//                double resetDegrees=(allianceColor==AllianceColor.RED)?30:-30;
-//                if(jewelColor==BLUE)
-//                {
-//                    resetDegrees*=-1;
-//                }
-//                if(autoTurn(resetDegrees,autoTurnSpeed)){
-//                    jewelState++;
-//                }
                 switch (allianceColor){
                     case RED:
                         switch (jewelColor){
@@ -464,7 +449,7 @@ public class DefaultAutoMode extends OpMode {
         return false;
     }
     public double getMillis(){
-        return timer.milliseconds() - startTime;
+        return timer.milliseconds() -   startTime;
     }
     public double getSeconds(){
         return getMillis()/1000.0;

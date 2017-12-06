@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.Enums.StartPosition;
  * @Author:Will
  * */
 
-
 @Autonomous(name = "Production: Blue Far")
 public class ProductionBlueFar extends DefaultAuto {
     @Override
