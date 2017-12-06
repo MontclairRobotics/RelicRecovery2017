@@ -26,7 +26,7 @@ import static org.firstinspires.ftc.teamcode.Enums.JewelColor.BLUE;
  * */
 
 
-public class DefaultAutoMode extends OpMode {
+public class AutoFunctions extends OpMode {
 
     //Vuforia Vars
     VuforiaLocalizer vuforia;
@@ -150,7 +150,7 @@ public class DefaultAutoMode extends OpMode {
     {
         if(!averaging) {
             averaging=true;
-            avgTimeout=System.currentTimeMillis()+3000;
+            avgTimeout=System.currentTimeMillis()+5000;
             redOverBlue=0;
         }
         int red=colorSensor.red();
@@ -161,6 +161,7 @@ public class DefaultAutoMode extends OpMode {
         if(blue>red) {
             redOverBlue--;
         }
+        telemetry.addData("RED OVER BLUE",redOverBlue);
         if(Math.abs(redOverBlue)>10) {
             if(redOverBlue>0) {
                 jewelColor=JewelColor.RED;
@@ -191,7 +192,7 @@ public class DefaultAutoMode extends OpMode {
                 break;
 
             case 1: // get reading
-                if(getJewelColor()){
+                if(getJewelColorAvg()){
                     jewelState++;
                 }
                 break;

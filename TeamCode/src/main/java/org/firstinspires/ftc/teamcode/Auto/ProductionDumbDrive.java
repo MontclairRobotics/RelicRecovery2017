@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Enums.AllianceColor;
-import org.firstinspires.ftc.teamcode.Enums.StartPosition;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
@@ -13,7 +11,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 
 
 @Autonomous(name = "Production: DumbDrive")
-public class ProductionDumbDrive extends DefaultAutoMode {
+public class ProductionDumbDrive extends AutoFunctions {
 
     public void init() {
         autoInit();

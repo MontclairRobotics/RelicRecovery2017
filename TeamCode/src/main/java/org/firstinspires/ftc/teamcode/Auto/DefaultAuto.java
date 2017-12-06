@@ -8,7 +8,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * */
 
 //possible 85 pts auto
-public class DefaultAuto extends DefaultAutoMode {
+public class DefaultAuto extends AutoFunctions {
     @Override
     public void init() {
         autoInit();
@@ -28,7 +28,7 @@ public class DefaultAuto extends DefaultAutoMode {
                 break;
             case 2: //get jewel
                 hardware.lift.closeAll();
-                nextState(/*getJewel()*/true);
+                nextState(getJewel());
                 break;
 
             case 3: //drive forward or backward 24 + 2(to get off balancing stone)

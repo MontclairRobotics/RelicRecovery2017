@@ -1,17 +1,13 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Will
  * */
 @TeleOp(name = "Test: Color Sensor")
-public class TestColor extends DefaultAutoMode {
+public class TestColor extends AutoFunctions {
 
     @Override
     public void init() {

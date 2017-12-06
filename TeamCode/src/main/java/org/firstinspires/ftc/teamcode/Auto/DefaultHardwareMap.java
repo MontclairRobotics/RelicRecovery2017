@@ -76,6 +76,7 @@ public class DefaultHardwareMap {
 
         lift=new GlyphIntake2(servos);
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color");
+        colorSensor.enableLed(true);
         limitSwitch = hwMap.get(DigitalChannel.class, "limit_switch_1");
 
 

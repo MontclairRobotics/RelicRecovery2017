@@ -10,8 +10,7 @@ import org.firstinspires.ftc.teamcode.Enums.AllianceColor;
  * @Author:Will
  * */
 @Autonomous(name = "Test: Jewel ID")
-@Disabled
-public class TestJewelID extends DefaultAutoMode {
+public class TestJewelID extends AutoFunctions {
 
     @Override
     public void init() {

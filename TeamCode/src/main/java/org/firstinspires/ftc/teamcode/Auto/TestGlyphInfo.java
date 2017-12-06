@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -10,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @TeleOp(name = "Info: Glyph Test")
-public class TestGlyphInfo extends DefaultAutoMode {
+public class TestGlyphInfo extends AutoFunctions {
 
     Gamepad controller;
     Servo[] servos;

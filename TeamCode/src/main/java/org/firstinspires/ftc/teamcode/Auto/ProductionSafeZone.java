@@ -8,7 +8,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * Created by Montclair Robotics on 11/30/2017.
  */
 @Autonomous(name = "Production: Safe Zone")
-public class ProductionSafeZone extends DefaultAutoMode {
+public class ProductionSafeZone extends AutoFunctions {
     @Override
     public void init() {
         autoInit();
