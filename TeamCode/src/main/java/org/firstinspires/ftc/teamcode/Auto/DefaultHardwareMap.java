@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
+import org.firstinspires.ftc.teamcode.Components.RollerIntake;
 import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
@@ -36,7 +37,7 @@ public class DefaultHardwareMap {
     public static int RIGHT_BOTTOM=2;
     public static int LEFT_BOTTOM=3;
 
-    GlyphIntake2 lift;
+    RollerIntake lift;
     ColorSensor colorSensor;
     DigitalChannel limitSwitch;
 
@@ -74,7 +75,7 @@ public class DefaultHardwareMap {
         servos[2] = ahwMap.get(Servo.class, "intake_right_bottom");
         servos[3] = ahwMap.get(Servo.class, "intake_left_bottom");
 
-        lift=new GlyphIntake2(servos);
+        lift = new RollerIntake(servos[0], servos[1], servos[2], servos[3]);
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color");
         colorSensor.enableLed(true);
         limitSwitch = hwMap.get(DigitalChannel.class, "limit_switch_1");
