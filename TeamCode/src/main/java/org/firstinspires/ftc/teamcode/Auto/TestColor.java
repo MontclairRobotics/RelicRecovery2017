@@ -20,7 +20,7 @@ public class TestColor extends AutoFunctions {
         telemetry.addData("B",colorSensor.blue());
         getJewelColor();
 
-        colorSensor.enableLed(true   );
+        colorSensor.enableLed(true);
         if(gamepad1.a){
             colorSensor.enableLed(false);
         }

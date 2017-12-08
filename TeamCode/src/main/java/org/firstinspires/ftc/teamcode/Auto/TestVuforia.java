@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
  * @Author:Will
  * */
 @Autonomous(name = "Test: Vision")
-@Disabled
 public class TestVuforia extends AutoFunctions {
     @Override
     public void init() {
@@ -24,7 +23,8 @@ public class TestVuforia extends AutoFunctions {
                 break;
 
             case 1:
-                pictogramDrive(pictogram);
+//                pictogramDrive(pictogram);
+                nextState(true  );
                 break;
 
             case 2:

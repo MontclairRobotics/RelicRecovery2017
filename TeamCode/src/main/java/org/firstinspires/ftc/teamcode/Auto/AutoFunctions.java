@@ -18,7 +18,11 @@ import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
+import java.util.ArrayList;
+
 import static org.firstinspires.ftc.teamcode.Enums.JewelColor.BLUE;
+import static org.firstinspires.ftc.teamcode.Enums.JewelColor.RED;
+import static org.firstinspires.ftc.teamcode.Enums.JewelColor.UNKNOWN;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
@@ -74,7 +78,7 @@ public class AutoFunctions extends OpMode {
         setState(0);
         timer = new ElapsedTime();
         startTime = timer.milliseconds();
-//        visionInit(); //TODO: uncomment once phone has been remounted
+        visionInit(); //TODO: uncomment once phone has been remounted
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
         telemetry.addData("INFO", "INITIALIZED");
@@ -93,7 +97,7 @@ public class AutoFunctions extends OpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId); //comment cameraMonitorViewID for competition
         parameters.vuforiaLicenseKey = "AVhGMov/////AAAAGUk16JthIkWst4BeQ3creo+NTUF+BxVD6iSoptSHES0tn3qxxl8EoEMBtZfR9lS5zeb8wa5m+susmQEk+ELlMZvkhfCo5hwgtQVQo95VhTaduQjLatwooAcigCDfAK19KDQPw7O4/Q0p0G79ni5UlnYrw/lF1ZC2iv+41EGTjOTT8yC6wWMzzi2ugWGtIYs9Qy62b9S+Jr2/JjoqtzoaeUX7cmshji5IRmPojALj71tKJb1Gay4XcCb7fMMkO10SDaY84E66Vt0aEhgyA4VY/ASABIEEBlpDoq7N/tTSMxDfahX0xP76BXUSNEug7Y378HPg9siRGv5AQns3Y44RfPqBu6kQN1yDXb+43Zl3ZkzF";
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
@@ -135,7 +139,7 @@ public class AutoFunctions extends OpMode {
     //colorProx
     public boolean getJewelColor(){
         if(colorSensor.red() > colorSensor.blue()){
-            jewelColor = JewelColor.RED;
+            jewelColor = RED;
 
         }else if(colorSensor.blue()> colorSensor.red()){
             jewelColor = JewelColor.BLUE;
@@ -146,40 +150,65 @@ public class AutoFunctions extends OpMode {
         return true;
     }
 
-    public boolean getJewelColorAvg()
-    {
-        if(!averaging) {
-            averaging=true;
-            avgTimeout=System.currentTimeMillis()+5000;
-            redOverBlue=0;
-        }
-        int red=colorSensor.red();
-        int blue=colorSensor.blue();
-        if(red>blue) {
-            redOverBlue++;
-        }
-        if(blue>red) {
-            redOverBlue--;
-        }
-        telemetry.addData("RED OVER BLUE",redOverBlue);
-        if(Math.abs(redOverBlue)>10) {
-            if(redOverBlue>0) {
-                jewelColor=JewelColor.RED;
-            } else {
-                jewelColor=JewelColor.BLUE;
+//    public boolean getJewelColorAvg() {
+//        if(!averaging) {
+//            averaging=true;
+//            avgTimeout=System.currentTimeMillis()+5000;
+//            redOverBlue=0;
+//        }
+//        int red=colorSensor.red();
+//        int blue=colorSensor.blue();
+//        if(red>blue) {
+//            redOverBlue++;
+//        }
+//        if(blue>red) {
+//            redOverBlue--;
+//        }
+//        telemetry.addData("RED OVER BLUE",redOverBlue);
+//        if(Math.abs(redOverBlue)>10) {
+//            if(redOverBlue>0) {
+//                jewelColor=JewelColor.RED;
+//            } else {
+//                jewelColor=JewelColor.BLUE;
+//            }
+//            telemetry.addData("Jewel Color", jewelColor);
+//            averaging=false;
+//            return true;
+//        }
+//        if(System.currentTimeMillis()>avgTimeout) {
+//            jewelColor=JewelColor.UNKNOWN;
+//            telemetry.addData("Jewel Color", jewelColor);
+//            averaging=false;
+//            return true;
+//        }
+//        return false;
+//
+//
+//    }
+
+
+    public boolean avgJewelColor(int loops){
+        int redTotal = 0;
+        int blueTotal = 0;
+        long startTime=System.currentTimeMillis();
+        for(int i=0; i<loops;) {
+            if (System.currentTimeMillis() > startTime + 10) {
+                redTotal += colorSensor.red();
+                blueTotal += colorSensor.blue();
+                startTime = System.currentTimeMillis();
             }
-            telemetry.addData("Jewel Color", jewelColor);
-            averaging=false;
-            return true;
         }
-        if(System.currentTimeMillis()>avgTimeout) {
-            jewelColor=JewelColor.UNKNOWN;
-            telemetry.addData("Jewel Color", jewelColor);
-            averaging=false;
-            return true;
+        if (blueTotal > redTotal){
+            jewelColor = BLUE;
+        }else if (blueTotal < redTotal){
+            jewelColor = RED;
+        } else{
+            jewelColor = UNKNOWN;
         }
-        return false;
+
+        return true;
     }
+
 
     int jewelState = 0;
     public boolean getJewel(){
@@ -192,7 +221,7 @@ public class AutoFunctions extends OpMode {
                 break;
 
             case 1: // get reading
-                if(getJewelColorAvg()){
+                if(getJewelColor()){
                     jewelState++;
                 }
                 break;

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Enums.AllianceColor;
  * Created by Montclair Robotics on 12/1/2017.
  */
 @Autonomous(name = "Production: Red Jewel")
-public class ProductionRed extends AutoFunctions {
+public class ProductionRedJewel extends AutoFunctions {
     @Override
     public void init() {
         autoInit();
