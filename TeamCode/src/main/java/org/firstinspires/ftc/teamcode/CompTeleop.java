@@ -20,7 +20,6 @@ public class CompTeleop extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
-
 //    Gyro gyro;
 
     public static final int SERVORT=0,SERVOLT=1,SERVORB=2,SERVOLB=3;
@@ -93,16 +92,6 @@ public class CompTeleop extends OpMode {
         backRight.setPower(-x - y + turn);
         backLeft.setPower(-x + y + turn);
         frontLeft.setPower(x + y + turn);
-
-        if (gamepad2.a)
-            intake.openBottom();
-        else
-            intake.closeBottom();
-
-        if (gamepad2.b)
-            intake.openTop();
-        else
-            intake.closeTop();
 
         intake.control(gamepad2);
 
