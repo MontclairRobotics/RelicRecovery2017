@@ -4,7 +4,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Will
+ * @author Will
  * */
 
 //possible 85 pts auto
@@ -21,11 +21,12 @@ public class DefaultAuto extends AutoFunctions {
                 hardware.lift.closeAll();
                 nextState(pause(0.5));
                 break;
+
             case 1: // raise glyph
                 hardware.lift.closeAll();
-
                 nextState(raiseGlyph());
                 break;
+
             case 2: //get jewel
                 hardware.lift.closeAll();
                 nextState(getJewel());
