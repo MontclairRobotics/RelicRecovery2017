@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
+import org.firstinspires.ftc.teamcode.Components.RollerIntake;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
@@ -36,7 +37,7 @@ public class CompTeleopWithGyro extends OpMode {
 
     CTRL_MODE myCtrlMode;
 
-    GlyphIntake2 intake;
+    RollerIntake intake;
     DcMotor liftA, liftB;
     DigitalChannel limitSwitch;
 
@@ -63,7 +64,7 @@ public class CompTeleopWithGyro extends OpMode {
         servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
-        intake = new GlyphIntake2(servos);
+        intake = new RollerIntake(servos[0], servos[1], servos[2], servos[3]);
         gyro = new Gyro(hardwareMap);
         myCtrlMode=CTRL_MODE.ROBOT;
         gyroLock=new PID(.06,0,0, -180, 180, -1.0, 1.0);
@@ -162,18 +163,21 @@ public class CompTeleopWithGyro extends OpMode {
         backLeft.setPower(bl / max);
         frontLeft.setPower(fl / max);
 
-        if (gamepad2.a || gamepad2.x)
-            intake.openBottom();
-        else
-            intake.closeBottom();
 
-        if (gamepad2.b||gamepad2.x)
-            intake.openTop();
-        else
-            intake.closeTop();
 
-        liftA.setPower(gamepad2.left_stick_y);
-        liftB.setPower(-gamepad2.left_stick_y);
+        intake.control(gamepad2);
+
+        if(gamepad2.dpad_up) {
+            liftA.setPower(-.75);
+            liftB.setPower(.75);
+        }
+        else if(gamepad2.dpad_down) {
+            liftA.setPower(.75);
+            liftB.setPower(-.75);
+        }else{
+            liftA.setPower(0);
+            liftB.setPower(0);
+        }
 
         telemetry.addData("Limit Switch", limitSwitch);
         telemetry.addData("Control Mode",myCtrlMode);
