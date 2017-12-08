@@ -14,14 +14,12 @@ import org.firstinspires.ftc.teamcode.Components.LobsterIntake;
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Garrett
  * */
-@TeleOp(name="ANEEKAH Teleop: Competition")
+@TeleOp(name="Teleop w/o Gyro")
 public class CompTeleop extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
     Servo[] continuousServos;
-
-//    Gyro gyro;
 
     public static final int SERVORT=0,SERVOLT=1,SERVORB=2,SERVOLB=3;
 
@@ -31,7 +29,6 @@ public class CompTeleop extends OpMode {
 
     @Override
     public void init() {
-        //this.driveTrain = new DriveTrain(hardwareMap);
 
         frontRight = hardwareMap.get(DcMotor.class, "right_front");
         backRight = hardwareMap.get(DcMotor.class, "right_back");
@@ -58,7 +55,6 @@ public class CompTeleop extends OpMode {
         continuousServos[1] = servos[2];
 
         intake = new LobsterIntake(servos, continuousServos);
-//        gyro = new Gyro(hardwareMap);
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
@@ -75,20 +71,16 @@ public class CompTeleop extends OpMode {
         double y = -gamepad1.left_stick_y * pow;
         double turn = gamepad1.right_stick_x * pow;
 
-        if(gamepad1.dpad_up)
-        {
+        if(gamepad1.dpad_up) {
             y=pow;
         }
-        if(gamepad1.dpad_left)
-        {
+        if(gamepad1.dpad_left) {
             x=-pow;
         }
-        if(gamepad1.dpad_down)
-        {
+        if(gamepad1.dpad_down) {
             y=-pow;
         }
-        if(gamepad1.dpad_right)
-        {
+        if(gamepad1.dpad_right) {
             x=pow;
         }
 
@@ -121,9 +113,6 @@ public class CompTeleop extends OpMode {
             liftA.setPower(0);
             liftB.setPower(0);
         }
-        //liftA.setPower(gamepad2.left_stick_y);
-        //liftB.setPower(-gamepad2.left_stick_y);
 
-        telemetry.addData("Limit Switch", limitSwitch);
     }
 }

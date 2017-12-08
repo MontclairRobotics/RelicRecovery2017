@@ -16,13 +16,16 @@ public class TestColor extends AutoFunctions {
 
     @Override
     public void loop() {
-        telemetry.addData("R",colorSensor.red());
-        telemetry.addData("B",colorSensor.blue());
-        getJewelColor();
+        telemetry.addData("Red",colorSensor.red());
+        telemetry.addData("Blue",colorSensor.blue());
 
-        colorSensor.enableLed(true);
-        if(gamepad1.a){
-            colorSensor.enableLed(false);
-        }
+
+        colorSensor.enableLed(gamepad1.a);
+        if(gamepad1.b)
+            avgJewelColor(2000);
+        telemetry.addData("RED",redTotal);
+        telemetry.addData("BLUE",blueTotal);
+        telemetry.addData("COLOR",jewelColor);
+
     }
 }

@@ -149,64 +149,28 @@ public class AutoFunctions extends OpMode {
         telemetry.addData("Color",jewelColor);
         return true;
     }
-
-//    public boolean getJewelColorAvg() {
-//        if(!averaging) {
-//            averaging=true;
-//            avgTimeout=System.currentTimeMillis()+5000;
-//            redOverBlue=0;
-//        }
-//        int red=colorSensor.red();
-//        int blue=colorSensor.blue();
-//        if(red>blue) {
-//            redOverBlue++;
-//        }
-//        if(blue>red) {
-//            redOverBlue--;
-//        }
-//        telemetry.addData("RED OVER BLUE",redOverBlue);
-//        if(Math.abs(redOverBlue)>10) {
-//            if(redOverBlue>0) {
-//                jewelColor=JewelColor.RED;
-//            } else {
-//                jewelColor=JewelColor.BLUE;
-//            }
-//            telemetry.addData("Jewel Color", jewelColor);
-//            averaging=false;
-//            return true;
-//        }
-//        if(System.currentTimeMillis()>avgTimeout) {
-//            jewelColor=JewelColor.UNKNOWN;
-//            telemetry.addData("Jewel Color", jewelColor);
-//            averaging=false;
-//            return true;
-//        }
-//        return false;
-//
-//
-//    }
-
-
-    public boolean avgJewelColor(int loops){
-        int redTotal = 0;
-        int blueTotal = 0;
-        long startTime=System.currentTimeMillis();
-        for(int i=0; i<loops;) {
-            if (System.currentTimeMillis() > startTime + 10) {
-                redTotal += colorSensor.red();
-                blueTotal += colorSensor.blue();
-                startTime = System.currentTimeMillis();
+    int redTotal;
+    int blueTotal;
+    long startAvgTime;
+    public boolean avgJewelColor(int milliseconds) {
+        if (redTotal < 1 && blueTotal < 1) {
+            startAvgTime = System.currentTimeMillis();
+        }
+        redTotal += colorSensor.red();
+        blueTotal += colorSensor.blue();
+        if (System.currentTimeMillis() > startTime + milliseconds) {
+            if (blueTotal > redTotal+5) {
+                jewelColor = BLUE;
+            } else if (blueTotal +5  < redTotal) {
+                jewelColor = RED;
+            } else {
+                jewelColor = UNKNOWN;
             }
+            redTotal = 0;
+            blueTotal = 0;
+            return true;
         }
-        if (blueTotal > redTotal){
-            jewelColor = BLUE;
-        }else if (blueTotal < redTotal){
-            jewelColor = RED;
-        } else{
-            jewelColor = UNKNOWN;
-        }
-
-        return true;
+        return false;
     }
 
 
@@ -221,7 +185,7 @@ public class AutoFunctions extends OpMode {
                 break;
 
             case 1: // get reading
-                if(getJewelColor()){
+                if(avgJewelColor(2500)){
                     jewelState++;
                 }
                 break;
@@ -273,6 +237,7 @@ public class AutoFunctions extends OpMode {
                 break;
 
             case 3: //reset encoders
+                //TODO: If we need more time
                 hardware.resetDriveEncoders();
                 jewelState++;
                 break;

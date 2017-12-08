@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,8 +17,8 @@ import org.montclairrobotics.sprocket.geometry.XY;
  * Created by Montclair Robotics on 11/13/17.
  * @author Garrett
  * */
-@TeleOp(name="Teleop: Gyro Enabled")
-//@Disabled
+@TeleOp(name="Teleop w/ Gyro Enabled")
+@Disabled
 public class CompTeleopWithGyro extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
