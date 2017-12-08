@@ -68,6 +68,7 @@ public class DefaultHardwareMap {
         driveModules[3] = new DefaultFTCDriveModule(backRight, new XY(1, -1), new XY(-1, 1));
 
         jewelArm    = hwMap.servo.get("jewel_arm");
+        jewelArm.setDirection(Servo.Direction.FORWARD);
 
         servos = new Servo[4];
         servos[0] = ahwMap.get(Servo.class, "intake_right_top");
@@ -77,11 +78,8 @@ public class DefaultHardwareMap {
 
 
         lift = new RollerIntake(servos[0], servos[1], servos[2], servos[3]);
-        colorSensor = hwMap.get(ColorSensor.class, "sensor_color");
+        colorSensor = hwMap.get(ColorSensor.class, "color_sensor");
         colorSensor.enableLed(true);
-        limitSwitch = hwMap.get(DigitalChannel.class, "limit_switch_1");
-
-
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

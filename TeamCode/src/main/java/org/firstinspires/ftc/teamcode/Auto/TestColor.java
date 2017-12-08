@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
@@ -16,16 +17,9 @@ public class TestColor extends AutoFunctions {
 
     @Override
     public void loop() {
-        telemetry.addData("Red",colorSensor.red());
-        telemetry.addData("Blue",colorSensor.blue());
-
-
-        colorSensor.enableLed(gamepad1.a);
-        if(gamepad1.b)
-            avgJewelColor(2000);
-        telemetry.addData("RED",redTotal);
-        telemetry.addData("BLUE",blueTotal);
-        telemetry.addData("COLOR",jewelColor);
-
+        if(gamepad1.a) {
+            avgJewelColor(2500);
+        }
+        telemetry.addData("Color",jewelColor);
     }
 }

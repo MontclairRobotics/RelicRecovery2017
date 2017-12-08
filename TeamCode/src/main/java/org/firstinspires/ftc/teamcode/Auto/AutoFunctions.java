@@ -81,6 +81,7 @@ public class AutoFunctions extends OpMode {
         visionInit(); //TODO: uncomment once phone has been remounted
         hardware.resetDriveEncoders();
         hardware.resetLiftEncoders();
+        hardware.lift.stop();
         telemetry.addData("INFO", "INITIALIZED");
     }
 
@@ -191,6 +192,7 @@ public class AutoFunctions extends OpMode {
                 break;
 
             case 2: //react accordingly
+                telemetry.addData("Color",jewelColor);
                 switch (allianceColor){
 
                     case RED:

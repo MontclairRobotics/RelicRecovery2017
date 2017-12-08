@@ -22,11 +22,11 @@ public class RollerIntake {
     }
 
     public void setTopLeft(double speed){
-        tl.setPosition(speed/2 + .5);
+        tl.setPosition(-speed/2 + .5);
     }
 
     public void setBottomRight(double speed){
-        br.setPosition(speed/2 + .5);
+        br.setPosition(-speed/2 + .5);
     }
 
     public void setBottomLeft(double speed){
@@ -66,9 +66,16 @@ public class RollerIntake {
         setBottomRight(1);
         setBottomLeft(1);
     }
-    public void closeBottom(){
+    public void closeBottom() {
         setBottomRight(-1);
         setBottomLeft(-1);
+
     }
 
+    public void stop(){
+        setTopRight(0);
+        setTopLeft(0);
+        setBottomRight(0);
+        setBottomLeft(0);
+    }
 }
