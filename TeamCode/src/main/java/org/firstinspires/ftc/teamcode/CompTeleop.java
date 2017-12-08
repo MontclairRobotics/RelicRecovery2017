@@ -15,13 +15,10 @@ import org.firstinspires.ftc.teamcode.Components.RollerIntake;
  * Created by Montclair Robotics on 11/13/17.
  * @Author:Garrett
  * */
-@TeleOp(name="Teleop w/o Gyro")
+@TeleOp(name="AAAAAAA: Teleop Competition")
 public class CompTeleop extends OpMode {
-    //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
     Servo[] servos;
-
-//    Gyro gyro;
 
     public static final int SERVORT=0,SERVOLT=1,SERVORB=2,SERVOLB=3;
 
@@ -55,7 +52,6 @@ public class CompTeleop extends OpMode {
 
 
         intake = new RollerIntake(servos[0], servos[1], servos[2], servos[3]);
-//        gyro = new Gyro(hardwareMap);
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
@@ -66,6 +62,7 @@ public class CompTeleop extends OpMode {
 
         if (gamepad1.left_bumper) {
             pow = 0.5;
+            telemetry.addData("Drive Speed","Half");
         }
 
         double x = gamepad1.left_stick_x * pow * 2;
