@@ -18,7 +18,6 @@ public class CompTeleopWithGyro extends OpMode {
 
     Gyro gyro;
 
-//    GlyphIntake2 intake;
     DcMotor liftA, liftB;
     DigitalChannel limitSwitch;
 
@@ -31,7 +30,6 @@ public class CompTeleopWithGyro extends OpMode {
         liftA = hardwareMap.get(DcMotor.class,"lift_left");
         liftB = hardwareMap.get(DcMotor.class,"lift_right");
 
-//        intake = new GlyphIntake2(hardwareMap);
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
 
@@ -39,16 +37,6 @@ public class CompTeleopWithGyro extends OpMode {
     public void loop() {
         gyro.loop();
         driveTrain.driveMecanum(gamepad1);
-
-//        if (gamepad2.a || gamepad2.x)
-//            intake.openBottom();
-//        else
-//            intake.closeBottom();
-//
-//        if (gamepad2.b || gamepad2.x)
-//            intake.openTop();
-//        else
-//            intake.closeTop();
 
         liftA.setPower(gamepad2.left_stick_y);
         liftB.setPower(-gamepad2.left_stick_y);

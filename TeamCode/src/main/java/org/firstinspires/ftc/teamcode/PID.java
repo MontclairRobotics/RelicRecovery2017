@@ -102,7 +102,7 @@ public class PID {
         return "{" + P + ", " + I + ", " + D + "}";
     }
 
-    public static PID angleToPower(double p, double i, double d) {
-        return new PID(p, i, d).setInRange(-180, +180).setOutRange(-1.0, +1.0);
-    }
+//    public static PID angleToPower(double p, double i, double d) {
+//        return new PID(p, i, d).setInRange(-180, +180).setOutRange(-1.0, +1.0);
+//    }
 }

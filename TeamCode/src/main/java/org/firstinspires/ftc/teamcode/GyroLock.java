@@ -15,14 +15,14 @@ public class GyroLock {
 
     public GyroLock(double p, double i, double d) {
         this.gyro = Gyro.current;
-        this.pid = PID.angleToPower(p, i, d);
+        this.pid = new PID(p, i, d).setInRange(-180, 180).setOutRange(-1.0, 1.0);
         this.lastEnabled = false;
     }
 
     public double correction() {
         if(!lastEnabled) {
-            pid.error.reset();
             pid.setTarget(gyro.getX());
+            pid.error.reset();
         }
 
         Debug.msg("PID Updated", true);

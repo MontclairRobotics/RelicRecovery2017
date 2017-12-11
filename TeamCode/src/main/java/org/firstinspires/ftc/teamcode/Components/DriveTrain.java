@@ -69,10 +69,6 @@ public class DriveTrain {
         double y = g.left_stick_y * pow;
         double turn = g.right_stick_x * pow;
 
-        if (g.dpad_up) {
-//            Gyro.current.setZero();
-        }
-
         if (g.right_stick_x < 0.1 && g.a) {
             turn = lock.correction() * pow;
         } else {
@@ -85,7 +81,7 @@ public class DriveTrain {
     }
 
     public void driveMecanum(double x, double y, double turn) {
-        double max =  Math.abs(x) + Math.abs(y) - turn;
+        double max =  Math.abs(x) + Math.abs(y) + turn;
 
         if (max <= 1.0) { max = 1.0; }
 

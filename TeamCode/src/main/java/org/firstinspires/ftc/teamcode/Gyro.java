@@ -14,7 +14,6 @@ public class Gyro {
 
     private RRQuaternion quat; // An angle object to store the gyro angles
     private BNO055IMU imu; // Gyroscope
-//    private double zero;
 
     public Gyro(HardwareMap map) {
 
@@ -29,7 +28,6 @@ public class Gyro {
         imu.initialize(parameters);
 
         this.quat = new RRQuaternion(imu.getQuaternionOrientation());
-//        setZero();
 
         if (current == null) current = this;
     }
@@ -39,17 +37,14 @@ public class Gyro {
     }
 
     public double getX() {
-        return /*zero*/ - quat.getX();
+        return -quat.getX();
     }
     public double getY() {
-        return /*zero*/ - quat.getY();
+        return -quat.getY();
     }
     public double getZ() {
-        return /*zero*/ - quat.getZ();
+        return -quat.getZ();
     }
-
-//    public double getZero() { return zero; }
-//    public void setZero() { zero = -quat.getX(); }
 
     @Override
     public String toString() {
