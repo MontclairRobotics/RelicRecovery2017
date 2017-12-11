@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CompTeleop;
@@ -19,8 +20,14 @@ public class GlyphIntake2 {
 
     private Servo[] servos;
 
-    public GlyphIntake2(Servo... servos) {
-        this.servos = servos;
+    public GlyphIntake2(HardwareMap map) {
+        this.servos = new Servo[] {
+            map.get(Servo.class, "intake_right_top"),
+            map.get(Servo.class, "intake_left_top"),
+            map.get(Servo.class, "intake_right_bottom"),
+            map.get(Servo.class, "intake_left_bottom"),
+        };
+
         servoOpen=new double[4];
         servoClose=new double[4];
 

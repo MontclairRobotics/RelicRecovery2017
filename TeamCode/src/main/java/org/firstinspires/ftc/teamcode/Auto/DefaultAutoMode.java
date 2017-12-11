@@ -18,11 +18,9 @@ import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
-import static org.firstinspires.ftc.teamcode.Enums.JewelColor.BLUE;
-
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Will
+ * @author Will
  * */
 
 
@@ -338,21 +336,15 @@ public class DefaultAutoMode extends OpMode {
         return false;
     }
     public boolean autoTurn(double degrees, double speed) {
-        int ticks = Math.abs(hardware.frontLeft.getCurrentPosition());
+        int ticks = Math.abs(hardware.driveTrain.frontLeft.getCurrentPosition());
         if(degrees < 0) {
             speed *= -1;
         }
 
         if(ticks < Math.abs(degrees*TICKS_PER_DEGREE)) {
-            hardware.frontLeft.setPower(speed);
-            hardware.backLeft.setPower(speed);
-            hardware.frontRight.setPower(-speed);
-            hardware.backRight.setPower(-speed);
+            hardware.driveTrain.driveMecanum(0, 0, speed);
         } else {
-            hardware.frontLeft.setPower(0);
-            hardware.backLeft.setPower(0);
-            hardware.frontRight.setPower(0);
-            hardware.backRight.setPower(0);
+            hardware.driveTrain.stop();
             hardware.resetDriveEncoders();
             return true;
         }

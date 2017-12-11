@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 /**
  * Created by Montclair Robotics on 11/13/17.
  * @author Joshua Rapoport
- * @version 12/4/17
+ * @version 12/11/17
  */
 
 public class Gyro {
@@ -14,11 +14,11 @@ public class Gyro {
 
     private RRQuaternion quat; // An angle object to store the gyro angles
     private BNO055IMU imu; // Gyroscope
-    private double zero;
+//    private double zero;
 
     public Gyro(HardwareMap map) {
-        quat = new RRQuaternion(imu.getQuaternionOrientation());
-        imu = map.get(BNO055IMU.class, "gyro");
+
+        this.imu = map.get(BNO055IMU.class, "gyro");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES; // set the angle unit parameter to
@@ -28,7 +28,8 @@ public class Gyro {
 
         imu.initialize(parameters);
 
-        this.zero = getX();
+        this.quat = new RRQuaternion(imu.getQuaternionOrientation());
+//        setZero();
 
         if (current == null) current = this;
     }
@@ -38,17 +39,17 @@ public class Gyro {
     }
 
     public double getX() {
-        return -quat.getX() - zero;
+        return /*zero*/ - quat.getX();
     }
     public double getY() {
-        return -quat.getY() - zero;
+        return /*zero*/ - quat.getY();
     }
     public double getZ() {
-        return -quat.getZ() - zero;
+        return /*zero*/ - quat.getZ();
     }
 
-    public double getZero() { return zero; }
-    public void setZero() { zero = getX(); }
+//    public double getZero() { return zero; }
+//    public void setZero() { zero = -quat.getX(); }
 
     @Override
     public String toString() {

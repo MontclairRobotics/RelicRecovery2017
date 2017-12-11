@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by Montclair Robotics on 11/14/17.
  * @author Joshua Rapoport
- * @version 12/4/17
+ * @version 12/11/17
  */
 
 public class PID {
@@ -71,19 +71,18 @@ public class PID {
         this.lastUpdateTime = System.currentTimeMillis();
     }
 
-    public PID setInRange(double i, double f) {
+    public PID setInRange (double i, double f) {
         in = new Range(i, f);
         return this;
     }
-
     public PID setOutRange(double i, double f) {
         out = new Range(i, f);
         return this;
     }
 
-    public void setTarget(double t)
-    {
-        target=t;
+    public PID setTarget(double t) {
+        this.target = t;
+        return this;
     }
 
     public double get(double input) {
@@ -104,6 +103,6 @@ public class PID {
     }
 
     public static PID angleToPower(double p, double i, double d) {
-        return new PID(p, i, d).setInRange(-180, 180).setOutRange(-1.0, 1.0);
+        return new PID(p, i, d).setInRange(-180, +180).setOutRange(-1.0, +1.0);
     }
 }

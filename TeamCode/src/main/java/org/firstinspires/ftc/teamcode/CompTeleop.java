@@ -1,20 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Auto.DefaultAutoMode;
-//import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.GlyphIntake2;
+
+//import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 
 /**
  * Created by Montclair Robotics on 11/13/17.
- * @Author:Garrett
+ * @author Garrett
  * */
 @TeleOp(name="ANEEKAH Teleop: Competition")
+@Disabled
 public class CompTeleop extends OpMode {
     //public DriveTrain driveTrain;
     DcMotor frontRight, backRight, frontLeft, backLeft;
@@ -52,7 +54,7 @@ public class CompTeleop extends OpMode {
         servos[2] = hardwareMap.get(Servo.class, "intake_right_bottom");
         servos[3] = hardwareMap.get(Servo.class, "intake_left_bottom");
 
-        intake = new GlyphIntake2(servos);
+        intake = new GlyphIntake2(hardwareMap);
 //        gyro = new Gyro(hardwareMap);
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch_1");
     }
