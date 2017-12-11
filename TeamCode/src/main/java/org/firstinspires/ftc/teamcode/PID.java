@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode;
  * Created by Montclair Robotics on 11/14/17.
  * @author Joshua Rapoport
  * @version 12/4/17
- * @see GyroLock
  */
 
 public class PID {
@@ -102,5 +101,9 @@ public class PID {
     @Override
     public String toString() {
         return "{" + P + ", " + I + ", " + D + "}";
+    }
+
+    public static PID angleToPower(double p, double i, double d) {
+        return new PID(p, i, d).setInRange(-180, 180).setOutRange(-1.0, 1.0);
     }
 }

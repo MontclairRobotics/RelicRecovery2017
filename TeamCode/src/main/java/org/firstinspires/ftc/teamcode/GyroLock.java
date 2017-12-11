@@ -4,9 +4,6 @@ package org.firstinspires.ftc.teamcode;
  * Created by Joshua Rapoport on 11/16/17.
  * @author Joshua Rapoport
  * @version 12/4/17
- * @see Gyro
- * @see PID
- * @see org.firstinspires.ftc.teamcode.Components.DriveTrain
  */
 
 public class GyroLock {
@@ -14,8 +11,8 @@ public class GyroLock {
     public PID pid;
     public boolean lastEnabled;
 
-    public GyroLock(PID pid, Gyro gyro) {
-        this.gyro = gyro;
+    public GyroLock(PID pid) {
+        this.gyro = Gyro.current;
         this.pid = pid;
         this.lastEnabled = false;
     }

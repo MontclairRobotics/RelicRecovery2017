@@ -10,10 +10,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 
 public class Gyro {
-    private BNO055IMU imu; // Gyroscope
+    public static Gyro current;
+
     private RRQuaternion quat; // An angle object to store the gyro angles
+    private BNO055IMU imu; // Gyroscope
+    private double zero;
 
     public Gyro(HardwareMap map) {
+        quat = new RRQuaternion(imu.getQuaternionOrientation());
         imu = map.get(BNO055IMU.class, "gyro");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); // Create a new parameter object for the gyro
@@ -23,24 +27,28 @@ public class Gyro {
         parameters.loggingTag           = "IMU"; // set the logging tag
 
         imu.initialize(parameters);
-        //imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG, 6);
 
-        quat = new RRQuaternion(imu.getQuaternionOrientation());
+        this.zero = getX();
+
+        if (current == null) current = this;
     }
 
-    public void update() {
+    public void loop() {
         quat.set(imu.getQuaternionOrientation());
     }
 
     public double getX() {
-        return -quat.getX();
+        return -quat.getX() - zero;
     }
     public double getY() {
-        return -quat.getY();
+        return -quat.getY() - zero;
     }
     public double getZ() {
-        return -quat.getZ();
+        return -quat.getZ() - zero;
     }
+
+    public double getZero() { return zero; }
+    public void setZero() { zero = getX(); }
 
     @Override
     public String toString() {
