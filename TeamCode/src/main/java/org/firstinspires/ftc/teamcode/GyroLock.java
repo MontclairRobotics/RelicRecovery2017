@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.montclairrobotics.sprocket.utils.Debug;
-
 /**
  * Created by Joshua Rapoport on 11/16/17.
  * @author Joshua Rapoport
@@ -25,7 +23,6 @@ public class GyroLock {
             pid.error.reset();
         }
 
-        Debug.msg("PID Updated", true);
         return pid.get(gyro.getX());
     }
 }
